@@ -11,7 +11,7 @@ Nombre y apellidos de los integrantes del grupo:
 
 Breve descripción de los objetivos/finalidad de la aplicación.
 
-    Aplicaciñon en la que dos personas podrán jugar al ajedrez una contra la otra en el mismo dispositivo.
+    Aplicación en la que dos personas podrán jugar al ajedrez una contra la otra en el mismo dispositivo.
     También se podrá jugar contra un bot.
     De igual manera, se podrá jugar al ajedrez con las normas clásicas asi como un modo en el que se iran rotando (entre las demás piezas) cada pieza que muevas.
 
