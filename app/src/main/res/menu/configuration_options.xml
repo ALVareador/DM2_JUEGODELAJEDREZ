@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/MenuConfiuracionLogros"
+        android:title="Logros" />
+    <item
+        android:id="@+id/MenuConfiuracionSkins"
+        android:title="Skins" />
+    <item
+        android:id="@+id/MenuConfiuracionHistorial"
+        android:title="Historial" />
+    <item
+        android:id="@+id/MenuConfiuracionAjustes"
+        android:title="Ajustes" />
 </menu>

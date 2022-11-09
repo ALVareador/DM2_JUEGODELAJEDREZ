@@ -27,7 +27,7 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/MenuConfiguracion"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
                 android:layout_gravity="center|right|center_horizontal"

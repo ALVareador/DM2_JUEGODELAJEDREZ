@@ -1,12 +1,22 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.view.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends MyApp{
+
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
         newGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent subActividad = new Intent( MainActivity.this, NewGameActivity.class );
+                //subActividad.putExtra( "data", 1 );
+                activityResultLauncher.launch(subActividad);
             }
         });
 
@@ -37,14 +49,18 @@ public class MainActivity extends AppCompatActivity {
         friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent subActividad = new Intent( MainActivity.this, FriendListActivity.class );
+                //subActividad.putExtra( "data", 1 );
+                activityResultLauncher.launch(subActividad);
             }
         });
 
         credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent subActividad = new Intent( MainActivity.this, CreditsActivity.class );
+                //subActividad.putExtra( "data", 1 );
+                activityResultLauncher.launch(subActividad);
             }
         });
 
@@ -54,5 +70,27 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+        ActivityResultContract<Intent, ActivityResult> contract = new ActivityResultContracts.StartActivityForResult();
+        ActivityResultCallback<ActivityResult> callback = new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                cargarInterfaz();
+
+            }
+        };
+
+        this.activityResultLauncher = this.registerForActivityResult(contract, callback);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        super.onCreateOptionsMenu( menu );
+        this.getMenuInflater().inflate( R.menu.configuration_options, menu );
+        return true;
+    }
+
 }
