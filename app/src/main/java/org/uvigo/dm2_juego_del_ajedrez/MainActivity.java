@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,10 @@ public class MainActivity extends MyApp{
         Button friends = findViewById(R.id.botonAmigos);
         Button credits = findViewById(R.id.botonCreditos);
         Button exit = findViewById(R.id.botonSalir);
+
+        View configuration = findViewById(R.id.MenuConfiguracion);
+
+        this.registerForContextMenu( configuration );
 
         newGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,12 +90,45 @@ public class MainActivity extends MyApp{
         this.activityResultLauncher = this.registerForActivityResult(contract, callback);
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         super.onCreateOptionsMenu( menu );
         this.getMenuInflater().inflate( R.menu.configuration_options, menu );
         return true;
+    }*/
+
+    public void onCreateContextMenu(ContextMenu contxt, View v, ContextMenu.ContextMenuInfo cmi)
+    {
+        this.getMenuInflater().inflate( R.menu.configuration_options, contxt );
+        //contextMenu.setHeaderTitle( R.string.app_name );
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem menuItem)
+    {
+        boolean toret = false;
+        switch( menuItem.getItemId() ) {
+            case R.id.MenuConfiuracionLogros:
+                Intent subActividad = new Intent( MainActivity.this, AchivementActivity.class );
+                //subActividad.putExtra( "data", 1 );
+                activityResultLauncher.launch(subActividad);
+                toret = true;
+                break;
+            case R.id.MenuConfiuracionSkins:
+                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
+                toret = true;
+                break;
+            case R.id.MenuConfiuracionHistorial:
+                //this.operaUnario( Calculadora.OperadorUnario.Neg );
+                toret = true;
+                break;
+            case R.id.MenuConfiuracionAjustes:
+                //this.operaUnario( Calculadora.OperadorUnario.Neg );
+                toret = true;
+                break;
+        }
+        return toret;
     }
 
 }

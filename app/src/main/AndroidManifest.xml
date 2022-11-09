@@ -13,6 +13,18 @@
         android:theme="@style/Theme.DM2_JUEGODELAJEDREZ"
         tools:targetApi="31">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SkinsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AchivementActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
