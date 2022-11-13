@@ -16,14 +16,19 @@
             android:layout_weight="0.1"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="left"
-                android:layout_weight="1"
-                android:foregroundGravity="left"
+            <ImageButton
+                android:id="@+id/AtrasButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.005"
+                android:contentDescription="@android:string/cancel"
                 app:srcCompat="@android:drawable/ic_menu_revert" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                android:orientation="vertical"></LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -45,29 +50,37 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_weight="0.1"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textViewBuscarAmigo"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Buscar"
                 android:textSize="40sp" />
 
-            <ImageView
-                android:id="@+id/imageView12"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
+            <ImageButton
+                android:id="@+id/buscarAmigoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.005"
+                android:contentDescription="@android:string/search_go"
                 app:srcCompat="@android:drawable/ic_menu_search" />
 
-            <ImageView
-                android:id="@+id/imageView13"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:orientation="vertical"></LinearLayout>
+
+            <ImageButton
+                android:id="@+id/AñadirAmigoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.005"
+                android:contentDescription='@android:string/unknownName'
                 app:srcCompat="@android:drawable/ic_menu_add" />
 
         </LinearLayout>
@@ -79,6 +92,7 @@
             android:orientation="horizontal">
 
             <ListView
+                android:id="@+id/listaAmigos"
                 android:layout_width="match_parent"
                 android:layout_height="500dp" />
         </LinearLayout>

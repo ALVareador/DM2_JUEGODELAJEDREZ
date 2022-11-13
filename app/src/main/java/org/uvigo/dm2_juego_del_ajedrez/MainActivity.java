@@ -108,23 +108,30 @@ public class MainActivity extends MyApp{
     public boolean onContextItemSelected(MenuItem menuItem)
     {
         boolean toret = false;
+        Intent subActividad;
         switch( menuItem.getItemId() ) {
             case R.id.MenuConfiuracionLogros:
-                Intent subActividad = new Intent( MainActivity.this, AchivementActivity.class );
+                subActividad = new Intent( MainActivity.this, AchivementActivity.class );
                 //subActividad.putExtra( "data", 1 );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
             case R.id.MenuConfiuracionSkins:
+                subActividad = new Intent( MainActivity.this, SkinsActivity.class );
                 //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
+                activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
             case R.id.MenuConfiuracionHistorial:
-                //this.operaUnario( Calculadora.OperadorUnario.Neg );
+                subActividad = new Intent( MainActivity.this, HistoryActivity.class );
+                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
+                activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
             case R.id.MenuConfiuracionAjustes:
-                //this.operaUnario( Calculadora.OperadorUnario.Neg );
+                subActividad = new Intent( MainActivity.this, SettingsActivity.class );
+                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
+                activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
         }
