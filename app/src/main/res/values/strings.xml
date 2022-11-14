@@ -4,4 +4,8 @@
     <string name="skins">Skins</string>
     <string name="historial">Historial</string>
     <string name="ajustes">Ajustes</string>
+    <string name="add">Add</string>
+    <string name="use">Use</string>
+    <string name="profile" />
+    <string name="perfiles">Perfiles</string>
 </resources>

@@ -14,4 +14,7 @@
     <item
         android:id="@+id/MenuConfiguracionAjustes"
         android:title="@string/ajustes" />
+    <item
+        android:id="@+id/MenuConfiguracionPerfiles"
+        android:title="@string/perfiles" />
 </menu>

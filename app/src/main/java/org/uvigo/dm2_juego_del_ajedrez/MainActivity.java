@@ -127,17 +127,23 @@ public class MainActivity extends MyApp{
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
+            case R.id.MenuConfiguracionPerfiles:
+                subActividad = new Intent( MainActivity.this, ProfileActivity.class );
+                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
+                activityResultLauncher.launch(subActividad);
+                toret = true;
+                break;
         }
         return toret;
     }
 
-    public void onCreateContextMenu(ContextMenu contxt, View v, ContextMenu.ContextMenuInfo cmi)
+    /*public void onCreateContextMenu(ContextMenu contxt, View v, ContextMenu.ContextMenuInfo cmi)
     {
         this.getMenuInflater().inflate( R.menu.configuration_options, contxt );
         //contextMenu.setHeaderTitle( R.string.app_name );
     }
 
-    /*@Override
+    @Override
     public boolean onContextItemSelected(MenuItem menuItem)
     {
         boolean toret = false;
