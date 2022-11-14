@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DM2_JUEGO-DEL-AJEDREZ</string>
+    <string name="logros">Logros</string>
+    <string name="skins">Skins</string>
+    <string name="historial">Historial</string>
+    <string name="ajustes">Ajustes</string>
 </resources>

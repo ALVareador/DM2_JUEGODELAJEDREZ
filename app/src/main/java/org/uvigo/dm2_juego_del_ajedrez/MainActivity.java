@@ -90,45 +90,38 @@ public class MainActivity extends MyApp{
         this.activityResultLauncher = this.registerForActivityResult(contract, callback);
     }
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         super.onCreateOptionsMenu( menu );
-        this.getMenuInflater().inflate( R.menu.configuration_options, menu );
+        this.getMenuInflater().inflate(R.menu.configuration_options, menu );
         return true;
-    }*/
-
-    public void onCreateContextMenu(ContextMenu contxt, View v, ContextMenu.ContextMenuInfo cmi)
-    {
-        this.getMenuInflater().inflate( R.menu.configuration_options, contxt );
-        //contextMenu.setHeaderTitle( R.string.app_name );
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem menuItem)
+    public boolean onOptionsItemSelected(MenuItem menuItem)
     {
         boolean toret = false;
         Intent subActividad;
         switch( menuItem.getItemId() ) {
-            case R.id.MenuConfiuracionLogros:
+            case R.id.MenuConfiguracionLogros:
                 subActividad = new Intent( MainActivity.this, AchivementActivity.class );
                 //subActividad.putExtra( "data", 1 );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
-            case R.id.MenuConfiuracionSkins:
+            case R.id.MenuConfiguracionSkins:
                 subActividad = new Intent( MainActivity.this, SkinsActivity.class );
                 //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
-            case R.id.MenuConfiuracionHistorial:
+            case R.id.MenuConfiguracionHistorial:
                 subActividad = new Intent( MainActivity.this, HistoryActivity.class );
                 //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
-            case R.id.MenuConfiuracionAjustes:
+            case R.id.MenuConfiguracionAjustes:
                 subActividad = new Intent( MainActivity.this, SettingsActivity.class );
                 //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
                 activityResultLauncher.launch(subActividad);
@@ -138,4 +131,44 @@ public class MainActivity extends MyApp{
         return toret;
     }
 
+    public void onCreateContextMenu(ContextMenu contxt, View v, ContextMenu.ContextMenuInfo cmi)
+    {
+        this.getMenuInflater().inflate( R.menu.configuration_options, contxt );
+        //contextMenu.setHeaderTitle( R.string.app_name );
+    }
+
+    /*@Override
+    public boolean onContextItemSelected(MenuItem menuItem)
+    {
+        boolean toret = false;
+        Intent subActividad;
+        switch( menuItem.getItemId() ) {
+            case R.id.MenuConfiguracionLogros:
+                subActividad = new Intent( MainActivity.this, AchivementActivity.class );
+                //subActividad.putExtra( "data", 1 );
+                activityResultLauncher.launch(subActividad);
+                toret = true;
+                break;
+            case R.id.MenuConfiguracionSkins:
+                subActividad = new Intent( MainActivity.this, SkinsActivity.class );
+                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
+                activityResultLauncher.launch(subActividad);
+                toret = true;
+                break;
+            case R.id.MenuConfiguracionHistorial:
+                subActividad = new Intent( MainActivity.this, HistoryActivity.class );
+                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
+                activityResultLauncher.launch(subActividad);
+                toret = true;
+                break;
+            case R.id.MenuConfiguracionAjustes:
+                subActividad = new Intent( MainActivity.this, SettingsActivity.class );
+                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
+                activityResultLauncher.launch(subActividad);
+                toret = true;
+                break;
+        }
+        return toret;
+    }
+    */
 }

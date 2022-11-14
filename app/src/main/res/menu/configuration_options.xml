@@ -3,15 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/MenuConfiuracionLogros"
-        android:title="Logros" />
+        android:id="@+id/MenuConfiguracionLogros"
+        android:title="@string/logros" />
     <item
-        android:id="@+id/MenuConfiuracionSkins"
-        android:title="Skins" />
+        android:id="@+id/MenuConfiguracionSkins"
+        android:title="@string/skins" />
     <item
-        android:id="@+id/MenuConfiuracionHistorial"
-        android:title="Historial" />
+        android:id="@+id/MenuConfiguracionHistorial"
+        android:title="@string/historial" />
     <item
-        android:id="@+id/MenuConfiuracionAjustes"
-        android:title="Ajustes" />
+        android:id="@+id/MenuConfiguracionAjustes"
+        android:title="@string/ajustes" />
 </menu>
