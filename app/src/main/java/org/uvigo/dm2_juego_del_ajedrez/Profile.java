@@ -1,15 +1,20 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Profile {
 
     private String name ="";
     private Boolean used = false;
     private int points=0;
+    private ArrayList<String> achievementsList;
 
     public Profile(){
         this.name="";
         this.used=false;
         this.points=0;
+        this.achievementsList= new ArrayList<String>();
     }
 
     public Profile(String name){
@@ -36,6 +41,15 @@ public class Profile {
     }
     public void setUsed(Boolean done) {
         this.used = done;
+    }
+
+    /**Obtiene los logros obtenidos por el perfil*/
+    public ArrayList<String> getAchievements(){
+        return achievementsList;
+    }
+    /**Añade un nuevo logro*/
+    public void setAchievements(String achievement){
+        achievementsList.add(achievement);
     }
 
     @Override

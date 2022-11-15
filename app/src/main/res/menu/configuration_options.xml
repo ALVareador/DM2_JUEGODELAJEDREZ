@@ -12,9 +12,9 @@
         android:id="@+id/MenuConfiguracionHistorial"
         android:title="@string/historial" />
     <item
-        android:id="@+id/MenuConfiguracionAjustes"
-        android:title="@string/ajustes" />
-    <item
         android:id="@+id/MenuConfiguracionPerfiles"
         android:title="@string/perfiles" />
+    <item
+        android:id="@+id/MenuConfiguracionAjustes"
+        android:title="@string/ajustes" />
 </menu>

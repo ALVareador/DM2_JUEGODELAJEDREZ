@@ -8,4 +8,6 @@
     <string name="use">Use</string>
     <string name="profile" />
     <string name="perfiles">Perfiles</string>
+    <string name="puntos">Puntos:</string>
+    <string name="nombre">Nombre:</string>
 </resources>

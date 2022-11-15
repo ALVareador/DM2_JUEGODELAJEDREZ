@@ -22,7 +22,7 @@
             android:name=".SkinsActivity"
             android:exported="false" />
         <activity
-            android:name=".AchivementActivity"
+            android:name=".AchievementActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"

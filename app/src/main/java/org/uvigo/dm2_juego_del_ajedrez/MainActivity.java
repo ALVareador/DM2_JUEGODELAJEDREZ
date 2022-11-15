@@ -104,7 +104,7 @@ public class MainActivity extends MyApp{
         Intent subActividad;
         switch( menuItem.getItemId() ) {
             case R.id.MenuConfiguracionLogros:
-                subActividad = new Intent( MainActivity.this, AchivementActivity.class );
+                subActividad = new Intent( MainActivity.this, AchievementActivity.class );
                 //subActividad.putExtra( "data", 1 );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
