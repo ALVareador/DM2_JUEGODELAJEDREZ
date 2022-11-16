@@ -122,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity {
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 //TODO IR A VISUALIZE PROFILE
 
-                Profile infoProfile=getProfileByName(profiles.get(position).getName());
+                Profile infoProfile= getProfileByName(profiles.get(position).getName());
                 Intent subActividad = new Intent( ProfileActivity.this, visualizeProfileActivity.class );
                 subActividad.putExtra( "visualizeprofile", infoProfile);
                 activityResultLauncher.launch(subActividad);

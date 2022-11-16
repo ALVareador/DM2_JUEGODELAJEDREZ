@@ -1,6 +1,8 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
-public class Achievement {
+import java.io.Serializable;
+
+public class Achievement implements Serializable {
     private String name;
     private String description;
 
