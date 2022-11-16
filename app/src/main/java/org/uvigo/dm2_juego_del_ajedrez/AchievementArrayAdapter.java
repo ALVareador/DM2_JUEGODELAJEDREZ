@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class AchievementArrayAdapter  extends ArrayAdapter<Achievement> {
     class ViewHolder {
         LinearLayout linearLayoutAchievement;
         TextView textViewName;
-        CheckBox checkbox_achievement;
+        ImageView im_blockedachievement;
     }
 
     @NonNull
@@ -39,7 +40,7 @@ public class AchievementArrayAdapter  extends ArrayAdapter<Achievement> {
 
             viewHolder.linearLayoutAchievement = convertView.findViewById(R.id.linearLayoutAchievement);
             viewHolder.textViewName =convertView.findViewById(R.id.textViewName);
-            viewHolder.checkbox_achievement = convertView.findViewById(R.id.checkbox_achievement);
+            viewHolder.im_blockedachievement = convertView.findViewById(R.id.im_blockedachievement);
             convertView.setTag(viewHolder);
         }
 
@@ -47,10 +48,8 @@ public class AchievementArrayAdapter  extends ArrayAdapter<Achievement> {
         viewHolder.textViewName.setText(getItem(position).getName());
 
         //Si el logro es obtenido(checkbox activo) se pone en gris
-        if(viewHolder.checkbox_achievement.isChecked()){
-            //TODO Cambiar a poner en gris
-            viewHolder.textViewName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        }
+
+        //TODO SACAR EL CANDADO O PONER EN VERDE LAS COMPLETADAS
 
         return convertView;
     }
