@@ -23,7 +23,7 @@ public class ProfileArrayAdapter  extends ArrayAdapter<Profile> {
     class ViewHolder {
         LinearLayout linearLayoutProfile;
         TextView textViewName;
-        Button buttonUseProfile;
+        //Button buttonUseProfile;
     }
 
     @NonNull
@@ -37,7 +37,7 @@ public class ProfileArrayAdapter  extends ArrayAdapter<Profile> {
 
             viewHolder.linearLayoutProfile = convertView.findViewById(R.id.linearLayoutProfile);
             viewHolder.textViewName =convertView.findViewById(R.id.textViewName);
-            viewHolder.buttonUseProfile = convertView.findViewById(R.id.buttonUseProfile);
+            //viewHolder.buttonUseProfile = convertView.findViewById(R.id.buttonUseProfile);
             convertView.setTag(viewHolder);
         }
 

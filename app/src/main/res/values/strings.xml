@@ -10,4 +10,9 @@
     <string name="perfiles">Perfiles</string>
     <string name="puntos">Puntos:</string>
     <string name="nombre">Nombre:</string>
+    <string name="foto">Foto:</string>
+    <string name="ver_informacion">Ver Informacion</string>
+    <string name="editar">Editar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="usar">Usar</string>
 </resources>

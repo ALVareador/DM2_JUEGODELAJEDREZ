@@ -24,6 +24,5 @@ public class AchievementActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listViewAchievement);
         achievementArrayAdapter = new AchievementArrayAdapter(this, achievements);
         listView.setAdapter(achievementArrayAdapter);
-
     }
 }

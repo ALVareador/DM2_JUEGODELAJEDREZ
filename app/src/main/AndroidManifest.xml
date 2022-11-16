@@ -25,6 +25,9 @@
             android:name=".AchievementActivity"
             android:exported="false" />
         <activity
+            android:name=".visualizeProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity

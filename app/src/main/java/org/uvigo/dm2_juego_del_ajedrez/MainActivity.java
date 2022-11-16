@@ -18,12 +18,15 @@ import android.view.*;
 public class MainActivity extends MyApp{
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
+    public Profile selectedProfile; //Perfil seleccionado en la aplicacion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Recupera el perfil
+        selectedProfile= (Profile) this.getIntent().getSerializableExtra("profile");
 
         Button newGame = findViewById(R.id.BotonNuevaPartida);
         Button continueGame = findViewById(R.id.botonContinuarPartida);
@@ -105,76 +108,30 @@ public class MainActivity extends MyApp{
         switch( menuItem.getItemId() ) {
             case R.id.MenuConfiguracionLogros:
                 subActividad = new Intent( MainActivity.this, AchievementActivity.class );
-                //subActividad.putExtra( "data", 1 );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
             case R.id.MenuConfiguracionSkins:
                 subActividad = new Intent( MainActivity.this, SkinsActivity.class );
-                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
             case R.id.MenuConfiguracionHistorial:
                 subActividad = new Intent( MainActivity.this, HistoryActivity.class );
-                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
             case R.id.MenuConfiguracionAjustes:
                 subActividad = new Intent( MainActivity.this, SettingsActivity.class );
-                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
             case R.id.MenuConfiguracionPerfiles:
                 subActividad = new Intent( MainActivity.this, ProfileActivity.class );
-                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
         }
         return toret;
     }
-
-    /*public void onCreateContextMenu(ContextMenu contxt, View v, ContextMenu.ContextMenuInfo cmi)
-    {
-        this.getMenuInflater().inflate( R.menu.configuration_options, contxt );
-        //contextMenu.setHeaderTitle( R.string.app_name );
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem menuItem)
-    {
-        boolean toret = false;
-        Intent subActividad;
-        switch( menuItem.getItemId() ) {
-            case R.id.MenuConfiguracionLogros:
-                subActividad = new Intent( MainActivity.this, AchivementActivity.class );
-                //subActividad.putExtra( "data", 1 );
-                activityResultLauncher.launch(subActividad);
-                toret = true;
-                break;
-            case R.id.MenuConfiguracionSkins:
-                subActividad = new Intent( MainActivity.this, SkinsActivity.class );
-                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
-                activityResultLauncher.launch(subActividad);
-                toret = true;
-                break;
-            case R.id.MenuConfiguracionHistorial:
-                subActividad = new Intent( MainActivity.this, HistoryActivity.class );
-                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
-                activityResultLauncher.launch(subActividad);
-                toret = true;
-                break;
-            case R.id.MenuConfiguracionAjustes:
-                subActividad = new Intent( MainActivity.this, SettingsActivity.class );
-                //this.operaUnario( Calculadora.OperadorUnario.Sqrt );
-                activityResultLauncher.launch(subActividad);
-                toret = true;
-                break;
-        }
-        return toret;
-    }
-    */
 }

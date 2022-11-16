@@ -13,11 +13,4 @@
         android:gravity="center_vertical"
         android:text="@string/profile"
         android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/buttonUseProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"
-        android:text="@string/use" />
 </LinearLayout>

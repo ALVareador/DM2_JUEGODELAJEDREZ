@@ -22,23 +22,24 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/foto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Foto:" />
+                    android:text="@string/foto" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/iv_profileimage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    tools:ignore="ImageContrastCheck,ImageContrastCheck"
                     tools:srcCompat="@tools:sample/avatars" />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/points"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -48,8 +49,7 @@
                 android:id="@+id/points_counter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -59,23 +59,35 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="@string/nombre" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/tv_name"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView10"
+        <LinearLayout
+            android:id="@+id/linearlayout_logrosconseguidos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/logros" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/logros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/logros" />
+
+            <ListView
+                android:id="@+id/listview_visualizeProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
