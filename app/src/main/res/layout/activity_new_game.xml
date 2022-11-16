@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -16,7 +17,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.005"
@@ -44,89 +45,88 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:orientation="horizontal"></LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:orientation="horizontal">
-
-                    <ImageButton
-                        android:id="@+id/newGameWhiteButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@android:drawable/screen_background_light" />
-
-                    <ImageButton
-                        android:id="@+id/newGameBlackButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:srcCompat="@android:drawable/screen_background_dark" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:orientation="horizontal"></LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.01"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/imageView7"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.2"
+                        android:text="Jugar con"
+                        android:textAlignment="center"
+                        android:textSize="40sp" />
 
-                    <ListView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.01"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/newGameWhiteButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/material_motion_easing_standard"
+                            app:srcCompat="@android:drawable/screen_background_light" />
+
+                        <ImageButton
+                            android:id="@+id/newGameBlackButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/material_motion_easing_standard"
+                            app:srcCompat="@android:drawable/screen_background_dark" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:orientation="horizontal"></LinearLayout>
+                    android:layout_weight="0.4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Duración"
+                        android:textAlignment="center"
+                        android:textSize="40sp" />
+
+                    <ListView
+                        android:id="@+id/newGameTimeList"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        tools:layout_weight="0.5" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/imageView10"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/ic_launcher_foreground" />
+                    android:layout_weight="0.4"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:text="Amigo :)"
+                        android:layout_gravity="center"
+                        android:layout_weight="00.05"
+                        android:text="Adversario"
                         android:textAlignment="textEnd"
                         android:textSize="40sp" />
 
-                    <ImageView
-                        android:id="@+id/imageView9"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        app:srcCompat="@android:drawable/btn_dropdown" />
+                    <ListView
+                        android:id="@+id/newGameOponentList"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -135,15 +135,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.05"
+            android:layout_weight="0.01"
             android:orientation="horizontal">
 
             <Button
@@ -154,10 +146,5 @@
                 android:text="Empezar" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:orientation="horizontal"></LinearLayout>
     </LinearLayout>
 </RelativeLayout>
