@@ -8,6 +8,9 @@
         android:id="@+id/profileMenuUse"
         android:title="@string/usar" />
     <item
+        android:id="@+id/profileMenuEdit"
+        android:title="@string/editar" />
+    <item
         android:id="@+id/profileMenuDelete"
         android:title="@string/eliminar" />
 </menu>

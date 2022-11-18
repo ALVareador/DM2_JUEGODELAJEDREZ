@@ -72,39 +72,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         this.activityResultLauncher = this.registerForActivityResult(contract, callback);
     }
-    /**Devolvemos el perfil que ha sido seleccionado*/
-    /*protected void onStop() {
-        super.onStop();
-
-        Intent toret = new Intent();
-        toret.putExtra( "profile", selectedProfile);
-        this.setResult( RESULT_OK, toret );
-        this.finish();
-    }*/
-
-    /** Añade un nuevo perfil*/
-    private void addProfile() {
-        profiles.add(new Profile());
-        showTaskNameDialog(profiles.size()-1);
-    }
-
-    /** Añade al nuevo profile un nombre*/
-    private void showTaskNameDialog(int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Profile Name");
-        EditText editText = new EditText(this);
-        editText.setText(profiles.get(position).getName());
-        builder.setView(editText);
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String profileName = editText.getText().toString();
-                profiles.get(position).setName(profileName);
-                profileArrayAdapter.notifyDataSetChanged();
-            }
-        });
-        builder.create().show();
-    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -154,6 +121,31 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
+    /** Añade un nuevo perfil*/
+    private void addProfile() {
+        profiles.add(new Profile());
+        showEditNameDialog(profiles.size()-1);
+    }
+
+    /** Añade al nuevo profile un nombre*/
+    private void showEditNameDialog(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Profile Name");
+        EditText editText = new EditText(this);
+        editText.setText(profiles.get(position).getName());
+        builder.setView(editText);
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String profileName = editText.getText().toString();
+                profiles.get(position).setName(profileName);
+                profileArrayAdapter.notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.create().show();
+    }
+
     private void doEdit(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Profile Name");
@@ -168,6 +160,7 @@ public class ProfileActivity extends AppCompatActivity {
                 profileArrayAdapter.notifyDataSetChanged();
             }
         });
+        builder.setNegativeButton("Cancel",null);
         builder.create().show();
     }
 
