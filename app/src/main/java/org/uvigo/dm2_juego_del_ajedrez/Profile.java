@@ -5,6 +5,7 @@ import android.graphics.drawable.Icon;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Profile implements Serializable {
 
@@ -22,8 +23,25 @@ public class Profile implements Serializable {
         this.used=false;
         this.points=0;
         this.achievementsList= new ArrayList<Achievement>();
-        achievementsList.add(new Achievement("Hola","Que tal"));
-        achievementsList.add(new Achievement("Hay que","socializar"));
+
+        achievementsList.add(new Achievement("Hola","Quetal"));
+        achievementsList.add(new Achievement("adios","Quetal"));
+    }
+
+    public Profile(String name, String image, String used, int points, String achievementsList){
+        this.name=name;
+        this.image= image;
+        this.used=Boolean.parseBoolean(used);
+        this.points=points;
+        this.achievementsList= new ArrayList<>();
+
+        //Rellena perfil desde archivo
+        ArrayList<String> achievementsElement= new ArrayList<String>(Arrays.asList(achievementsList.replace("[","").replace("]","").split(", ")));
+
+        for(String achievement: achievementsElement){
+            String[] achievementComponent= achievement.split(", ");
+            this.achievementsList.add(new Achievement(achievementComponent[0],achievementComponent[1])); //Linea con el achievement
+        }
     }
 
     public Profile(String name){
@@ -70,10 +88,6 @@ public class Profile implements Serializable {
 
     @Override
     public String toString() {
-        return "Profile{" +
-                "name='" + name + '\'' +
-                ", used=" + used +
-                ", points=" + points +
-                '}';
+        return name+","+image+","+used+","+achievementsList.toString();
     }
 }

@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
     //TODO Hacer qu coja las views quee tocan
     public ViewHolder (String fondo,String pieza){
-        this.fondo = (ImageView) rowView.findViewById(fondo);
-        this.pieza = pieza;
+        //this.fondo = (ImageView) rowView.findViewById(fondo);
+        //this.pieza = pieza;
     }
 }
 

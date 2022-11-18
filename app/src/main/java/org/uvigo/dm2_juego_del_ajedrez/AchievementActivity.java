@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -31,7 +30,7 @@ public class AchievementActivity extends AppCompatActivity {
         //Genericos
         achievements.add(new Achievement("Mente fria","Haz que un jugador abandone una partida contra ti"));
         achievements.add(new Achievement("Las reglas del juego","Gana una partida"));
-        achievements.add(new Achievement("Todo es mas diveertido con amigos","Añade un amigo"));
+        achievements.add(new Achievement("Todo es mas divertido con amigos","Añade un amigo"));
         achievements.add(new Achievement("Voraz","Come una pieza"));
 
         //Piezas
@@ -65,13 +64,11 @@ public class AchievementActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int position;
-        switch (item.getItemId()){
-            case(R.id.achievementMenuInfo):
-                position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
-                showTaskNameDialog(position);
-                break;
-            default:
-                return super.onContextItemSelected(item);
+        if (item.getItemId()==R.id.achievementMenuInfo) {
+            position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
+            showTaskNameDialog(position);
+        }else{
+            return super.onContextItemSelected(item);
         }
         return true;
     }
