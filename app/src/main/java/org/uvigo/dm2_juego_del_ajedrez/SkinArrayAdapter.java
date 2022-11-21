@@ -41,7 +41,7 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
             viewHolder.linearLayoutSkins = convertView.findViewById(R.id.linearLayoutSkins);
             viewHolder.iv_SkinPhoto = convertView.findViewById(R.id.iv_SkinPhoto);
             viewHolder.textViewName =convertView.findViewById(R.id.textViewName);
-            //viewHolder.buttonUseProfile = convertView.findViewById(R.id.buttonUseProfile);
+
             convertView.setTag(viewHolder);
         }
 

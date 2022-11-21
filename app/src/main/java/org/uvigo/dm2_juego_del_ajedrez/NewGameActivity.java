@@ -10,5 +10,9 @@ public class NewGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
+
+        Profile selectedProfile= (Profile)getIntent().getSerializableExtra("selectedprofile1"); // TODO RECUPERAR EL PERFIL 1 SELECCIONADO AL INICIAR LA PARTIDA
+        Profile selectedProfile2= (Profile)getIntent().getSerializableExtra("selectedprofile2"); // TODO RECUPERAR EL PERFIL 2 SELECCIONADO AL INICIAR LA PARTIDA
+        new ChessGame(selectedProfile,selectedProfile2,new char[]{0,0});
     }
 }

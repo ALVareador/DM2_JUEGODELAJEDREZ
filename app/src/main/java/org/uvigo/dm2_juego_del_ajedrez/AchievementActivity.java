@@ -133,11 +133,7 @@ public class AchievementActivity extends AppCompatActivity {
         TextView textView = new TextView(this);
         textView.setText(achievements.get(position).getDescription());
         builder.setView(textView);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
+        builder.setPositiveButton("OK", null);
         builder.create().show();
     }
 }

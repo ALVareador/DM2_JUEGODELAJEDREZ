@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -35,8 +36,8 @@ public class SkinsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_skins);
 
         //skins.clear();
-        //skins.add(new Skin("SKIN0","./imageFFFFFF000000.png","#FFFFFF","#000000"));
-        //skins.add(new Skin("SKIN1","./image000000FFFFFF.png","#000000","#FFFFFF"));
+        //skins.add(new Skin("SKIN0","./image000000#ffffff.png","#FFFFFF","#000000"));
+        //skins.add(new Skin("SKIN1","./imageffffff#000000.png","#000000","#FFFFFF"));
 
         //saveSkins();
         //imageView.setColorFilter(color); Aplica un color
@@ -47,7 +48,7 @@ public class SkinsActivity extends AppCompatActivity {
         skinArrayAdapter = new SkinArrayAdapter(this, skins);
         listView.setAdapter(skinArrayAdapter);
 
-        //loadSkins();
+        loadSkins();
 
         Log.e("",skinArrayAdapter.toString());
         registerForContextMenu(listView);
@@ -130,9 +131,6 @@ public class SkinsActivity extends AppCompatActivity {
         catch (IOException exc)
         {
             Log.e( "WARN", "Error loading state" );
-        }finally {
-            skinArrayAdapter.notifyDataSetChanged();
-            Log.e("","DataSetChanged");
         }
     }
 
@@ -149,18 +147,18 @@ public class SkinsActivity extends AppCompatActivity {
         int position;
         if (item.getItemId()==R.id.skinInfo) {
             position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
-            showSkinNameDialog(position);
+            showSkinImageDialog(position);
         }else{
             return super.onContextItemSelected(item);
         }
         return true;
     }
 
-    private void showSkinNameDialog(int position) {
+    private void showSkinImageDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Skin: ");
+        builder.setTitle("Skin: "+ skins.get(position).getName());
         ImageView imageView = new ImageView(this);
-        imageView.setImageIcon(skins.get(position).getImage());
+        imageView.setImageURI(Uri.parse(skins.get(position).getImagePath()));
 
         builder.setView(imageView);
         builder.setPositiveButton("CLOSE", null);

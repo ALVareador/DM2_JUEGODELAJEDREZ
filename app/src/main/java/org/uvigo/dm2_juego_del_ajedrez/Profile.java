@@ -15,7 +15,7 @@ public class Profile implements Serializable {
     private int points=0;
 
     private ArrayList<Achievement> achievementsList;
-    //TODO Aqui deben ir las skins que tenga seleccionadas el perfil
+    private String skinBoardName, skinPieceName;
 
     public Profile(){
         this.name="";
@@ -35,6 +35,7 @@ public class Profile implements Serializable {
         this.points=points;
         this.achievementsList= new ArrayList<>();
 
+        this.skinBoardName="";
         //Rellena perfil desde archivo
         ArrayList<String> achievementsElement= new ArrayList<String>(Arrays.asList(achievementsList.replace("[","").replace("]","").split(", ")));
 
@@ -47,6 +48,7 @@ public class Profile implements Serializable {
     public Profile(String name){
         this.name=name;
         this.image="";
+        this.skinBoardName="";
         this.used=false;
         this.points=0;
         this.achievementsList= new ArrayList<Achievement>();
@@ -69,6 +71,9 @@ public class Profile implements Serializable {
     public ArrayList<Achievement> getAchievements(){
         return achievementsList;
     }
+    public String getSkinBoardName(){
+        return skinBoardName;
+    }
 
     /** Añade sus puntos después de cada partida*/
     public void setPoints(int points){
@@ -81,6 +86,9 @@ public class Profile implements Serializable {
         this.name = name;
     }
     public void setImage(String image){ this.image=image; }
+    public void setSkinBoardName(String skinName){
+        this.skinBoardName=skinName;
+    }
     /**Añade un nuevo logro*/
     public void addAchievement(Achievement achievement){
         achievementsList.add(achievement);

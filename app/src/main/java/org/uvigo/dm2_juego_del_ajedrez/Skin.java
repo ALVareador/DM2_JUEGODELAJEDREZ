@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class Skin implements Serializable {
 
     private String name ="";
-    private String image=""; //R.drawable.nombre_de_la_imagen
+    private String image="";
     private String lightcolor="";
     private String darkcolor="";
 
