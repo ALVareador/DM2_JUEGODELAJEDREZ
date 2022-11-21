@@ -24,6 +24,8 @@ public class Profile implements Serializable {
         this.points=0;
         this.achievementsList= new ArrayList<Achievement>();
 
+        this.skinBoardName="";
+
         achievementsList.add(new Achievement("Hola","Quetal"));
         achievementsList.add(new Achievement("adios","Quetal"));
     }
