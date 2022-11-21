@@ -13,12 +13,14 @@ public class Skin implements Serializable {
     private String image="";
     private String lightcolor="";
     private String darkcolor="";
+    private boolean used= false;
 
-    public Skin(String name, String image, String lightcolor, String darkcolor){
+    public Skin(String name, String image, String lightcolor, String darkcolor, boolean used){
         this.name=name;
         this.image=image;
         this.lightcolor=lightcolor;
         this.darkcolor=darkcolor;
+        this.used=used;
     }
 
     public String getName() {
@@ -38,14 +40,19 @@ public class Skin implements Serializable {
     public String getDarkcolor(){
         return darkcolor;
     }
+    public boolean getUsed(){
+        return used;
+    }
     public void setName(String name) {
         this.name = name;
     }
-
+    public void setUsed(boolean used){
+        this.used=used;
+    }
     //TODO metodo para crear colores accesibles desde imageview a partir de los strings de color
 
     @Override
     public String toString() {
-        return name+","+image+","+lightcolor+","+darkcolor;
+        return name+","+image+","+lightcolor+","+darkcolor+","+used;
     }
 }

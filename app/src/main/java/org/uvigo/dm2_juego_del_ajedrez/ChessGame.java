@@ -1,6 +1,11 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
-public class ChessGame {
+import android.graphics.drawable.Drawable;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+public class ChessGame extends AppCompatActivity{
 
     char[] posP1; //Posicion jugador 1
     Profile player1;
@@ -28,21 +33,18 @@ public class ChessGame {
     }
 
     /**Inicializa el grid con los colores del P1*/
-    private void initTable(char posP1) {
-    }
-
     private void createBoard(){
         int primary_color;
         int secondary_color;
 
         if(skin.equals("")){
-            primary_color=R.drawable.white;
-            secondary_color=R.drawable.black;
+            primary_color =  R.drawable.white;
+            secondary_color =  R.drawable.black;
         }else{
             String skin_component[]= skin.split("#");
 
-            primary_color= Integer.parseInt("@drawable/"+skin_component[0]);
-            secondary_color= Integer.parseInt("@drawable/"+skin_component[1]);
+            primary_color = getResources().getIdentifier("@drawable/"+skin_component[0], null, getPackageName());
+            secondary_color = getResources().getIdentifier("@drawable/"+skin_component[1], null, getPackageName());
         }
 
         Integer[] chessboardIds = { primary_color, secondary_color, primary_color, secondary_color, primary_color, secondary_color, primary_color, secondary_color,

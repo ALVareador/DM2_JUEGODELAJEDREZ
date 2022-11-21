@@ -36,8 +36,8 @@ public class SkinsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_skins);
 
         //skins.clear();
-        //skins.add(new Skin("SKIN0","./image000000#ffffff.png","#FFFFFF","#000000"));
-        //skins.add(new Skin("SKIN1","./imageffffff#000000.png","#000000","#FFFFFF"));
+        //skins.add(new Skin("SKIN0","./image000000#ffffff.png","#FFFFFF","#000000",false));
+        //skins.add(new Skin("SKIN1","./imageffffff#000000.png","#000000","#FFFFFF",false));
 
         //saveSkins();
         //imageView.setColorFilter(color); Aplica un color
@@ -93,6 +93,7 @@ public class SkinsActivity extends AppCompatActivity {
                 cfg.println( skin.getImagePath()); //SKIN IMAGE
                 cfg.println( skin.getLightcolor() ); //SKIN COLOR 1
                 cfg.println( skin.getDarkcolor() ); //SKIN COLOR 2
+                cfg.println(skin.getUsed());
             }
 
             cfg.close();
@@ -107,20 +108,21 @@ public class SkinsActivity extends AppCompatActivity {
         try (FileInputStream f = this.openFileInput("skins_data.cfg")){
             BufferedReader cfg = new BufferedReader( new InputStreamReader( f ) );
 
-            this.skins.clear();
+            skins.clear();
             String skinLine = cfg.readLine(); //Corresponde al nombre de la skin
             Log.e("",skinLine);
 
-            String cfg_image,cfg_lightcolor,cfg_darkcolor;
+            String cfg_image,cfg_lightcolor,cfg_darkcolor,cfg_used;
             while( skinLine != null ) {
 
                 //Recuperamos cada skin
                 cfg_image= cfg.readLine();
                 cfg_lightcolor= cfg.readLine();
                 cfg_darkcolor= cfg.readLine();
+                cfg_used= cfg.readLine();
 
-                Log.e("CHARGED_DATA",skinLine+" "+cfg_image+" "+cfg_lightcolor+" "+cfg_darkcolor);
-                this.skins.add(new Skin(skinLine,cfg_image,cfg_lightcolor,cfg_darkcolor));
+                Log.e("CHARGED_DATA",skinLine+" "+cfg_image+" "+cfg_lightcolor+" "+cfg_darkcolor+" "+cfg_used);
+                this.skins.add(new Skin(skinLine,cfg_image,cfg_lightcolor,cfg_darkcolor,Boolean.parseBoolean(cfg_used)));
 
                 skinLine = cfg.readLine();
             }
