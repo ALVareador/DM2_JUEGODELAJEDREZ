@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class Skin implements Serializable {
 
     private String name ="";
-    private String image="";
+    private String image=""; //R.drawable.nombre_de_la_imagen
     private String lightcolor="";
     private String darkcolor="";
 
@@ -29,6 +29,9 @@ public class Skin implements Serializable {
     public Icon getImage(){
         return Icon.createWithFilePath(image);
     }
+    public String getImagePath(){
+        return image;
+    }
     public String getLightcolor(){
         return lightcolor;
     }
@@ -38,6 +41,8 @@ public class Skin implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    //TODO metodo para crear colores accesibles desde imageview a partir de los strings de color
 
     @Override
     public String toString() {

@@ -81,7 +81,7 @@ public class AchievementActivity extends AppCompatActivity {
         }
         // Write settings
         editor.putStringSet( "achievements_prefs", achievementSet ); //Guarda prefs en achievements_prefs
-        System.out.println( "Saved achievements: " + achievementSet.toString() );
+        System.out.println( "Saved achievements: " + achievementSet);
 
         editor.apply();
 

@@ -34,20 +34,28 @@ public class SkinsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skins);
 
-        skins.add(new Skin("SKIN0","","",""));
-        skins.add(new Skin("SKIN1","","",""));
+        //skins.clear();
+        //skins.add(new Skin("SKIN0","./imageFFFFFF000000.png","#FFFFFF","#000000"));
+        //skins.add(new Skin("SKIN1","./image000000FFFFFF.png","#000000","#FFFFFF"));
+
+        //saveSkins();
+        //imageView.setColorFilter(color); Aplica un color
 
         ListView listView = findViewById(R.id.listViewSkin);
+
+        Log.e("SKINS: ",skins.toString());
         skinArrayAdapter = new SkinArrayAdapter(this, skins);
         listView.setAdapter(skinArrayAdapter);
 
-        loadSkins();
+        //loadSkins();
+
+        Log.e("",skinArrayAdapter.toString());
         registerForContextMenu(listView);
     }
 
     @Override
     protected void onPause() {
-        Log.e("WARN:","PAUSE");
+        Log.e("WARN:","PAUSE: "+skins.toString());
         super.onPause();
         if(!skins.isEmpty()){
             saveSkins();
@@ -56,7 +64,7 @@ public class SkinsActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Log.e("WARN:","RESUME");
+        Log.e("WARN:","RESUME: "+skins.toString());
         super.onResume();
         if (skins.isEmpty()) {
             loadSkins();
@@ -68,6 +76,7 @@ public class SkinsActivity extends AppCompatActivity {
         super.onStart();
         Log.e("WARN:", "START");
         if (skins.isEmpty()) {
+            Log.e("","LOAD SKINS");
             loadSkins();
         }
     }
@@ -78,8 +87,9 @@ public class SkinsActivity extends AppCompatActivity {
             PrintStream cfg = new PrintStream( f );
 
             for(Skin skin: this.skins) {
+                Log.e("SAVESKIN",skin.toString());
                 cfg.println( skin.getName() ); //SKIN NAME
-                cfg.println( skin.getImage()); //SKIN IMAGE
+                cfg.println( skin.getImagePath()); //SKIN IMAGE
                 cfg.println( skin.getLightcolor() ); //SKIN COLOR 1
                 cfg.println( skin.getDarkcolor() ); //SKIN COLOR 2
             }
@@ -93,28 +103,36 @@ public class SkinsActivity extends AppCompatActivity {
     }
 
     private void loadSkins(){
-        try (FileInputStream f = this.openFileInput("skins_data.cfg") )
-        {
+        try (FileInputStream f = this.openFileInput("skins_data.cfg")){
             BufferedReader cfg = new BufferedReader( new InputStreamReader( f ) );
 
             this.skins.clear();
-            String skinLine = cfg.readLine();
+            String skinLine = cfg.readLine(); //Corresponde al nombre de la skin
+            Log.e("",skinLine);
+
+            String cfg_image,cfg_lightcolor,cfg_darkcolor;
             while( skinLine != null ) {
+
                 //Recuperamos cada skin
-                Skin skin = new Skin(cfg.readLine(),cfg.readLine(),cfg.readLine(),cfg.readLine());
-                this.skins.add(skin);
+                cfg_image= cfg.readLine();
+                cfg_lightcolor= cfg.readLine();
+                cfg_darkcolor= cfg.readLine();
+
+                Log.e("CHARGED_DATA",skinLine+" "+cfg_image+" "+cfg_lightcolor+" "+cfg_darkcolor);
+                this.skins.add(new Skin(skinLine,cfg_image,cfg_lightcolor,cfg_darkcolor));
 
                 skinLine = cfg.readLine();
             }
 
             cfg.close();
             Log.e( "WARN", "LOADED DATA" );
-
-            this.skinArrayAdapter.notifyDataSetChanged();
         }
         catch (IOException exc)
         {
             Log.e( "WARN", "Error loading state" );
+        }finally {
+            skinArrayAdapter.notifyDataSetChanged();
+            Log.e("","DataSetChanged");
         }
     }
 
@@ -143,12 +161,10 @@ public class SkinsActivity extends AppCompatActivity {
         builder.setTitle("Skin: ");
         ImageView imageView = new ImageView(this);
         imageView.setImageIcon(skins.get(position).getImage());
+
         builder.setView(imageView);
-        builder.setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
+        builder.setPositiveButton("CLOSE", null);
+
         builder.create().show();
     }
 }

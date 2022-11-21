@@ -1,6 +1,7 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,13 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
 
     public SkinArrayAdapter(@NonNull Context context, List<Skin> objects) {
         super(context, 0, objects);
+        Log.w("SKINARRAYADAPTER",objects.toString());
     }
 
     class ViewHolder {
         LinearLayout linearLayoutSkins;
         ImageView iv_SkinPhoto;
         TextView textViewName;
-        //Button buttonUseProfile;
     }
 
     @NonNull
