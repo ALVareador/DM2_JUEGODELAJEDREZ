@@ -1,11 +1,11 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
-public class Pieza {
+public class Piece {
     String name; //BTOWER, BQUEEN, WPAWN, etc
     boolean white;
     int row, column;
 
-    public Pieza(String name, boolean white, int row, int column){
+    public Piece(String name, boolean white, int row, int column){
         this.name=name;
         this.white=white;
 
@@ -28,8 +28,9 @@ public class Pieza {
     public int[] getPos(){
         return new int[]{getRow(),getColumn()};
     }
+
     /** Cambia posicion y devuelve modificacion de historial*/
-    public void setPos(int newRow, int newColumn){
+    public String setPos(int newRow, int newColumn){
         int oldRow, oldColumn;
         oldRow= row;
         oldColumn=column;
@@ -37,7 +38,21 @@ public class Pieza {
         this.row=newRow;
         this.column=newColumn;
 
-        //BTOWER AT R1 C0 -> R2 C2
-        //updateHistory(oldRow,oldColumn,row,column);
+        return drawPieceinHistory(white,name,new int[]{oldRow,oldColumn},new int[]{newRow,newColumn});
+    }
+
+    public String drawPieceinHistory(boolean white, String name, int[] oldPosition, int[] newPosition){
+        String result="";
+        if(white){
+            result+='W'; //BLANCA
+        }else{
+            result+='B'; //NEGRA
+        }
+
+        //WTOWER AT R1 C0 -> R2 C2
+        result+=name+" AT R"+oldPosition[0]+" C"+oldPosition[1]+" -> R"+newPosition[0]+" C"+newPosition[1];
+
+        return result;
+
     }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 public class NewGameActivity extends AppCompatActivity {
 
     @Override
+    //TODO INTENTAR METER EL JUGADOR 1 AL EMPEZAR LA PARTIDA, NO CONSEGUIMOS PASAR EL PROFILE HACIA LA MAIN ACTIVITY
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
