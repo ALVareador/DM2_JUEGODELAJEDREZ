@@ -104,6 +104,9 @@ public class Profile implements Serializable {
     public void addFriend(Profile friend){
         friendsList.add(friend);
     }
+    public void removeFriend(Profile friend){
+        friendsList.remove(friend);
+    }
     /**Añade un nuevo logro*/
     public void addAchievement(Achievement achievement){
         achievementsList.add(achievement);

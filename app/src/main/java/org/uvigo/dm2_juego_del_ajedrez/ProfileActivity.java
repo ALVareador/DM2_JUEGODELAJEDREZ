@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -105,6 +106,19 @@ public class ProfileActivity extends AppCompatActivity {
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 Profile addProfile= getProfileByName(profiles.get(position).getName());
                 selectedProfile.addFriend(addProfile);
+                Toast.makeText( this, "Has añadido a "+addProfile.getName()+" como amigo", Toast.LENGTH_SHORT ).show();
+                profileArrayAdapter.notifyDataSetChanged();
+                break;
+            case(R.id.profileMenuRemoveFriend):
+                position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
+                Profile removedProfile= getProfileByName(profiles.get(position).getName());
+                if(profiles.get(position).getFriends().contains(removedProfile)){
+                    selectedProfile.removeFriend(removedProfile);
+                    Toast.makeText( this, removedProfile.getName()+" ya no es tu amigo", Toast.LENGTH_SHORT ).show();
+                }else{
+                    Toast.makeText( this, removedProfile.getName()+" no es tu amigo", Toast.LENGTH_SHORT ).show();
+                }
+                profileArrayAdapter.notifyDataSetChanged();
                 break;
             case(R.id.profileMenuUse):
                 Log.w("","WARN: PROFILEMENUUSE");
@@ -117,6 +131,8 @@ public class ProfileActivity extends AppCompatActivity {
                 selectedProfile=getProfileByName(profiles.get(position).getName());
                 Log.e("","Perfil posterior: "+selectedProfile.toString());
                 selectedProfile.setUsed(true);
+
+                Toast.makeText( this, "Perfil seleccionado: "+selectedProfile.getName(), Toast.LENGTH_SHORT ).show();
                 break;
             case(R.id.profileMenuEdit):
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
@@ -125,6 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
             case(R.id.profileMenuDelete):
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 profiles.remove(position);
+                Toast.makeText( this, "Perfil eliminado correctamente", Toast.LENGTH_SHORT ).show();
                 profileArrayAdapter.notifyDataSetChanged();
                 break;
             default:

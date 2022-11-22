@@ -8,6 +8,9 @@
         android:id="@+id/profileMenuAddFriend"
         android:title="@string/añadir_amigo" />
     <item
+        android:id="@+id/profileMenuRemoveFriend"
+        android:title="@string/eliminar_amigo" />
+    <item
         android:id="@+id/profileMenuUse"
         android:title="@string/usar" />
     <item
