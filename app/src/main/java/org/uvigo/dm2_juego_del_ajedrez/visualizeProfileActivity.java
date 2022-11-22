@@ -8,10 +8,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
 public class visualizeProfileActivity extends AppCompatActivity {
     private AchievementArrayAdapter achievementArrayAdapter;
+    private ProfileArrayAdapter friendsArrayAdapter;
     private Profile profile;
 
     @Override
@@ -23,7 +22,7 @@ public class visualizeProfileActivity extends AppCompatActivity {
         profile= (Profile)getIntent().getSerializableExtra("visualizeprofile");
         Log.println(Log.WARN,"WARN",profile.toString());
 
-        Log.println(Log.WARN,"","He recuperado"+profile.toString());
+        Log.println(Log.WARN,"","He recuperado "+profile.toString());
 
         //PHOTO
         ImageView ivProfile= findViewById(R.id.iv_profileimage);
@@ -37,10 +36,15 @@ public class visualizeProfileActivity extends AppCompatActivity {
         TextView tvPoints= findViewById(R.id.points_counter);
         tvPoints.setText(profile.getPoints());
 
-        //LISTVIEW
-        ListView listView = findViewById(R.id.listview_visualizeProfile);
+        //LISTVIEW LOGROS
+        ListView listView_achievements = findViewById(R.id.listview_visualizeProfile_achievements);
         achievementArrayAdapter = new AchievementArrayAdapter(this, profile.getAchievements());
-        listView.setAdapter(achievementArrayAdapter);
+        listView_achievements.setAdapter(achievementArrayAdapter);
+
+        //LISTVIEW FRIENDS
+        ListView listView_friends = findViewById(R.id.listview_visualizeProfile_friends);
+        friendsArrayAdapter = new ProfileArrayAdapter(this, profile.getFriends());
+        listView_friends.setAdapter(friendsArrayAdapter);
     }
 
     public void onResume() {

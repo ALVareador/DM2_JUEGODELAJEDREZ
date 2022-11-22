@@ -43,6 +43,14 @@ public class ProfileActivity extends AppCompatActivity {
         Profile defaultProfile = new Profile("default");
         profiles.add(defaultProfile);
 
+        defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING"));
+        defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING MUCHO"));
+        defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING POCO"));
+
+        defaultProfile.addFriend(new Profile("JUGADOR1"));
+        defaultProfile.addFriend(new Profile("JUGADOR2"));
+        defaultProfile.addFriend(new Profile("JUGADOR3"));
+
         //Perfil por defecto
         selectedProfile= defaultProfile;
         selectedProfile.setUsed(true);
@@ -87,12 +95,16 @@ public class ProfileActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case(R.id.profileMenuInfo):
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
-                //TODO IR A VISUALIZE PROFILE
 
                 Profile infoProfile= getProfileByName(profiles.get(position).getName());
                 Intent subActividad = new Intent( ProfileActivity.this, visualizeProfileActivity.class );
                 subActividad.putExtra( "visualizeprofile", infoProfile);
                 activityResultLauncher.launch(subActividad);
+                break;
+            case(R.id.profileMenuAddFriend):
+                position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
+                Profile addProfile= getProfileByName(profiles.get(position).getName());
+                selectedProfile.addFriend(addProfile);
                 break;
             case(R.id.profileMenuUse):
                 Log.w("","WARN: PROFILEMENUUSE");
@@ -121,6 +133,7 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
+    //TODO AL AÑADIR UN USUARIO SE AÑADE UN 0, PREGUNTAR
     /** Añade un nuevo perfil*/
     private void addProfile() {
         profiles.add(new Profile());
@@ -176,43 +189,13 @@ public class ProfileActivity extends AppCompatActivity {
             Log.e("","PROFILE ENCONTRADO: "+pr.toString());
             //Encuentra el perfil
             Log.e("","NAME ENCONTRADO: "+pr.getName());
-            if(name==pr.getName()){
-                Log.e("","TORET CON NOMBRE: "+pr.getName());
+            if(name.equals(pr.getName())){
                 toret=i;
-                Log.e("","TORET: "+toret);
             }
             i++;
         }
 
-        if(toret!=-1){
-            Log.e("","TORET: "+profiles.get(toret));
-            return profiles.get(toret);
-        }else{
-            //Si no encuentra nada actua sobre el perfil por defecto
-            Log.e("","TORET DEFAULT: "+profiles.get(0));
-            return profiles.get(0);
-        }
+        return profiles.get(toret);
 
-    }
-
-    public void visualizeProfile(){
-        setContentView(R.layout.activity_visualizeprofile);
-        Log.e("ProfileActivity ",selectedProfile.toString());
-        //PHOTO
-        ImageView ivProfile= findViewById(R.id.iv_profileimage);
-        ivProfile.setImageIcon(selectedProfile.getImage());
-
-        //NAME
-        TextView tvName= findViewById(R.id.tv_name);
-        tvName.setText(selectedProfile.getName());
-
-        //POINTS
-        TextView tvPoints= findViewById(R.id.points_counter);
-        tvPoints.setText(selectedProfile.getPoints());
-
-        //LISTVIEW
-        ListView listView = findViewById(R.id.listview_visualizeProfile);
-        achievementArrayAdapter = new AchievementArrayAdapter(this, selectedProfile.getAchievements());
-        listView.setAdapter(achievementArrayAdapter);
     }
 }

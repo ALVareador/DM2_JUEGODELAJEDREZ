@@ -15,6 +15,8 @@ public class Profile implements Serializable {
     private int points=0;
 
     private ArrayList<Achievement> achievementsList;
+    private ArrayList<Profile> friendsList;
+
     private String skinBoardName, skinPieceName;
 
     public Profile(){
@@ -23,6 +25,7 @@ public class Profile implements Serializable {
         this.used=false;
         this.points=0;
         this.achievementsList= new ArrayList<Achievement>();
+        this.friendsList= new ArrayList<Profile>();
 
         this.skinBoardName="";
 
@@ -30,7 +33,7 @@ public class Profile implements Serializable {
         achievementsList.add(new Achievement("adios","Quetal"));
     }
 
-    public Profile(String name, String image, String used, int points, String achievementsList){
+    public Profile(String name, String image, String used, int points, String achievementsList, ArrayList<Profile> friendsList){
         this.name=name;
         this.image= image;
         this.used=Boolean.parseBoolean(used);
@@ -40,11 +43,14 @@ public class Profile implements Serializable {
         this.skinBoardName="";
         //Rellena perfil desde archivo
         ArrayList<String> achievementsElement= new ArrayList<String>(Arrays.asList(achievementsList.replace("[","").replace("]","").split(", ")));
+        //ArrayList<Profile> friendsElement= new ArrayList<String>(Arrays.asList(friendsList.replace("[","").replace("]","").split(", ")));
 
         for(String achievement: achievementsElement){
             String[] achievementComponent= achievement.split(", ");
             this.achievementsList.add(new Achievement(achievementComponent[0],achievementComponent[1])); //Linea con el achievement
         }
+
+        this.friendsList=friendsList;
     }
 
     public Profile(String name){
@@ -54,6 +60,7 @@ public class Profile implements Serializable {
         this.used=false;
         this.points=0;
         this.achievementsList= new ArrayList<Achievement>();
+        this.friendsList= new ArrayList<Profile>();
     }
 
     public String getName() {
@@ -73,6 +80,9 @@ public class Profile implements Serializable {
     public ArrayList<Achievement> getAchievements(){
         return achievementsList;
     }
+    public ArrayList<Profile> getFriends(){
+        return friendsList;
+    }
     public String getSkinBoardName(){
         return skinBoardName;
     }
@@ -90,6 +100,9 @@ public class Profile implements Serializable {
     public void setImage(String image){ this.image=image; }
     public void setSkinBoardName(String skinName){
         this.skinBoardName=skinName;
+    }
+    public void addFriend(Profile friend){
+        friendsList.add(friend);
     }
     /**Añade un nuevo logro*/
     public void addAchievement(Achievement achievement){

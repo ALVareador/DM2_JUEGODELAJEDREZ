@@ -72,9 +72,9 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearlayout_logrosconseguidos"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/linearlayout_vp_achievement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -84,7 +84,25 @@
                 android:text="@string/logros" />
 
             <ListView
-                android:id="@+id/listview_visualizeProfile"
+                android:id="@+id/listview_visualizeProfile_achievements"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayout_vp_friend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/friends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/friends" />
+
+            <ListView
+                android:id="@+id/listview_visualizeProfile_friends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

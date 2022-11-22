@@ -5,6 +5,9 @@
         android:id="@+id/profileMenuInfo"
         android:title="@string/ver_informacion" />
     <item
+        android:id="@+id/profileMenuAddFriend"
+        android:title="@string/añadir_amigo" />
+    <item
         android:id="@+id/profileMenuUse"
         android:title="@string/usar" />
     <item

@@ -31,7 +31,6 @@ public class AchievementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievement);
 
-        //TODO Hay que añadir aqui todos los achievements que haya en el juego
         //TODO Los logros se disparan cada partida, se añaden puntos extras
 
         ListView listView = findViewById(R.id.listViewAchievement);
