@@ -1,5 +1,6 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -26,7 +27,7 @@ public class visualizeProfileActivity extends AppCompatActivity {
 
         //PHOTO
         ImageView ivProfile= findViewById(R.id.iv_profileimage);
-        ivProfile.setImageIcon(profile.getImage());
+        ivProfile.setColorFilter(R.drawable.blue);
 
         //NAME
         TextView tvName= findViewById(R.id.tv_name);
@@ -38,7 +39,7 @@ public class visualizeProfileActivity extends AppCompatActivity {
 
         //LISTVIEW LOGROS
         ListView listView_achievements = findViewById(R.id.listview_visualizeProfile_achievements);
-        achievementArrayAdapter = new AchievementArrayAdapter(this, profile.getAchievements());
+        achievementArrayAdapter = new AchievementArrayAdapter(this, profile.getAchievements(),"INVISIBLE");
         listView_achievements.setAdapter(achievementArrayAdapter);
 
         //LISTVIEW FRIENDS

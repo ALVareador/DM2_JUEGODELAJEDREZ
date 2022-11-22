@@ -18,9 +18,10 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class AchievementArrayAdapter  extends ArrayAdapter<Achievement> {
-
-    public AchievementArrayAdapter(@NonNull Context context, List<Achievement> objects) {
+    String mode;
+    public AchievementArrayAdapter(@NonNull Context context, List<Achievement> objects, String mode) {
         super(context, 0, objects);
+        this.mode=mode; //VISIBLE OR INVISIBLE
     }
 
     class ViewHolder {
@@ -46,6 +47,11 @@ public class AchievementArrayAdapter  extends ArrayAdapter<Achievement> {
 
         viewHolder = (ViewHolder) convertView.getTag();
         viewHolder.textViewName.setText(getItem(position).getName());
+
+        if(mode.equals("INVISIBLE")){
+            viewHolder.im_blockedachievement.setVisibility(View.INVISIBLE);
+        }
+
 
         //Si el logro es obtenido(checkbox activo) se pone en gris
 

@@ -2,12 +2,13 @@ package org.uvigo.dm2_juego_del_ajedrez;
 
 public class Pieza {
     String name; //BTOWER, BQUEEN, WPAWN, etc
-    String color;
+    boolean white;
     int row, column;
 
-    public Pieza(String name, String color, int row, int column){
+    public Pieza(String name, boolean white, int row, int column){
         this.name=name;
-        this.color=color;
+        this.white=white;
+
         this.row= row;
         this.column=column;
     }
@@ -20,10 +21,13 @@ public class Pieza {
         return column;
     }
 
-    public String getColor() {
-        return color;
+    public boolean getColor() {
+        return white;
     }
 
+    public int[] getPos(){
+        return new int[]{getRow(),getColumn()};
+    }
     /** Cambia posicion y devuelve modificacion de historial*/
     public void setPos(int newRow, int newColumn){
         int oldRow, oldColumn;

@@ -133,6 +133,7 @@ public class ProfileActivity extends AppCompatActivity {
                 selectedProfile.setUsed(true);
 
                 Toast.makeText( this, "Perfil seleccionado: "+selectedProfile.getName(), Toast.LENGTH_SHORT ).show();
+                changeGlobalSelectedProfile();
                 break;
             case(R.id.profileMenuEdit):
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
@@ -155,6 +156,13 @@ public class ProfileActivity extends AppCompatActivity {
     private void addProfile() {
         profiles.add(new Profile());
         showEditNameDialog(profiles.size()-1);
+    }
+
+    private void changeGlobalSelectedProfile(){
+        Intent subActividad = new Intent( ProfileActivity.this, MainActivity.class );
+        Log.e("","PERFIL SELECCIONADO: "+selectedProfile.getName());
+        subActividad.putExtra( "selectedprofile", selectedProfile);
+        activityResultLauncher.launch(subActividad);
     }
 
     /** Añade al nuevo profile un nombre*/

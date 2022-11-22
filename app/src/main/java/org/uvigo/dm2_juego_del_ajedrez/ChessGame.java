@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
+
 public class ChessGame extends AppCompatActivity{
 
     char[] posP1; //Posicion jugador 1
@@ -12,7 +14,7 @@ public class ChessGame extends AppCompatActivity{
     Profile player2;
 
     String skin;
-    String history; //Historial de jugadas
+    ArrayList<String> history; //Historial de jugadas
 
     /**New Game*/
     public ChessGame(Profile player1, Profile player2, char[] posP1){
@@ -23,13 +25,14 @@ public class ChessGame extends AppCompatActivity{
         this.skin= player1.getSkinBoardName(); //La skin del tablero será la del jugador 1
         createBoard();
 
-        this.history="";
+        this.history=new ArrayList<String>();
 
     }
 
     /**Continuar partida, history contiene los movimientos hasta el momento de finalizacion*/
-    public ChessGame(String history){
+    public ChessGame(ArrayList<String> history){
         this.history=history;
+        //TODO COLOCA LAS PIEZAS DONDE TOCAN recreateGame();
     }
 
     /**Inicializa el grid con los colores del P1*/

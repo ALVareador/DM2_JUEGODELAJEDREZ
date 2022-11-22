@@ -34,7 +34,7 @@ public class AchievementActivity extends AppCompatActivity {
         //TODO Los logros se disparan cada partida, se añaden puntos extras
 
         ListView listView = findViewById(R.id.listViewAchievement);
-        achievementArrayAdapter = new AchievementArrayAdapter(this, achievements);
+        achievementArrayAdapter = new AchievementArrayAdapter(this, achievements,"VISIBLE");
         listView.setAdapter(achievementArrayAdapter);
 
         loadAchievements();

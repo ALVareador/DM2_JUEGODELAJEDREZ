@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.view.*;
@@ -24,9 +25,6 @@ public class MainActivity extends MyApp{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Recupera el perfil
-        selectedProfile= (Profile) this.getIntent().getSerializableExtra("profile");
 
         Button newGame = findViewById(R.id.BotonNuevaPartida);
         Button continueGame = findViewById(R.id.botonContinuarPartida);
@@ -42,7 +40,7 @@ public class MainActivity extends MyApp{
             @Override
             public void onClick(View v) {
                 Intent subActividad = new Intent( MainActivity.this, NewGameActivity.class );
-                //subActividad.putExtra( "data", 1 );
+                subActividad.putExtra( "selectedprofile", selectedProfile);
                 activityResultLauncher.launch(subActividad);
             }
         });
@@ -79,14 +77,11 @@ public class MainActivity extends MyApp{
             }
         });
 
-
-
         ActivityResultContract<Intent, ActivityResult> contract = new ActivityResultContracts.StartActivityForResult();
         ActivityResultCallback<ActivityResult> callback = new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                cargarInterfaz();
-
+                //TODO PREGUNTAR Recupera el perfil GENERAL
             }
         };
 
@@ -108,6 +103,8 @@ public class MainActivity extends MyApp{
         switch( menuItem.getItemId() ) {
             case R.id.MenuConfiguracionLogros:
                 subActividad = new Intent( MainActivity.this, AchievementActivity.class );
+
+                subActividad.putExtra( "selectedprofile1", selectedProfile);
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
