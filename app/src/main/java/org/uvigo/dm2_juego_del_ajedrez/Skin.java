@@ -1,7 +1,14 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Icon;
+import android.util.Base64;
+import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -9,11 +16,11 @@ import java.util.Arrays;
 
 public class Skin implements Serializable {
 
-    private String name ="";
-    private String image="";
-    private String lightcolor="";
-    private String darkcolor="";
-    private boolean used= false;
+    private String name;
+    private String image;
+    private String lightcolor;
+    private String darkcolor;
+    private boolean used;
 
     public Skin(String name, String image, String lightcolor, String darkcolor, boolean used){
         this.name=name;
@@ -25,6 +32,17 @@ public class Skin implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public Bitmap getBitMapImage(byte[] encodedImage){
+        try {
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodedImage, 0, encodedImage.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            Log.w("","GETBITMAPIMAGE");
+            return null;
+        }
     }
 
     /** Devuelve la imagen*/

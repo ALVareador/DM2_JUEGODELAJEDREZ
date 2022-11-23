@@ -36,8 +36,8 @@ public class SkinsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_skins);
 
         //skins.clear();
-        //skins.add(new Skin("SKIN0","./image000000#ffffff.png","#FFFFFF","#000000",false));
-        //skins.add(new Skin("SKIN1","./imageffffff#000000.png","#000000","#FFFFFF",false));
+        //skins.add(new Skin("SKIN0","imageffffff#000000.png","#FFFFFF","#000000",false));
+        //skins.add(new Skin("SKIN1","image000000#ffffff.png","#000000","#FFFFFF",false));
 
         //saveSkins();
         //imageView.setColorFilter(color); Aplica un color
@@ -67,7 +67,7 @@ public class SkinsActivity extends AppCompatActivity {
         Log.e("WARN:","RESUME: "+skins.toString());
         super.onResume();
         if (skins.isEmpty()) {
-            //loadSkins();
+            loadSkins();
         }
     }
 
@@ -77,7 +77,7 @@ public class SkinsActivity extends AppCompatActivity {
         Log.e("WARN:", "START");
         if (skins.isEmpty()) {
             Log.e("","LOAD SKINS");
-            //loadSkins();
+            loadSkins();
         }
     }
 
@@ -147,6 +147,7 @@ public class SkinsActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        Log.e("","CONTEXTITEM");
         int position;
         if (item.getItemId()==R.id.skinInfo) {
             position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;

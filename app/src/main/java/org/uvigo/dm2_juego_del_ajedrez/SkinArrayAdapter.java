@@ -1,6 +1,8 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.util.Log;
@@ -19,6 +21,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 
 public class SkinArrayAdapter extends ArrayAdapter<Skin> {
@@ -55,6 +63,8 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         viewHolder = (ViewHolder) convertView.getTag();
         viewHolder.textViewName.setText(getItem(position).getName());
         viewHolder.iv_SkinPhoto.setVisibility(View.VISIBLE);
+        Skin skin= getItem(position);
+        viewHolder.iv_SkinPhoto.setImageBitmap(bitmapFromAssets(getContext(),skin));
 
         //Si esta siendo usado se pone en gris
         if (getItem(position).getUsed()){
@@ -75,4 +85,27 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         notifyDataSetChanged();
         return convertView;
     }
+
+    public Bitmap bitmapFromAssets(Context context, Skin skin)
+    {
+        InputStream stream = null;
+        try
+        {
+            stream = context.getAssets().open(skin.getImagePath());
+            return BitmapFactory.decodeStream(stream);
+        }
+        catch (Exception ignored) {}
+        finally
+        {
+            try
+            {
+                if(stream != null)
+                {
+                    stream.close();
+                }
+            } catch (Exception ignored) {}
+        }
+        return null;
+    }
+
 }
