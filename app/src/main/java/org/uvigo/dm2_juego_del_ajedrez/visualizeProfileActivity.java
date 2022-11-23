@@ -1,12 +1,20 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class visualizeProfileActivity extends AppCompatActivity {
@@ -27,7 +35,6 @@ public class visualizeProfileActivity extends AppCompatActivity {
 
         //PHOTO
         ImageView ivProfile= findViewById(R.id.iv_profileimage);
-        ivProfile.setColorFilter(R.drawable.blue);
 
         //NAME
         TextView tvName= findViewById(R.id.tv_name);
@@ -52,6 +59,5 @@ public class visualizeProfileActivity extends AppCompatActivity {
         super.onResume();
         //Recuperamos el perfil actual
         profile= (Profile)getIntent().getSerializableExtra("visualizeprofile");
-
     }
 }

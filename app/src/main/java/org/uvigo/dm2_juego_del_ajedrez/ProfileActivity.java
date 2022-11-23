@@ -66,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
         findViewById(R.id.buttonAddProfile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 addProfile();
             }
         });
@@ -139,6 +140,7 @@ public class ProfileActivity extends AppCompatActivity {
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 doEdit(position);
                 break;
+
             case(R.id.profileMenuDelete):
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 profiles.remove(position);
@@ -151,7 +153,6 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    //TODO AL AÑADIR UN USUARIO SE AÑADE UN 0, PREGUNTAR
     /** Añade un nuevo perfil*/
     private void addProfile() {
         profiles.add(new Profile());
@@ -165,9 +166,10 @@ public class ProfileActivity extends AppCompatActivity {
         activityResultLauncher.launch(subActividad);
     }
 
-    /** Añade al nuevo profile un nombre*/
+    /** Añade al nuevo profile un nombre, o modifica un nombre*/
     private void showEditNameDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         builder.setTitle("Profile Name");
         EditText editText = new EditText(this);
         editText.setText(profiles.get(position).getName());
@@ -184,22 +186,55 @@ public class ProfileActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void doEdit(int position) {
+    /** Modifica la photo de perfil*/
+    private void showEditPhotoDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Profile Name");
+
+        builder.setTitle("Profile Photo Path");
         EditText editText = new EditText(this);
-        editText.setText(profiles.get(position).getName());
+        editText.setText(profiles.get(position).getImagePath());
         builder.setView(editText);
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String profileName = editText.getText().toString();
-                profiles.get(position).setName(profileName);
+                String imageName = editText.getText().toString();
+                profiles.get(position).setImage(imageName);
                 profileArrayAdapter.notifyDataSetChanged();
             }
         });
-        builder.setNegativeButton("Cancel",null);
+        builder.setNegativeButton("Cancel", null);
         builder.create().show();
+    }
+
+    /** Permite editar el nombre y la imagen de un perfil*/
+    private void doEdit(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Do you want to modify the profile photo?");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //MODIFICA LA RUTA DE LA FOTO
+                showEditPhotoDialog(position);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.create().show();
+
+
+
+        builder.setTitle("Do you want to modify the profile name?");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //MODIFICA EL NOMBRE
+                showEditNameDialog(position);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.create().show();
+
     }
 
     /**Devuelve un perfil sobre el nombre*/

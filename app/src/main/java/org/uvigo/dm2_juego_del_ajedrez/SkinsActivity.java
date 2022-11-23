@@ -46,12 +46,14 @@ public class SkinsActivity extends AppCompatActivity {
 
         Log.e("SKINS: ",skins.toString());
         skinArrayAdapter = new SkinArrayAdapter(this, skins);
-        listView.setAdapter(skinArrayAdapter);
 
         loadSkins();
 
+        listView.setAdapter(skinArrayAdapter);
+
         Log.e("",skinArrayAdapter.toString());
         registerForContextMenu(listView);
+        Log.e("LISTVIEW: ",listView.toString());
     }
 
     @Override
@@ -128,6 +130,7 @@ public class SkinsActivity extends AppCompatActivity {
             }
 
             cfg.close();
+            skinArrayAdapter.notifyDataSetChanged();
             Log.e( "WARN", "LOADED DATA" );
         }
         catch (IOException exc)

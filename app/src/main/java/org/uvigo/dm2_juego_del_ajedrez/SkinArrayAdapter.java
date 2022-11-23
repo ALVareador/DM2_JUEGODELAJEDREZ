@@ -2,6 +2,7 @@ package org.uvigo.dm2_juego_del_ajedrez;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +53,10 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         }
 
         viewHolder = (ViewHolder) convertView.getTag();
-        Log.w("",getItem(position).getName());
+        Log.w("NOMBRES REPETIDOS",getItem(position).getName());
         viewHolder.textViewName.setText(getItem(position).getName());
+        viewHolder.iv_SkinPhoto.setVisibility(View.VISIBLE);
+        Log.w("LUEGO DE SETEAR: ",viewHolder.textViewName.getText().toString());
 
         //Si esta siendo usado se pone en gris
         if (getItem(position).getUsed()){
@@ -71,6 +74,7 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
             }
         });
 
+        notifyDataSetChanged();
         return convertView;
     }
 }
