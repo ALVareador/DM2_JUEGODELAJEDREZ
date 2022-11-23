@@ -119,14 +119,14 @@ public class AchievementActivity extends AppCompatActivity {
         int position;
         if (item.getItemId()==R.id.achievementMenuInfo) {
             position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
-            showTaskNameDialog(position);
+            showAchievementClueDialog(position);
         }else{
             return super.onContextItemSelected(item);
         }
         return true;
     }
 
-    private void showTaskNameDialog(int position) {
+    private void showAchievementClueDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Pista: ");
         TextView textView = new TextView(this);

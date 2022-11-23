@@ -62,8 +62,12 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
 
         viewHolder = (ViewHolder) convertView.getTag();
         viewHolder.textViewName.setText(getItem(position).getName());
-        viewHolder.iv_SkinPhoto.setVisibility(View.VISIBLE);
+
         Skin skin= getItem(position);
+
+        //Actualizamos la imageBitmap
+        skin.setImageBitmap(bitmapFromAssets(getContext(),skin));
+
         viewHolder.iv_SkinPhoto.setImageBitmap(bitmapFromAssets(getContext(),skin));
 
         //Si esta siendo usado se pone en gris

@@ -139,6 +139,7 @@ public class SkinsActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        Log.e("","CONTEXTMENUCREADO");
         if (v.getId() == R.id.listViewSkin){
             getMenuInflater().inflate(R.menu.skin_menu, menu);
         }
@@ -160,9 +161,9 @@ public class SkinsActivity extends AppCompatActivity {
 
     private void showSkinImageDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Skin: "+ skins.get(position).getName());
+        builder.setTitle("Skin Image: ");
         ImageView imageView = new ImageView(this);
-        imageView.setImageURI(Uri.parse(skins.get(position).getImagePath()));
+        imageView.setImageBitmap(skins.get(position).getImageBitmap());
 
         builder.setView(imageView);
         builder.setPositiveButton("CLOSE", null);

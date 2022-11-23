@@ -20,6 +20,7 @@ public class Skin implements Serializable {
     private String image;
     private String lightcolor;
     private String darkcolor;
+    private Bitmap imageBitmap;
     private boolean used;
 
     public Skin(String name, String image, String lightcolor, String darkcolor, boolean used){
@@ -34,23 +35,15 @@ public class Skin implements Serializable {
         return name;
     }
 
-    public Bitmap getBitMapImage(byte[] encodedImage){
-        try {
-            Bitmap bitmap= BitmapFactory.decodeByteArray(encodedImage, 0, encodedImage.length);
-            return bitmap;
-        } catch(Exception e) {
-            e.getMessage();
-            Log.w("","GETBITMAPIMAGE");
-            return null;
-        }
-    }
-
     /** Devuelve la imagen*/
     public Icon getImage(){
         return Icon.createWithFilePath(image);
     }
     public String getImagePath(){
         return image;
+    }
+    public Bitmap getImageBitmap(){
+        return imageBitmap;
     }
     public String getLightcolor(){
         return lightcolor;
@@ -66,6 +59,9 @@ public class Skin implements Serializable {
     }
     public void setUsed(boolean used){
         this.used=used;
+    }
+    public void setImageBitmap(Bitmap bitmap){
+        this.imageBitmap= bitmap;
     }
     //TODO metodo para crear colores accesibles desde imageview a partir de los strings de color
 
