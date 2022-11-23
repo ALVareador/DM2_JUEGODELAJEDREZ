@@ -53,10 +53,8 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         }
 
         viewHolder = (ViewHolder) convertView.getTag();
-        Log.w("NOMBRES REPETIDOS",getItem(position).getName());
         viewHolder.textViewName.setText(getItem(position).getName());
         viewHolder.iv_SkinPhoto.setVisibility(View.VISIBLE);
-        Log.w("LUEGO DE SETEAR: ",viewHolder.textViewName.getText().toString());
 
         //Si esta siendo usado se pone en gris
         if (getItem(position).getUsed()){

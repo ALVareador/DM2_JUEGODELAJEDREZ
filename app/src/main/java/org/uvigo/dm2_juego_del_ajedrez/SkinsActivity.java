@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class SkinsActivity extends AppCompatActivity {
 
-    private ArrayList<Skin> skins = new ArrayList<>();
+    private ArrayList<Skin> skins = new ArrayList<Skin>();
     private SkinArrayAdapter skinArrayAdapter;
 
     @Override
@@ -46,14 +46,11 @@ public class SkinsActivity extends AppCompatActivity {
 
         Log.e("SKINS: ",skins.toString());
         skinArrayAdapter = new SkinArrayAdapter(this, skins);
+        listView.setAdapter(skinArrayAdapter);
 
         loadSkins();
 
-        listView.setAdapter(skinArrayAdapter);
-
-        Log.e("",skinArrayAdapter.toString());
         registerForContextMenu(listView);
-        Log.e("LISTVIEW: ",listView.toString());
     }
 
     @Override
@@ -70,7 +67,7 @@ public class SkinsActivity extends AppCompatActivity {
         Log.e("WARN:","RESUME: "+skins.toString());
         super.onResume();
         if (skins.isEmpty()) {
-            loadSkins();
+            //loadSkins();
         }
     }
 
@@ -80,7 +77,7 @@ public class SkinsActivity extends AppCompatActivity {
         Log.e("WARN:", "START");
         if (skins.isEmpty()) {
             Log.e("","LOAD SKINS");
-            loadSkins();
+            //loadSkins();
         }
     }
 
@@ -107,10 +104,11 @@ public class SkinsActivity extends AppCompatActivity {
     }
 
     private void loadSkins(){
+        Log.e("",getFilesDir().toString());
+        skins.clear();
         try (FileInputStream f = this.openFileInput("skins_data.cfg")){
             BufferedReader cfg = new BufferedReader( new InputStreamReader( f ) );
 
-            skins.clear();
             String skinLine = cfg.readLine(); //Corresponde al nombre de la skin
             Log.e("",skinLine);
 
@@ -131,7 +129,7 @@ public class SkinsActivity extends AppCompatActivity {
 
             cfg.close();
             skinArrayAdapter.notifyDataSetChanged();
-            Log.e( "WARN", "LOADED DATA" );
+            Log.e( "WARN", "LOADED DATA: "+skins.toString() );
         }
         catch (IOException exc)
         {

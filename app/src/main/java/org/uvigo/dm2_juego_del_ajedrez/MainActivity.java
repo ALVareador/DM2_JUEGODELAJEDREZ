@@ -16,10 +16,10 @@ import android.view.View;
 import android.widget.Button;
 import android.view.*;
 
-public class MainActivity extends MyApp{
+public class MainActivity extends AppCompatActivity{
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
-    public Profile selectedProfile; //Perfil seleccionado en la aplicacion
+    public static Profile selectedProfile; //Perfil seleccionado en la aplicacion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,5 +130,11 @@ public class MainActivity extends MyApp{
                 break;
         }
         return toret;
+    }
+
+    /** ProfileActivity puede modificar el perfil general de la aplicacion sin intents*/
+    public static void setSelectedProfile(Profile profile){
+        selectedProfile=profile;
+        Log.e("PERFIL ACTUALIZADO EN MAIN ACTIVITY: ",selectedProfile.getName());
     }
 }

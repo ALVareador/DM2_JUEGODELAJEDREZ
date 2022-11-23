@@ -66,7 +66,6 @@ public class ProfileActivity extends AppCompatActivity {
         findViewById(R.id.buttonAddProfile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 addProfile();
             }
         });
@@ -160,10 +159,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void changeGlobalSelectedProfile(){
-        Intent subActividad = new Intent( ProfileActivity.this, MainActivity.class );
-        Log.e("","PERFIL SELECCIONADO: "+selectedProfile.getName());
-        subActividad.putExtra( "selectedprofile", selectedProfile);
-        activityResultLauncher.launch(subActividad);
+        Log.e("PERFIL ACTUALIZADO: ",selectedProfile.getName());
+        MainActivity.setSelectedProfile(selectedProfile);
     }
 
     /** Añade al nuevo profile un nombre, o modifica un nombre*/

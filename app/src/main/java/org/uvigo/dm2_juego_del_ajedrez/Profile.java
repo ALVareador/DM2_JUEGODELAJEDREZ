@@ -21,7 +21,7 @@ public class Profile implements Serializable {
 
     public Profile(){
         this.name="";
-        this.image="@drawable/blue";
+        this.image="@tools:sample/avatars[0]";
         this.used=false;
         this.points=0;
         this.achievementsList= new ArrayList<Achievement>();
@@ -55,7 +55,7 @@ public class Profile implements Serializable {
 
     public Profile(String name){
         this.name=name;
-        this.image="@drawable/blue";
+        this.image="@tools:sample/avatars[0]";
         this.skinBoardName="";
         this.used=false;
         this.points=0;
