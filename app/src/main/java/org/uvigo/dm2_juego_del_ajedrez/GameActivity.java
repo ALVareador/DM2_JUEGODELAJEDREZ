@@ -1,8 +1,10 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,10 +21,14 @@ class skinTablero{
 
 }
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     GridView tablero;
+    pieceAdapter pieceAdapter;
     Casilla [] casillas;
     skinTablero skin;
+    boolean casillaSeleccionada;
+    int posCasillaSeleccionada;
+
 
 
 
@@ -31,6 +37,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         //inicializar array casillas
+        casillaSeleccionada = false;
         casillas = new Casilla[64];
         //TODO cambiar para qu funcion con las skins
         skin = new skinTablero(R.drawable.white,R.drawable.blue);
@@ -91,23 +98,39 @@ public class GameActivity extends AppCompatActivity {
 
         //Coger el tablero
         tablero = (GridView) findViewById(R.id.tablero);
-        pieceAdapter pieceAdapter = new pieceAdapter(this,casillas);
+        pieceAdapter = new pieceAdapter(this,casillas);
         tablero.setAdapter(pieceAdapter);
-        //añadir borad_box al tablero
+        tablero.setOnItemClickListener(this);
+
     }
 
 
-}
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(casillaSeleccionada){
+            //Logica de mover la pieza
+            casillaSeleccionada = false;
+            //recuperamos casillas
+            Casilla anterior = (Casilla)parent.getItemAtPosition(posCasillaSeleccionada);
+            Casilla siguiente = (Casilla)parent.getItemAtPosition(position);
+            //Verificar que no se mueve una casilla vacia
+            //Verificar que no se mueve a la misma casilla
+            if(anterior.getDrawablePieza() != -1 && posCasillaSeleccionada != position){
+                //parte grafica------
+                //ponemos pieza de anterior en siguiente
+                siguiente.setDrawablePieza(anterior.getDrawablePieza());
+                //vaciamos anterior
+                anterior.setDrawablePieza(-1);
 
-/*
-        //clase abstracta que contieene el fondo y piza
-        ViewHolder viewHolder = new ViewHolder();
-        //coge un view de esee tipo
-        viewHolder.square = (ImageView) rowView.findViewById(R.id.square_background);
-        //cambia el fondo
-        viewHolder.square.setImageResource(chessboardIds[position]);
-        //coge un view de esee tipo
-        viewHolder.piece = (ImageView) rowView.findViewById(R.id.piece);
-        //cambia la piza
-        viewHolder.piece.setImageResource(lp[position].getRessource());
-**/
+                tablero.setAdapter(pieceAdapter);
+            }
+
+        }else{
+            //Logica de selección
+            //indicamos que hay casilla seleccionada
+            casillaSeleccionada = true;
+            //guardamos posición de la casilla seleccionada
+            posCasillaSeleccionada = position;
+        }
+    }
+}

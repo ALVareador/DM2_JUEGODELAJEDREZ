@@ -22,7 +22,7 @@ public class pieceAdapter  extends BaseAdapter{
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return casillas[i];
     }
 
     @Override
