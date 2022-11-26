@@ -17,4 +17,12 @@ public class Casilla {
         DrawableFondo = drawableFondo;
         DrawablePieza = -1;
     }
+
+    public int getDrawablePieza() {
+        return DrawablePieza;
+    }
+
+    public void setDrawablePieza(int drawablePieza) {
+        DrawablePieza = drawablePieza;
+    }
 }

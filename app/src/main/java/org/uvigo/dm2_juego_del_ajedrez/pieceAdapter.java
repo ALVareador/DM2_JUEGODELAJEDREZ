@@ -43,8 +43,8 @@ public class pieceAdapter  extends BaseAdapter{
         ImageView piece = (ImageView) view.findViewById(R.id.piece);
         background.setImageResource(casillas[i].DrawableFondo);
         //Todo: hacer que cambie la pieza
-        //if(casillas[x][y].DrawablePieza != -1)
-        //piece.setImageResource(R.drawable.white);
+        if(casillas[i].DrawablePieza != -1)
+        piece.setImageResource(casillas[i].DrawablePieza);
 
         return view;
 
