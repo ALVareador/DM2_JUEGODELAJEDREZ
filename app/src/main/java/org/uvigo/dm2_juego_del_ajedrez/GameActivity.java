@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         //Coger el tablero
-        tablero = findViewById(R.id.tablero);
+        tablero = (GridView) findViewById(R.id.tablero);
         //añadir borad_box al tablero
     }
 
