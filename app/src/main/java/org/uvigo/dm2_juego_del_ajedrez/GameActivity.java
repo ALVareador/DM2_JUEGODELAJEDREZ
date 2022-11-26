@@ -6,22 +6,13 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
- class ViewHolder  {
-    public ImageView fondo;
-    public ImageView pieza;
 
-    //TODO Hacer qu coja las views quee tocan
-    public ViewHolder (String fondo,String pieza){
-        //this.fondo = (ImageView) rowView.findViewById(fondo);
-        //this.pieza = pieza;
-    }
-}
 
 class skinTablero{
-     String claro;
-    String oscuro;
+    int claro;
+    int oscuro;
 
-    public skinTablero(String claro, String oscuro) {
+    public skinTablero(int claro, int oscuro) {
         this.claro = claro;
         this.oscuro = oscuro;
     }
@@ -30,15 +21,19 @@ class skinTablero{
 
 public class GameActivity extends AppCompatActivity {
     GridView tablero;
-    ViewHolder [][] casillas;
+    Casilla [][] casillas;
     skinTablero skin;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
         //inicializar array casillas
-        casillas = new ViewHolder [7][7];
+        casillas = new Casilla[8][8];
         //TODO cambiar para qu funcion con las skins
-        skin = new skinTablero("R.drawable.lightsquare","R.drawable.darksquare");
+        skin = new skinTablero(R.drawable.white,R.drawable.black);
 
         //rellenamos los fondos
 
@@ -49,16 +44,16 @@ public class GameActivity extends AppCompatActivity {
                 if(i%2==0){
                     //Si j par entonces casilla  blanco
                     if(j%2==0){
-                        casillas[i][j] = new ViewHolder (skin.claro,"");
+                        casillas[i][j] = new Casilla (skin.claro);
                     }else{//Entonces es negra
-                        casillas[i][j] = new ViewHolder (skin.oscuro,"");
+                        casillas[i][j] = new Casilla (skin.oscuro);
                     }
                 }else{
                     //Si j par entonces casilla  blanco
                     if(j%2!=0){
-                        casillas[i][j] = new ViewHolder (skin.claro,"");
+                        casillas[i][j] = new Casilla (skin.claro);
                     }else{//Entonces es negra
-                        casillas[i][j] = new ViewHolder (skin.oscuro,"");
+                        casillas[i][j] = new Casilla (skin.oscuro);
                     }
                 }
 
@@ -68,6 +63,8 @@ public class GameActivity extends AppCompatActivity {
 
         //Coger el tablero
         tablero = (GridView) findViewById(R.id.tablero);
+        pieceAdapter pieceAdapter = new pieceAdapter(this,casillas);
+        tablero.setAdapter(pieceAdapter);
         //añadir borad_box al tablero
     }
 

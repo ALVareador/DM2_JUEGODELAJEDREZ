@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity{
         newGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent subActividad = new Intent( MainActivity.this, NewGameActivity.class );
+                Intent subActividad = new Intent( MainActivity.this, GameActivity.class );
                 subActividad.putExtra( "selectedprofile", selectedProfile);
                 activityResultLauncher.launch(subActividad);
             }

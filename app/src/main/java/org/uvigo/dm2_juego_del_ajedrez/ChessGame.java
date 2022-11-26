@@ -23,7 +23,7 @@ public class ChessGame extends AppCompatActivity{
         this.player2=player2;
 
         this.posP1= posP1;
-        this.skin= player1.getSkinBoardName(); //La skin del tablero será la del jugador 1
+        //this.skin= player1.getSkinBoardName(); //La skin del tablero será la del jugador 1
         createBoard();
 
         this.piecesAtGame= new ArrayList<Piece>();

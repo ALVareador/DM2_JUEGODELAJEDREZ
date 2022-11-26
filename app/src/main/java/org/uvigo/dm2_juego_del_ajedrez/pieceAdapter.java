@@ -8,9 +8,16 @@ import android.widget.ImageView;
 
 public class pieceAdapter  extends BaseAdapter{
     Context context;
+    Casilla[][] casillas;
+
+    public pieceAdapter(Context context, Casilla[][] casillas) {
+        this.context = context;
+        this.casillas = casillas;
+    }
+
     @Override
     public int getCount() {
-        return 0;
+        return 64;
     }
 
     @Override
@@ -35,7 +42,9 @@ public class pieceAdapter  extends BaseAdapter{
         ImageView background = (ImageView) view.findViewById(R.id.boardbox_background);
         ImageView piece = (ImageView) view.findViewById(R.id.piece);
 
-        background.setImageResource(R.drawable.black);
+        background.setImageResource(casillas[i/8][i%8].DrawableFondo);
+        //Todo: hacer que cambie la pieza
+        if(casillas[i/7][i%8].DrawablePieza != -1)
         piece.setImageResource(R.drawable.white);
 
         return view;
