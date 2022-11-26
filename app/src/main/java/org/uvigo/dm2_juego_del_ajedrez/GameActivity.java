@@ -21,7 +21,7 @@ class skinTablero{
 
 public class GameActivity extends AppCompatActivity {
     GridView tablero;
-    Casilla [][] casillas;
+    Casilla [] casillas;
     skinTablero skin;
 
 
@@ -31,32 +31,34 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         //inicializar array casillas
-        casillas = new Casilla[8][8];
+        casillas = new Casilla[64];
         //TODO cambiar para qu funcion con las skins
         skin = new skinTablero(R.drawable.white,R.drawable.black);
 
         //rellenamos los fondos
 
-        for (int i = 0; i<7 ; i++){
-            //primera lineea empiea por blanco
-            for(int j = 0; j < 7 ; j++){
-                //Si i par entonces eempiezo een blanco
-                if(i%2==0){
-                    //Si j par entonces casilla  blanco
-                    if(j%2==0){
-                        casillas[i][j] = new Casilla (skin.claro);
-                    }else{//Entonces es negra
-                        casillas[i][j] = new Casilla (skin.oscuro);
-                    }
-                }else{
-                    //Si j par entonces casilla  blanco
-                    if(j%2!=0){
-                        casillas[i][j] = new Casilla (skin.claro);
-                    }else{//Entonces es negra
-                        casillas[i][j] = new Casilla (skin.oscuro);
-                    }
-                }
+        int numLinea;
+        int ptr = 0;
+        for(int fila = 0; fila <8 ; fila++){
+            numLinea = fila/8;
+            if(numLinea%2 == 0){
+                for(int columna = 0; columna <8 ; columna++){
+                    if(columna%2 == 0)
+                        casillas[ptr] = new Casilla (skin.claro);
+                    else
+                        casillas[ptr] = new Casilla (skin.oscuro);
 
+                    ptr++;
+                }
+            }else{
+                for(int columna = 0; columna <8 ; columna++){
+                    if(columna%2 != 0)
+                        casillas[ptr] = new Casilla (skin.claro);
+                    else
+                        casillas[ptr] = new Casilla (skin.oscuro);
+
+                    ptr++;
+                }
             }
         }
 

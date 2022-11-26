@@ -28,7 +28,7 @@
             android:id="@+id/tablero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#000000"
+            android:background="#0000"
             android:gravity="center_horizontal"
             android:numColumns="8" >
         </GridView>
