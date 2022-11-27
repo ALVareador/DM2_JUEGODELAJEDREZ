@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.LinkedList;
 
 
 class skinTablero{
@@ -28,6 +30,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     skinTablero skin;
     boolean casillaSeleccionada;
     int posCasillaSeleccionada;
+    LinkedList<String> movimientos;
 
 
 
@@ -36,6 +39,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        movimientos = new LinkedList<>();
         //inicializar array casillas
         casillaSeleccionada = false;
         casillas = new Casilla[64];
@@ -43,7 +47,20 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         skin = new skinTablero(R.drawable.white,R.drawable.blue);
 
         //rellenamos los fondos
+        popularCasillas();
 
+        //Piezas negras
+        colocarPiezas();
+
+        //Coger el tablero
+        tablero = (GridView) findViewById(R.id.tablero);
+        pieceAdapter = new pieceAdapter(this,casillas);
+        tablero.setAdapter(pieceAdapter);
+        tablero.setOnItemClickListener(this);
+
+    }
+
+    public void popularCasillas(){
         int numLinea;
         int ptr = 0;
         for(int fila = 0; fila <8 ; fila++){
@@ -68,8 +85,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             }
         }
+    }
 
-        //Piezas negras
+    public void colocarPiezas(){
         for(int i = 0; i <8;i++){
             casillas[8+i].setDrawablePieza(R.drawable.peon);
         }
@@ -94,14 +112,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         casillas[casillas.length-1-5].setDrawablePieza(R.drawable.alfil);
         casillas[casillas.length-1-3].setDrawablePieza(R.drawable.rey);
         casillas[casillas.length-1-4].setDrawablePieza(R.drawable.reyna);
-
-
-        //Coger el tablero
-        tablero = (GridView) findViewById(R.id.tablero);
-        pieceAdapter = new pieceAdapter(this,casillas);
-        tablero.setAdapter(pieceAdapter);
-        tablero.setOnItemClickListener(this);
-
     }
 
 
@@ -121,8 +131,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 siguiente.setDrawablePieza(anterior.getDrawablePieza());
                 //vaciamos anterior
                 anterior.setDrawablePieza(-1);
-
                 tablero.setAdapter(pieceAdapter);
+
+                //guardar movimiento---
+                String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
+                movimientos.add(movimiento);
+                TextView lastMove = (TextView) findViewById(R.id.textView5);
+                lastMove.setText(movimiento);
             }
 
         }else{
@@ -132,5 +147,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             //guardamos posición de la casilla seleccionada
             posCasillaSeleccionada = position;
         }
+    }
+
+    public String translateCasilla(int pos){
+        String[] letras = {"a","b","c","d","e","f","g","h"};
+        int filaArray = pos/8+1;
+        int fila = 9-filaArray;
+        int columna = pos - ((filaArray -1) * 8);
+        return letras[columna]+fila;
     }
 }
