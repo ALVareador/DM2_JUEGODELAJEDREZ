@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +26,9 @@ public class AchievementArrayAdapter  extends ArrayAdapter<Achievement> {
     }
 
     class ViewHolder {
+        ImageButton backButton;
+        LinearLayout backButtonLayoutSpace;
+        LinearLayout backButtonLayout;
         LinearLayout linearLayoutAchievement;
         TextView textViewName;
         ImageView im_blockedachievement;
@@ -39,6 +43,9 @@ public class AchievementArrayAdapter  extends ArrayAdapter<Achievement> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.achievement_listview, null);
 
+            viewHolder.backButton = convertView.findViewById(R.id.backButton);
+            viewHolder.backButtonLayoutSpace = convertView.findViewById(R.id.backButtonLayoutSpace);
+            viewHolder.backButtonLayout = convertView.findViewById(R.id.backButtonLayout);
             viewHolder.linearLayoutAchievement = convertView.findViewById(R.id.linearLayoutAchievement);
             viewHolder.textViewName =convertView.findViewById(R.id.textViewName);
             viewHolder.im_blockedachievement = convertView.findViewById(R.id.im_blockedachievement);

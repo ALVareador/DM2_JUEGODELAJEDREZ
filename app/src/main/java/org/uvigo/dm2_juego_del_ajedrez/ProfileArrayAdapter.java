@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,9 @@ public class ProfileArrayAdapter  extends ArrayAdapter<Profile> {
 
     class ViewHolder {
         LinearLayout linearLayoutProfile;
+        LinearLayout backButtonLayoutSpace;
+        LinearLayout backButtonLayout;
+        ImageButton backButton;
         TextView textViewName;
         TextView textViewPoints;
     }
@@ -35,6 +39,9 @@ public class ProfileArrayAdapter  extends ArrayAdapter<Profile> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.profile_listview, null);
 
+            viewHolder.backButton = convertView.findViewById(R.id.backButton);
+            viewHolder.backButtonLayoutSpace = convertView.findViewById(R.id.backButtonLayoutSpace);
+            viewHolder.backButtonLayout = convertView.findViewById(R.id.backButtonLayout);
             viewHolder.linearLayoutProfile = convertView.findViewById(R.id.linearLayoutProfile);
             viewHolder.textViewName =convertView.findViewById(R.id.textViewName);
             viewHolder.textViewPoints = convertView.findViewById(R.id.points_counter);

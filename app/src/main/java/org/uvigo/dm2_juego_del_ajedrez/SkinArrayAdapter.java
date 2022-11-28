@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -38,6 +39,9 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
 
     class ViewHolder {
         LinearLayout linearLayoutSkins;
+        LinearLayout backButtonLayoutSpace;
+        LinearLayout backButtonLayout;
+        ImageButton backButton;
         ImageView iv_SkinPhoto;
         TextView textViewName;
         CheckBox useSkin;
@@ -52,6 +56,9 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.skin_listview, null);
 
+            viewHolder.backButton = convertView.findViewById(R.id.backButton);
+            viewHolder.backButtonLayoutSpace = convertView.findViewById(R.id.backButtonLayoutSpace);
+            viewHolder.backButtonLayout = convertView.findViewById(R.id.backButtonLayout);
             viewHolder.linearLayoutSkins = convertView.findViewById(R.id.linearLayoutSkins);
             viewHolder.iv_SkinPhoto = convertView.findViewById(R.id.iv_SkinPhoto);
             viewHolder.textViewName =convertView.findViewById(R.id.textViewName);
