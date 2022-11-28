@@ -73,9 +73,9 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         Skin skin= getItem(position);
 
         //Actualizamos la imageBitmap
-        skin.setImageBitmap(bitmapFromAssets(getContext(),skin));
+        skin.setImageBitmap(BitmapUploader.bitmapFromAssets(getContext(),skin.getImagePath()));
 
-        viewHolder.iv_SkinPhoto.setImageBitmap(bitmapFromAssets(getContext(),skin));
+        viewHolder.iv_SkinPhoto.setImageBitmap(BitmapUploader.bitmapFromAssets(getContext(),skin.getImagePath()));
 
         //Si esta siendo usado se pone en gris
         if (getItem(position).getUsed()){
@@ -96,27 +96,4 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         notifyDataSetChanged();
         return convertView;
     }
-
-    public Bitmap bitmapFromAssets(Context context, Skin skin)
-    {
-        InputStream stream = null;
-        try
-        {
-            stream = context.getAssets().open(skin.getImagePath());
-            return BitmapFactory.decodeStream(stream);
-        }
-        catch (Exception ignored) {}
-        finally
-        {
-            try
-            {
-                if(stream != null)
-                {
-                    stream.close();
-                }
-            } catch (Exception ignored) {}
-        }
-        return null;
-    }
-
 }
