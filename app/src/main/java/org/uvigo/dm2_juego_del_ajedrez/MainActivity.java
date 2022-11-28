@@ -123,4 +123,6 @@ public class MainActivity extends AppCompatActivity{
         selectedProfile=profile;
         Log.e("PERFIL ACTUALIZADO EN MAIN ACTIVITY: ",selectedProfile.getName());
     }
+
+
 }

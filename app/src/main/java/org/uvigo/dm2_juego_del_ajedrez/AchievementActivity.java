@@ -13,6 +13,7 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class AchievementActivity extends AppCompatActivity {
 
     private ArrayList<Achievement> achievements = new ArrayList<>();
     private AchievementArrayAdapter achievementArrayAdapter;
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +39,19 @@ public class AchievementActivity extends AppCompatActivity {
         achievementArrayAdapter = new AchievementArrayAdapter(this, achievements,"VISIBLE");
         listView.setAdapter(achievementArrayAdapter);
 
+        backButton = this.findViewById(R.id.backButton);
+
         loadAchievements();
 
         registerForContextMenu(listView);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AchievementActivity.this.setResult( MainActivity.RESULT_CANCELED );
+                AchievementActivity.this.finish();
+            }
+        });
     }
 
     @Override

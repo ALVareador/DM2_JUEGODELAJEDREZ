@@ -13,6 +13,7 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class SkinsActivity extends AppCompatActivity {
 
     private ArrayList<Skin> skins = new ArrayList<Skin>();
     private SkinArrayAdapter skinArrayAdapter;
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class SkinsActivity extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.listViewSkin);
 
+        backButton = this.findViewById(R.id.backButton);
+
         Log.e("SKINS: ",skins.toString());
         skinArrayAdapter = new SkinArrayAdapter(this, skins);
         listView.setAdapter(skinArrayAdapter);
@@ -51,6 +55,14 @@ public class SkinsActivity extends AppCompatActivity {
         loadSkins();
 
         registerForContextMenu(listView);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SkinsActivity.this.setResult( MainActivity.RESULT_CANCELED );
+                SkinsActivity.this.finish();
+            }
+        });
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ public class visualizeProfileActivity extends AppCompatActivity {
     private AchievementArrayAdapter achievementArrayAdapter;
     private ProfileArrayAdapter friendsArrayAdapter;
     private Profile profile;
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,16 @@ public class visualizeProfileActivity extends AppCompatActivity {
         ListView listView_friends = findViewById(R.id.listview_visualizeProfile_friends);
         friendsArrayAdapter = new ProfileArrayAdapter(this, profile.getFriends());
         listView_friends.setAdapter(friendsArrayAdapter);
+
+        //BACK BUTTON
+        backButton = this.findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                visualizeProfileActivity.this.setResult( MainActivity.RESULT_CANCELED );
+                visualizeProfileActivity.this.finish();
+            }
+        });
     }
 
     public void onResume() {

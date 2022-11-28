@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +35,8 @@ public class ProfileActivity extends AppCompatActivity {
     private AchievementArrayAdapter achievementArrayAdapter;
 
     public Profile selectedProfile;
+
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,17 @@ public class ProfileActivity extends AppCompatActivity {
         };
 
         this.activityResultLauncher = this.registerForActivityResult(contract, callback);
+
+        backButton = this.findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeGlobalSelectedProfile();
+                ProfileActivity.this.setResult( MainActivity.RESULT_CANCELED );
+                ProfileActivity.this.finish();
+            }
+        });
     }
 
     @Override
