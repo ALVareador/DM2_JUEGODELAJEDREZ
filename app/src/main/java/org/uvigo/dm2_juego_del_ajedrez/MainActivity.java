@@ -28,13 +28,8 @@ public class MainActivity extends AppCompatActivity{
 
         Button newGame = findViewById(R.id.BotonNuevaPartida);
         Button continueGame = findViewById(R.id.botonContinuarPartida);
-        Button friends = findViewById(R.id.botonAmigos);
         Button credits = findViewById(R.id.botonCreditos);
         Button exit = findViewById(R.id.botonSalir);
-
-        View configuration = findViewById(R.id.MenuConfiguracion);
-
-        this.registerForContextMenu( configuration );
 
         newGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,15 +44,6 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-            }
-        });
-
-        friends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent subActividad = new Intent( MainActivity.this, FriendListActivity.class );
-                //subActividad.putExtra( "data", 1 );
-                activityResultLauncher.launch(subActividad);
             }
         });
 
