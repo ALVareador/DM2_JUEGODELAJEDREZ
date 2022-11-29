@@ -95,6 +95,8 @@ public class NewGameActivity extends AppCompatActivity {
                 subActividad.putExtra("mode",normalMode); //Enviamos el modo de juego
                 subActividad.putExtra("rival",selectedRival); //Enviamos al rival
                 subActividad.putExtra("turn",turn); //Enviamos el turno al juego
+
+
                 activityResultLauncher.launch(subActividad);
             }
         });

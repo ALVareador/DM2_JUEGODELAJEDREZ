@@ -15,6 +15,7 @@ import java.util.LinkedList;
 
 public class GameActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     Profile selectedProfile= MainActivity.getSelectedProfile();
+    Profile selectedRival;
     GridView tablero;
     PieceAdapter pieceAdapter;
     BoardBox[] casillas;
@@ -23,13 +24,23 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     int posCasillaSeleccionada;
     LinkedList<String> history;
 
-
-
+    boolean turn;
+    boolean normalMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        //Recuperamos el perfil actual
+        normalMode= (boolean)getIntent().getSerializableExtra("mode");
+        selectedRival= (Profile)getIntent().getSerializableExtra("rival");
+        turn= (boolean)getIntent().getSerializableExtra("turn");
+
+        Log.e("","MODO RECUPERADO (true->NORMAL/false->RANDOM): "+normalMode+
+                      "RIVAL RECUPERADO: "+selectedRival.getName()+
+                      "TURNO RECUPERADO (true->J1 blanca/false->J1 negra): "+turn);
+
         history = new LinkedList<>();
         //inicializar array casillas
         casillaSeleccionada = false;
