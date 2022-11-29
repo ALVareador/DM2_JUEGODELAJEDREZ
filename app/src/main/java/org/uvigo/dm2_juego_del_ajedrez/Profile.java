@@ -58,8 +58,8 @@ public class Profile implements Serializable {
     public Profile(String name){
         this.name=name;
         this.image="@tools:sample/avatars[0]";
-        this.skinBoardName="image808080#ffffff";
-        this.skinPieceName="1";
+        this.skinBoardName="image000000#ffffff";
+        this.skinPieceName="2";
         this.used=false;
         this.points=0;
         this.achievementsList= new ArrayList<Achievement>();

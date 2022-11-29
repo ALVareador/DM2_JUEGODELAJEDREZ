@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 import java.io.InputStream;
 
 public class BitmapUploader {
-    /**Convierte una skin en un asse*/
+    /**Convierte una skin en los assets EXAMPLE: context, imageffffff#000000.png*/
     public static Bitmap bitmapFromAssets(Context context, String imagePath)
     {
         InputStream stream = null;
