@@ -16,12 +16,12 @@ import java.util.LinkedList;
 public class GameActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     Profile selectedProfile= MainActivity.getSelectedProfile();
     GridView tablero;
-    pieceAdapter pieceAdapter;
+    PieceAdapter pieceAdapter;
     BoardBox[] casillas;
     SkinBoard skin;
     boolean casillaSeleccionada;
     int posCasillaSeleccionada;
-    LinkedList<String> movimientos;
+    LinkedList<String> history;
 
 
 
@@ -30,7 +30,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        movimientos = new LinkedList<>();
+        history = new LinkedList<>();
         //inicializar array casillas
         casillaSeleccionada = false;
         casillas = new BoardBox[64];
@@ -51,8 +51,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         colocarPiezas();
 
         //Coger el tablero
-        tablero = (GridView) findViewById(R.id.tablero);
-        pieceAdapter = new pieceAdapter(this,casillas);
+        tablero = (GridView) findViewById(R.id.board);
+        tablero.setHorizontalSpacing(0);
+        tablero.setVerticalSpacing(0);
+        pieceAdapter = new PieceAdapter(this,casillas);
         tablero.setAdapter(pieceAdapter);
         tablero.setOnItemClickListener(this);
 
@@ -164,7 +166,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 //guardar movimiento---
                 String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
-                movimientos.add(movimiento);
+                history.add(movimiento);
                 TextView lastMove = (TextView) findViewById(R.id.textView5);
                 lastMove.setText(movimiento);
             }

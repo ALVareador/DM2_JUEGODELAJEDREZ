@@ -6,11 +6,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-public class pieceAdapter  extends BaseAdapter{
+public class PieceAdapter extends BaseAdapter{
     Context context;
     BoardBox[] casillas;
 
-    public pieceAdapter(Context context, BoardBox[] casillas) {
+    public PieceAdapter(Context context, BoardBox[] casillas) {
         this.context = context;
         this.casillas = casillas;
     }

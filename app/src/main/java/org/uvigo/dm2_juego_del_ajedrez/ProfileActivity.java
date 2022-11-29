@@ -19,9 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -112,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity {
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
 
                 Profile infoProfile= getProfileByName(profiles.get(position).getName());
-                Intent subActividad = new Intent( ProfileActivity.this, visualizeProfileActivity.class );
+                Intent subActividad = new Intent( ProfileActivity.this, VisualizeProfileActivity.class );
                 subActividad.putExtra( "visualizeprofile", infoProfile);
                 activityResultLauncher.launch(subActividad);
                 break;

@@ -37,7 +37,7 @@
             android:name=".AchievementActivity"
             android:exported="false" />
         <activity
-            android:name=".visualizeProfileActivity"
+            android:name=".VisualizeProfileActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"

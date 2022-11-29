@@ -1,8 +1,5 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
-import android.content.Intent;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,14 +8,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class visualizeProfileActivity extends AppCompatActivity {
+public class VisualizeProfileActivity extends AppCompatActivity {
     private AchievementArrayAdapter achievementArrayAdapter;
     private ProfileArrayAdapter friendsArrayAdapter;
     private Profile profile;
@@ -61,8 +53,8 @@ public class visualizeProfileActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                visualizeProfileActivity.this.setResult( MainActivity.RESULT_CANCELED );
-                visualizeProfileActivity.this.finish();
+                VisualizeProfileActivity.this.setResult( MainActivity.RESULT_CANCELED );
+                VisualizeProfileActivity.this.finish();
             }
         });
     }

@@ -88,14 +88,14 @@
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/botonModoNormal"
+                            android:id="@+id/NormalButton"
                             android:layout_width="0.1dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
                             android:text="Modo Normal" />
 
                         <Button
-                            android:id="@+id/botonModoAleatorio"
+                            android:id="@+id/RandomButton"
                             android:layout_width="0.1dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
@@ -160,7 +160,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/botonEmpezar"
+                android:id="@+id/startButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
