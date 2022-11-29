@@ -8,9 +8,9 @@ import android.widget.ImageView;
 
 public class pieceAdapter  extends BaseAdapter{
     Context context;
-    Casilla[] casillas;
+    BoardBox[] casillas;
 
-    public pieceAdapter(Context context, Casilla[] casillas) {
+    public pieceAdapter(Context context, BoardBox[] casillas) {
         this.context = context;
         this.casillas = casillas;
     }
@@ -41,9 +41,15 @@ public class pieceAdapter  extends BaseAdapter{
 
         ImageView background = (ImageView) view.findViewById(R.id.boardbox_background);
         ImageView piece = (ImageView) view.findViewById(R.id.piece);
-        background.setImageResource(casillas[i].DrawableFondo);
-        if(casillas[i].DrawablePieza != -1)
-            piece.setImageResource(casillas[i].DrawablePieza);
+
+        //background.setImageResource(casillas[i].drawableFondo);
+        //background.setImageBitmap(BitmapUploader.bitmapFromAssets(context,casillas[i].getDrawableBackground()));
+        background.setBackgroundColor(casillas[i].getDrawableBackground());
+        //background.setColorFilter();
+
+        if(casillas[i].drawablePieza != "")
+            //piece.setImageResource(casillas[i].drawablePieza);
+            piece.setImageBitmap(BitmapUploader.bitmapFromAssets(context,casillas[i].getDrawablePiece()));
 
         return view;
 

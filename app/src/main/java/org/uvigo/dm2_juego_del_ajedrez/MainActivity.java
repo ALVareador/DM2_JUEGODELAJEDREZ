@@ -124,5 +124,9 @@ public class MainActivity extends AppCompatActivity{
         Log.e("PERFIL ACTUALIZADO EN MAIN ACTIVITY: ",selectedProfile.getName());
     }
 
+    public static Profile getSelectedProfile(){
+        return selectedProfile;
+    }
+
 
 }

@@ -28,6 +28,7 @@ public class Profile implements Serializable {
         this.friendsList= new ArrayList<Profile>();
 
         this.skinBoardName="";
+        this.skinPieceName="1";
 
         achievementsList.add(new Achievement("Hola","Quetal"));
         achievementsList.add(new Achievement("adios","Quetal"));
@@ -41,6 +42,7 @@ public class Profile implements Serializable {
         this.achievementsList= new ArrayList<>();
 
         this.skinBoardName="";
+        this.skinPieceName="1";
         //Rellena perfil desde archivo
         ArrayList<String> achievementsElement= new ArrayList<String>(Arrays.asList(achievementsList.replace("[","").replace("]","").split(", ")));
         //ArrayList<Profile> friendsElement= new ArrayList<String>(Arrays.asList(friendsList.replace("[","").replace("]","").split(", ")));
@@ -56,7 +58,8 @@ public class Profile implements Serializable {
     public Profile(String name){
         this.name=name;
         this.image="@tools:sample/avatars[0]";
-        this.skinBoardName="";
+        this.skinBoardName="image808080#ffffff";
+        this.skinPieceName="1";
         this.used=false;
         this.points=0;
         this.achievementsList= new ArrayList<Achievement>();
@@ -88,6 +91,10 @@ public class Profile implements Serializable {
     }
     public String getSkinBoardName(){
         return skinBoardName;
+    }
+
+    public String getSkinPieceName(){
+        return skinPieceName;
     }
 
     /** Añade sus puntos después de cada partida*/

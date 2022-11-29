@@ -1,6 +1,8 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -11,23 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.LinkedList;
 
-
-class skinTablero{
-    int claro;
-    int oscuro;
-
-    public skinTablero(int claro, int oscuro) {
-        this.claro = claro;
-        this.oscuro = oscuro;
-    }
-
-}
-
 public class GameActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+    Profile selectedProfile= MainActivity.getSelectedProfile();
     GridView tablero;
     pieceAdapter pieceAdapter;
-    Casilla [] casillas;
-    skinTablero skin;
+    BoardBox[] casillas;
+    SkinBoard skin;
     boolean casillaSeleccionada;
     int posCasillaSeleccionada;
     LinkedList<String> movimientos;
@@ -42,9 +33,16 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         movimientos = new LinkedList<>();
         //inicializar array casillas
         casillaSeleccionada = false;
-        casillas = new Casilla[64];
-        //TODO cambiar para qu funcion con las skins
-        skin = new skinTablero(R.drawable.white,R.drawable.blue);
+        casillas = new BoardBox[64];
+
+        //TODO cambiar para que funcion con las skins
+        //skin = new SkinBoard(R.drawable.white,R.drawable.blue);
+        String[] colors= selectedProfile.getSkinBoardName().replace("image","").split("#");
+        Log.e("CADENADECOLOR", selectedProfile.getSkinPieceName());
+        Log.e("COLOR1", colors[0]);
+        Log.e("COLOR2", colors[1]);
+        skin = new SkinBoard(Color.parseColor("#"+colors[0]),
+                             Color.parseColor("#"+colors[1]));
 
         //rellenamos los fondos
         popularCasillas();
@@ -68,18 +66,18 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             if(numLinea%2 == 0){
                 for(int columna = 0; columna <8 ; columna++){
                     if(columna%2 == 0)
-                        casillas[ptr] = new Casilla (skin.claro);
+                        casillas[ptr] = new BoardBox(skin.getLightColor());
                     else
-                        casillas[ptr] = new Casilla (skin.oscuro);
+                        casillas[ptr] = new BoardBox(skin.getDarkcolor());
 
                     ptr++;
                 }
             }else{
                 for(int columna = 0; columna <8 ; columna++){
                     if(columna%2 != 0)
-                        casillas[ptr] = new Casilla (skin.claro);
+                        casillas[ptr] = new BoardBox(skin.getLightColor());
                     else
-                        casillas[ptr] = new Casilla (skin.oscuro);
+                        casillas[ptr] = new BoardBox(skin.getDarkcolor());
 
                     ptr++;
                 }
@@ -88,30 +86,61 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void colocarPiezas(){
+        Log.e("SKINPIECENAME",selectedProfile.getSkinPieceName());
         for(int i = 0; i <8;i++){
-            casillas[8+i].setDrawablePieza(R.drawable.peon);
+            //casillas[8+i].setDrawablePieza(R.drawable.peon);
+            casillas[8+i].setDrawablePiece("blackpawn"+selectedProfile.getSkinPieceName()+".png");
         }
-        casillas[0].setDrawablePieza(R.drawable.torre);
-        casillas[7].setDrawablePieza(R.drawable.torre);
-        casillas[1].setDrawablePieza(R.drawable.caballo);
-        casillas[6].setDrawablePieza(R.drawable.caballo);
-        casillas[2].setDrawablePieza(R.drawable.alfil);
-        casillas[5].setDrawablePieza(R.drawable.alfil);
-        casillas[3].setDrawablePieza(R.drawable.reyna);
-        casillas[4].setDrawablePieza(R.drawable.rey);
+        //casillas[0].setDrawablePiece(R.drawable.torre);
+        casillas[0].setDrawablePiece("blacktower"+selectedProfile.getSkinPieceName()+".png");
+        //casillas[7].setDrawablePiece(R.drawable.torre);
+        casillas[7].setDrawablePiece("blacktower"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[1].setDrawablePiece(R.drawable.caballo);
+        casillas[1].setDrawablePiece("blackknight"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[6].setDrawablePiece(R.drawable.caballo);
+        casillas[6].setDrawablePiece("blackknight"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[2].setDrawablePiece(R.drawable.alfil);
+        casillas[2].setDrawablePiece("blackbishop"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[5].setDrawablePiece(R.drawable.alfil);
+        casillas[5].setDrawablePiece("blackbishop"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[3].setDrawablePiece(R.drawable.reyna);
+        casillas[3].setDrawablePiece("blackqueen"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[4].setDrawablePiece(R.drawable.rey);
+        casillas[4].setDrawablePiece("blackking"+selectedProfile.getSkinPieceName()+".png");
 
         //Piezas blancas
         for(int i = 0; i <8;i++){
-            casillas[casillas.length-9-i].setDrawablePieza(R.drawable.peon);
+            //casillas[casillas.length-9-i].setDrawablePieza(R.drawable.peon);
+            casillas[casillas.length-9-i].setDrawablePiece("whitepawn"+selectedProfile.getSkinPieceName()+".png");
         }
-        casillas[casillas.length-1-0].setDrawablePieza(R.drawable.torre);
-        casillas[casillas.length-1-7].setDrawablePieza(R.drawable.torre);
-        casillas[casillas.length-1-1].setDrawablePieza(R.drawable.caballo);
-        casillas[casillas.length-1-6].setDrawablePieza(R.drawable.caballo);
-        casillas[casillas.length-1-2].setDrawablePieza(R.drawable.alfil);
-        casillas[casillas.length-1-5].setDrawablePieza(R.drawable.alfil);
-        casillas[casillas.length-1-3].setDrawablePieza(R.drawable.rey);
-        casillas[casillas.length-1-4].setDrawablePieza(R.drawable.reyna);
+        //casillas[casillas.length-1-0].setDrawablePieza(R.drawable.torre);
+        casillas[casillas.length-1-0].setDrawablePiece("whitetower"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[casillas.length-1-7].setDrawablePieza(R.drawable.torre);
+        casillas[casillas.length-1-7].setDrawablePiece("whitetower"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[casillas.length-1-1].setDrawablePieza(R.drawable.caballo);
+        casillas[casillas.length-1-1].setDrawablePiece("whiteknight"+selectedProfile.getSkinPieceName()+".png");
+        //casillas[casillas.length-1-6].setDrawablePieza(R.drawable.caballo);
+        casillas[casillas.length-1-6].setDrawablePiece("whiteknight"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[casillas.length-1-2].setDrawablePieza(R.drawable.alfil);
+        casillas[casillas.length-1-2].setDrawablePiece("whitebishop"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[casillas.length-1-5].setDrawablePieza(R.drawable.alfil);
+        casillas[casillas.length-1-5].setDrawablePiece("whitebishop"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[casillas.length-1-3].setDrawablePieza(R.drawable.rey);
+        casillas[casillas.length-1-3].setDrawablePiece("whiteking"+selectedProfile.getSkinPieceName()+".png");
+
+        //casillas[casillas.length-1-4].setDrawablePieza(R.drawable.reyna);
+        casillas[casillas.length-1-4].setDrawablePiece("whitequeen"+selectedProfile.getSkinPieceName()+".png");
     }
 
 
@@ -121,16 +150,16 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             //Logica de mover la pieza
             casillaSeleccionada = false;
             //recuperamos casillas
-            Casilla anterior = (Casilla)parent.getItemAtPosition(posCasillaSeleccionada);
-            Casilla siguiente = (Casilla)parent.getItemAtPosition(position);
+            BoardBox anterior = (BoardBox)parent.getItemAtPosition(posCasillaSeleccionada);
+            BoardBox siguiente = (BoardBox)parent.getItemAtPosition(position);
             //Verificar que no se mueve una casilla vacia
             //Verificar que no se mueve a la misma casilla
-            if(anterior.getDrawablePieza() != -1 && posCasillaSeleccionada != position){
+            if(!anterior.getDrawablePiece().equals("") && posCasillaSeleccionada != position){
                 //parte grafica------
                 //ponemos pieza de anterior en siguiente
-                siguiente.setDrawablePieza(anterior.getDrawablePieza());
+                siguiente.setDrawablePiece(anterior.getDrawablePiece());
                 //vaciamos anterior
-                anterior.setDrawablePieza(-1);
+                anterior.setDrawablePiece("");
                 tablero.setAdapter(pieceAdapter);
 
                 //guardar movimiento---
