@@ -18,4 +18,6 @@
     <string name="friends">Amigos</string>
     <string name="añadir_amigo">Añadir amigo</string>
     <string name="eliminar_amigo">Eliminar amigo</string>
+    <string name="piece_skins">Piece Skins</string>
+    <string name="board_skins">Board Skins</string>
 </resources>

@@ -55,7 +55,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Perfil por defecto
         selectedProfile= defaultProfile;
-        selectedProfile.setUsed(true);
 
         ListView listView = findViewById(R.id.listViewProfile);
         profileArrayAdapter = new ProfileArrayAdapter(this, profiles);
@@ -137,12 +136,10 @@ public class ProfileActivity extends AppCompatActivity {
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 //CAMBIA EL PERFIL SELECCIONADO
                 Log.e("","Perfil usado: "+selectedProfile.toString());
-                selectedProfile.setUsed(false);
                 Log.e("","Perfil anterior: "+selectedProfile.toString());
                 Log.e("","Nombre: "+profiles.get(position).getName());
                 selectedProfile=getProfileByName(profiles.get(position).getName());
                 Log.e("","Perfil posterior: "+selectedProfile.toString());
-                selectedProfile.setUsed(true);
 
                 Toast.makeText( this, "Perfil seleccionado: "+selectedProfile.getName(), Toast.LENGTH_SHORT ).show();
                 changeGlobalSelectedProfile();

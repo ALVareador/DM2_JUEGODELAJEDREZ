@@ -96,6 +96,7 @@ public class NewGameActivity extends AppCompatActivity {
                 subActividad.putExtra("rival",selectedRival); //Enviamos al rival
                 subActividad.putExtra("turn",turn); //Enviamos el turno al juego
 
+                subActividad.putExtra("type",true);
 
                 activityResultLauncher.launch(subActividad);
             }

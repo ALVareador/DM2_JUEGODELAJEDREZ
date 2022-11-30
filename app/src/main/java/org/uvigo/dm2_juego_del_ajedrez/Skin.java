@@ -18,17 +18,10 @@ public class Skin implements Serializable {
 
     private String name;
     private String image;
-    private String lightcolor;
-    private String darkcolor;
-    private Bitmap imageBitmap;
-    private boolean used;
 
-    public Skin(String name, String image, String lightcolor, String darkcolor, boolean used){
+    public Skin(String name, String image){
         this.name=name;
         this.image=image;
-        this.lightcolor=lightcolor;
-        this.darkcolor=darkcolor;
-        this.used=used;
     }
 
     public String getName() {
@@ -42,31 +35,15 @@ public class Skin implements Serializable {
     public String getImagePath(){
         return image;
     }
-    public Bitmap getImageBitmap(){
-        return imageBitmap;
-    }
-    public String getLightcolor(){
-        return lightcolor;
-    }
-    public String getDarkcolor(){
-        return darkcolor;
-    }
-    public boolean getUsed(){
-        return used;
-    }
+
     public void setName(String name) {
         this.name = name;
     }
-    public void setUsed(boolean used){
-        this.used=used;
-    }
-    public void setImageBitmap(Bitmap bitmap){
-        this.imageBitmap= bitmap;
-    }
+
     //TODO metodo para crear colores accesibles desde imageview a partir de los strings de color
 
     @Override
     public String toString() {
-        return name+","+image+","+lightcolor+","+darkcolor+","+used;
+        return name+","+image;
     }
 }

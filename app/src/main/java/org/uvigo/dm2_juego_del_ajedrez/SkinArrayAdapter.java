@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,9 +32,10 @@ import java.util.Base64;
 import java.util.List;
 
 public class SkinArrayAdapter extends ArrayAdapter<Skin> {
-
-    public SkinArrayAdapter(@NonNull Context context, List<Skin> objects) {
+    boolean mode;
+    public SkinArrayAdapter(@NonNull Context context, List<Skin> objects, boolean mode) {
         super(context, 0, objects);
+        this.mode=mode;
         Log.w("SKINARRAYADAPTER",objects.toString());
     }
 
@@ -72,23 +74,23 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
 
         Skin skin= getItem(position);
 
-        //Actualizamos la imageBitmap
-        skin.setImageBitmap(BitmapUploader.bitmapFromAssets(getContext(),skin.getImagePath()));
 
-        viewHolder.iv_SkinPhoto.setImageBitmap(BitmapUploader.bitmapFromAssets(getContext(),skin.getImagePath()));
+        viewHolder.iv_SkinPhoto.setImageBitmap(BitmapUploader.bitmapFromAssets(getContext(),skin.getImagePath()+".png"));
 
-        //Si esta siendo usado se pone en gris
-        if (getItem(position).getUsed()){
-            viewHolder.textViewName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        }else{
-            viewHolder.textViewName.setPaintFlags(Paint.FAKE_BOLD_TEXT_FLAG);
-        }
 
-        viewHolder.useSkin.setChecked(getItem(position).getUsed());
         viewHolder.useSkin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                getItem(position).setUsed(isChecked);
+                Profile selectedProfile= MainActivity.getSelectedProfile();
+                String imagePath=getItem(position).getImagePath();
+
+                if(mode){
+                    selectedProfile.setSkinBoardName(imagePath);
+                    Toast.makeText(SkinArrayAdapter.super.getContext(), "El perfil "+selectedProfile.getName()+" ha cambiado su skin de tablero a "+imagePath, Toast.LENGTH_SHORT).show();
+                }else{
+                    selectedProfile.setSkinPieceName(imagePath);
+                    Toast.makeText(SkinArrayAdapter.super.getContext(), "El perfil "+selectedProfile.getName()+" ha cambiado su skin de pieza a "+imagePath, Toast.LENGTH_SHORT).show();
+                }
                 notifyDataSetChanged();
             }
         });

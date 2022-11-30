@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -27,24 +28,48 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     boolean turn;
     boolean normalMode;
 
+    boolean newGame; //TRUE si newGame/ FALSE si continueGame
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        //Recuperamos el perfil actual
+        //Recuperamos parametros de newActivity
+        newGame=(boolean)getIntent().getSerializableExtra("type");
+
         normalMode= (boolean)getIntent().getSerializableExtra("mode");
         selectedRival= (Profile)getIntent().getSerializableExtra("rival");
         turn= (boolean)getIntent().getSerializableExtra("turn");
 
         Log.e("","MODO RECUPERADO (true->NORMAL/false->RANDOM): "+normalMode+
-                      "RIVAL RECUPERADO: "+selectedRival.getName()+
-                      "TURNO RECUPERADO (true->J1 blanca/false->J1 negra): "+turn);
+                      "\nRIVAL RECUPERADO: "+selectedRival.getName()+
+                      "\nTURNO RECUPERADO (true->J1 blanca/false->J1 negra): "+turn);
 
         history = new LinkedList<>();
+
         //inicializar array casillas
         casillaSeleccionada = false;
         casillas = new BoardBox[64];
+
+        TextView wPlayer= findViewById(R.id.whitesPlayer);
+        TextView bPlayer= findViewById(R.id.blacksPlayer);
+
+        ImageView iv_wPlayer= findViewById(R.id.whitesPlayerImage);
+        ImageView iv_bPlayer= findViewById(R.id.blacksPlayerImage);
+
+        if(turn){
+            wPlayer.setText(selectedProfile.getName());
+            iv_wPlayer.setImageBitmap(BitmapUploader.bitmapFromAssets(getApplicationContext(),selectedProfile.getImagePath()));
+
+            bPlayer.setText(selectedRival.getName());
+            iv_bPlayer.setImageBitmap(BitmapUploader.bitmapFromAssets(getApplicationContext(),selectedRival.getImagePath()));
+        }else{
+            wPlayer.setText(selectedRival.getName());
+            iv_wPlayer.setImageBitmap(BitmapUploader.bitmapFromAssets(getApplicationContext(),selectedRival.getImagePath()));
+            bPlayer.setText(selectedProfile.getName());
+            iv_bPlayer.setImageBitmap(BitmapUploader.bitmapFromAssets(getApplicationContext(),selectedProfile.getImagePath()));
+        }
 
         //TODO cambiar para que funcion con las skins
         //skin = new SkinBoard(R.drawable.white,R.drawable.blue);
@@ -178,7 +203,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 //guardar movimiento---
                 String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
                 history.add(movimiento);
-                TextView lastMove = (TextView) findViewById(R.id.textView5);
+                TextView lastMove = (TextView) findViewById(R.id.historyLog);
                 lastMove.setText(movimiento);
             }
 

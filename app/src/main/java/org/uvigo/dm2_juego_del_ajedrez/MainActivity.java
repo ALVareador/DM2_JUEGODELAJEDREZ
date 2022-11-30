@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity{
                 toret = true;
                 break;
             case R.id.MenuConfiguracionSkins:
-                subActividad = new Intent( MainActivity.this, SkinsActivity.class );
+                subActividad = new Intent( MainActivity.this, SkinSelector.class );
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;

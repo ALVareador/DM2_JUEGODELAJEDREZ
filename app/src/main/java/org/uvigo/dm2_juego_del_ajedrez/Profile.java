@@ -11,38 +11,39 @@ public class Profile implements Serializable {
 
     private String name ="";
     private String image="";
-    private Boolean used = false;
+
+    private String skinBoardName, skinPieceName;
+
     private int points=0;
 
     private ArrayList<Achievement> achievementsList;
     private ArrayList<Profile> friendsList;
 
-    private String skinBoardName, skinPieceName;
-
     public Profile(){
         this.name="";
-        this.image="@tools:sample/avatars[0]";
-        this.used=false;
+        this.image="cath_image.png";
+        
         this.points=0;
-        this.achievementsList= new ArrayList<Achievement>();
-        this.friendsList= new ArrayList<Profile>();
 
         this.skinBoardName="";
         this.skinPieceName="1";
+
+        this.achievementsList= new ArrayList<Achievement>();
+        this.friendsList= new ArrayList<Profile>();
 
         achievementsList.add(new Achievement("Hola","Quetal"));
         achievementsList.add(new Achievement("adios","Quetal"));
     }
 
-    public Profile(String name, String image, String used, int points, String achievementsList, ArrayList<Profile> friendsList){
+    public Profile(String name, String image, String skinBoardName, String skinPieceName, int points, String achievementsList, ArrayList<Profile> friendsList){
         this.name=name;
         this.image= image;
-        this.used=Boolean.parseBoolean(used);
         this.points=points;
         this.achievementsList= new ArrayList<>();
 
         this.skinBoardName="";
         this.skinPieceName="1";
+
         //Rellena perfil desde archivo
         ArrayList<String> achievementsElement= new ArrayList<String>(Arrays.asList(achievementsList.replace("[","").replace("]","").split(", ")));
         //ArrayList<Profile> friendsElement= new ArrayList<String>(Arrays.asList(friendsList.replace("[","").replace("]","").split(", ")));
@@ -55,13 +56,16 @@ public class Profile implements Serializable {
         this.friendsList=friendsList;
     }
 
+    /** Constructor con valores por defecto*/
     public Profile(String name){
         this.name=name;
-        this.image="@tools:sample/avatars[0]";
+
+        this.image="cath_image.png";
         this.skinBoardName="image000000#ffffff";
-        this.skinPieceName="2";
-        this.used=false;
+        this.skinPieceName="1";
+
         this.points=0;
+
         this.achievementsList= new ArrayList<Achievement>();
         this.friendsList= new ArrayList<Profile>();
     }
@@ -78,9 +82,6 @@ public class Profile implements Serializable {
     }
     public String getImagePath(){
         return image;
-    }
-    public Boolean getUsed() {
-        return used;
     }
     /**Obtiene los logros obtenidos por el perfil*/
     public ArrayList<Achievement> getAchievements(){
@@ -101,15 +102,15 @@ public class Profile implements Serializable {
     public void setPoints(int points){
         this.points+=points;
     }
-    public void setUsed(Boolean done) {
-        this.used = done;
-    }
     public void setName(String name) {
         this.name = name;
     }
     public void setImage(String image){ this.image=image; }
     public void setSkinBoardName(String skinName){
         this.skinBoardName=skinName;
+    }
+    public void setSkinPieceName(String skinName){
+        this.skinPieceName=skinName;
     }
     public void addFriend(Profile friend){
         friendsList.add(friend);
@@ -124,6 +125,6 @@ public class Profile implements Serializable {
 
     @Override
     public String toString() {
-        return name+","+image+","+used+","+achievementsList.toString();
+        return name+","+image+","+skinBoardName+","+skinPieceName+","+achievementsList.toString()+","+friendsList.toString();
     }
 }

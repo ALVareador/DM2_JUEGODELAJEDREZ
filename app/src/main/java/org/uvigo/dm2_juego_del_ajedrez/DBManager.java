@@ -17,11 +17,14 @@ public class DBManager extends SQLiteOpenHelper {
 
     public static final String PROFILE_NAME = "_id";
     public static final String PROFILE_IMAGE = "image_url";
-    public static final String PROFILE_USED = "used";
-    public static final String PROFILE_POINTS = "points";
-    public static final String PROFILE_ACHIEVEMENTS = "achievements";
+
     public static final String PROFILE_BOARD_SKIN = "board_skin";
     public static final String PROFILE_PIECE_SKIN = "piece_skin";
+
+    public static final String PROFILE_POINTS = "points";
+    public static final String PROFILE_ACHIEVEMENTS = "achievements";
+    public static final String PROFILE_FRIENDS = "friends";
+
 
 
     public DBManager(Context context)
@@ -40,9 +43,11 @@ public class DBManager extends SQLiteOpenHelper {
             db.execSQL( "CREATE TABLE IF NOT EXISTS " + PROFILE_TABLE + "( "
                     + PROFILE_NAME + " string(255) PRIMARY KEY NOT NULL, "
                     + PROFILE_IMAGE + " string(255) , "
-                    + PROFILE_USED + " boolean , "
+                    + PROFILE_BOARD_SKIN + " string(255) , "
+                    + PROFILE_PIECE_SKIN + " string(255) , "
                     + PROFILE_POINTS + " int, "
-                    + PROFILE_ACHIEVEMENTS + " string NOT NULL)");
+                    + PROFILE_ACHIEVEMENTS + " string NOT NULL , "
+                    + PROFILE_FRIENDS + " string NOT NULL)");
             db.setTransactionSuccessful();
         }
         catch(SQLException exc)
@@ -80,7 +85,8 @@ public class DBManager extends SQLiteOpenHelper {
                 null, null, null, null, null, null );
     }
 
-    public boolean addProfile(String name, String image, String used, int points, String achievementsList)
+    /**Añade un perfil*/
+    public boolean addProfile(String name, String image, String boardSkin, String pieceSkin, int points, String achievementsList, String friendsList)
     {
         Log.e("WARN: ","INSERT PROFILE "+name);
         Cursor cursor = null;
@@ -90,9 +96,13 @@ public class DBManager extends SQLiteOpenHelper {
 
         values.put( PROFILE_NAME, name );
         values.put( PROFILE_IMAGE, image );
-        values.put( PROFILE_USED, used );
+
+        values.put( PROFILE_BOARD_SKIN, boardSkin);
+        values.put( PROFILE_PIECE_SKIN, pieceSkin );
+
         values.put( PROFILE_POINTS, points );
         values.put( PROFILE_ACHIEVEMENTS, achievementsList );
+        values.put( PROFILE_FRIENDS, friendsList );
 
         try {
             db.beginTransaction();
@@ -122,6 +132,7 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
+    /** Borra un perfil por nombre*/
     public boolean deleteProfile(String name)
     {
         boolean toret = false;

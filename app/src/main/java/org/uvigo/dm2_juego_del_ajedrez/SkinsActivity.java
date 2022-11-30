@@ -38,23 +38,53 @@ public class SkinsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_skins);
 
         //skins.clear();
-        //skins.add(new Skin("SKIN0","imageffffff#000000.png","#FFFFFF","#000000",false));
-        //skins.add(new Skin("SKIN1","image000000#ffffff.png","#000000","#FFFFFF",false));
+        //skins.add(new Skin("BOARDSKIN0","imageffffff#000000"));
+        //skins.add(new Skin("BOARDSKIN1","image000000#ffffff"));
+
+        //skins.add(new Skin("PIECESKIN1","1"));
+        //skins.add(new Skin("PIECESKIN2","2"));
 
         //saveSkins();
         //imageView.setColorFilter(color); Aplica un color
+
+        boolean mode=(boolean)getIntent().getSerializableExtra("mode");
+        Log.e("","MODE true->BOARD/false->PIECE"+mode);
 
         ListView listView = findViewById(R.id.listViewSkin);
 
         backButton = this.findViewById(R.id.backButton);
 
-        Log.e("SKINS: ",skins.toString());
-        skinArrayAdapter = new SkinArrayAdapter(this, skins);
-        listView.setAdapter(skinArrayAdapter);
+        Log.e("SKINS: ",skins.toString());//ALL SKINS
+
 
         loadSkins();
 
+        ArrayList<Skin> selectedSkins= new ArrayList<>();
+
+        //MODO BOARD
+        if(mode){
+            for(Skin skin: skins){
+                if(skin.getImagePath().contains("#")){
+                    selectedSkins.add(skin);
+                }
+            }
+        //MODO PIECE
+        }else{
+            for(Skin skin: skins){
+                if(!skin.getImagePath().contains("#")){
+                    selectedSkins.add(skin);
+                }
+            }
+        }
+
+        skinArrayAdapter = new SkinArrayAdapter(this, selectedSkins, mode);
+        listView.setAdapter(skinArrayAdapter);
+
+        skinArrayAdapter.notifyDataSetChanged();
+
         registerForContextMenu(listView);
+
+        backButton = this.findViewById(R.id.backButton);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +124,7 @@ public class SkinsActivity extends AppCompatActivity {
     }
 
     private void saveSkins(){
+
         try (FileOutputStream f = this.openFileOutput( "skins_data.cfg", Context.MODE_PRIVATE ) )
         {
             PrintStream cfg = new PrintStream( f );
@@ -102,9 +133,6 @@ public class SkinsActivity extends AppCompatActivity {
                 Log.e("SAVESKIN",skin.toString());
                 cfg.println( skin.getName() ); //SKIN NAME
                 cfg.println( skin.getImagePath()); //SKIN IMAGE
-                cfg.println( skin.getLightcolor() ); //SKIN COLOR 1
-                cfg.println( skin.getDarkcolor() ); //SKIN COLOR 2
-                cfg.println(skin.getUsed());
             }
 
             cfg.close();
@@ -122,25 +150,20 @@ public class SkinsActivity extends AppCompatActivity {
             BufferedReader cfg = new BufferedReader( new InputStreamReader( f ) );
 
             String skinLine = cfg.readLine(); //Corresponde al nombre de la skin
-            Log.e("",skinLine);
 
-            String cfg_image,cfg_lightcolor,cfg_darkcolor,cfg_used;
+            String cfg_image;
             while( skinLine != null ) {
 
                 //Recuperamos cada skin
                 cfg_image= cfg.readLine();
-                cfg_lightcolor= cfg.readLine();
-                cfg_darkcolor= cfg.readLine();
-                cfg_used= cfg.readLine();
 
-                Log.e("CHARGED_DATA",skinLine+" "+cfg_image+" "+cfg_lightcolor+" "+cfg_darkcolor+" "+cfg_used);
-                this.skins.add(new Skin(skinLine,cfg_image,cfg_lightcolor,cfg_darkcolor,Boolean.parseBoolean(cfg_used)));
+                Log.e("CHARGED_DATA",skinLine+" "+cfg_image);
+                this.skins.add(new Skin(skinLine,cfg_image));
 
                 skinLine = cfg.readLine();
             }
 
             cfg.close();
-            skinArrayAdapter.notifyDataSetChanged();
             Log.e( "WARN", "LOADED DATA: "+skins.toString() );
         }
         catch (IOException exc)
@@ -175,7 +198,7 @@ public class SkinsActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Skin Image: ");
         ImageView imageView = new ImageView(this);
-        imageView.setImageBitmap(skins.get(position).getImageBitmap());
+        imageView.setImageBitmap(BitmapUploader.bitmapFromAssets(getApplicationContext(),skins.get(position).getImagePath()));
 
         builder.setView(imageView);
         builder.setPositiveButton("CLOSE", null);
