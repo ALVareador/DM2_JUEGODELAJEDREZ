@@ -35,8 +35,6 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private DBManager dbManager;
-    
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     private ArrayList<Profile> profiles = new ArrayList<>();

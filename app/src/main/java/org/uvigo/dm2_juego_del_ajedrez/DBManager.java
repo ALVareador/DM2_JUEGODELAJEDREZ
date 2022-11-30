@@ -10,22 +10,17 @@ import android.util.Log;
 
 /** Maneja el acceso a la base de datos. */
 public class DBManager extends SQLiteOpenHelper {
-    public static final String DB_NAME = "Profiles";
-    public static final int DB_VERSION = 2;
+    public static final String DB_NAME = "Chess";
+    public static final int DB_VERSION = 1;
 
-    public static final String PROFILE_TABLE = "PROFILE";
+    public static final String HISTORY_TABLE = "HISTORY";
+    public static final String ACHIEVEMENTS_TABLE = "ACHIEVEMENTS";
 
-    public static final String PROFILE_NAME = "name";
-    public static final String PROFILE_IMAGE = "image_url";
+    public static final String HISTORY_NAME = "_id";
+    public static final String HISTORY_LOG = "log";
 
-    public static final String PROFILE_BOARD_SKIN = "board_skin";
-    public static final String PROFILE_PIECE_SKIN = "piece_skin";
-
-    public static final String PROFILE_POINTS = "points";
-    public static final String PROFILE_ACHIEVEMENTS = "achievements";
-    public static final String PROFILE_FRIENDS = "friends";
-
-
+    public static final String ACHIEVEMENT_NAME = "_id";
+    public static final String ACHIEVEMENTS_CLUE = "clue";
 
     public DBManager(Context context)
     {
@@ -38,16 +33,44 @@ public class DBManager extends SQLiteOpenHelper {
         Log.e(  "DBManager",
                 "CREATING DB " + DB_NAME + " v:" + DB_VERSION);
 
+        onCreateAchievements(db);
+        onCreateHistory(db);
+
+    }
+
+    public void onCreateAchievements(SQLiteDatabase db)
+    {
+        Log.e(  "DBManager",
+                "CREATING DB " + DB_NAME + " v:" + DB_VERSION);
+
         try {
             db.beginTransaction();
-            db.execSQL( "CREATE TABLE IF NOT EXISTS " + PROFILE_TABLE + "( "
-                    + PROFILE_NAME + " string(255) PRIMARY KEY NOT NULL, "
-                    + PROFILE_IMAGE + " string(255) , "
-                    + PROFILE_BOARD_SKIN + " string(255) , "
-                    + PROFILE_PIECE_SKIN + " string(255) , "
-                    + PROFILE_POINTS + " int, "
-                    + PROFILE_ACHIEVEMENTS + " string NOT NULL , "
-                    + PROFILE_FRIENDS + " string NOT NULL)");
+            db.execSQL( "CREATE TABLE IF NOT EXISTS " + ACHIEVEMENTS_TABLE + "( "
+                    + ACHIEVEMENT_NAME + " string(255) PRIMARY KEY NOT NULL, "
+                    + ACHIEVEMENTS_CLUE + " string NOT NULL)");
+            db.setTransactionSuccessful();
+
+
+        }
+        catch(SQLException exc)
+        {
+            Log.e( "DBManager.onCreate", exc.getMessage() );
+        }
+        finally {
+            db.endTransaction();
+        }
+    }
+
+    public void onCreateHistory(SQLiteDatabase db)
+    {
+        Log.e(  "DBManager",
+                "CREATING DB " + DB_NAME + " v:" + DB_VERSION);
+
+        try {
+            db.beginTransaction();
+            db.execSQL( "CREATE TABLE IF NOT EXISTS " + HISTORY_TABLE + "( "
+                    + HISTORY_NAME + " string(255) PRIMARY KEY NOT NULL, "
+                    + HISTORY_LOG + " string NOT NULL)");
             db.setTransactionSuccessful();
         }
         catch(SQLException exc)
@@ -62,13 +85,41 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        onUpgradeAchievements(db,oldVersion,newVersion);
+        onUpgradeHistory(db,oldVersion,newVersion);
+
+        this.onCreate( db );
+    }
+
+    public void onUpgradeAchievements(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
         Log.i(  "DBManager",
                 "DB: " + DB_NAME + ": v" + oldVersion + " -> v" + newVersion );
 
         try {
             db.beginTransaction();
-            db.execSQL( "DROP TABLE IF EXISTS " + PROFILE_TABLE );
+            db.execSQL( "DROP TABLE IF EXISTS " + ACHIEVEMENTS_TABLE );
             db.setTransactionSuccessful();
+
+        }  catch(SQLException exc) {
+            Log.e( "DBManager.onUpgrade", exc.getMessage() );
+        }
+        finally {
+            db.endTransaction();
+        }
+
+        this.onCreate( db );
+    }
+    public void onUpgradeHistory(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
+        Log.i(  "DBManager",
+                "DB: " + DB_NAME + ": v" + oldVersion + " -> v" + newVersion );
+
+        try {
+            db.beginTransaction();
+            db.execSQL( "DROP TABLE IF EXISTS " + HISTORY_TABLE );
+            db.setTransactionSuccessful();
+
         }  catch(SQLException exc) {
             Log.e( "DBManager.onUpgrade", exc.getMessage() );
         }
@@ -79,37 +130,30 @@ public class DBManager extends SQLiteOpenHelper {
         this.onCreate( db );
     }
 
-    public boolean addProfile(Profile profile){
-        Log.e("WARN: ","INSERT PROFILE "+profile.getName());
+    public boolean addHistory(History history){
+        Log.e("WARN: ","INSERT HISTORY "+history.getName());
         Cursor cursor = null;
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put( PROFILE_NAME, profile.getName() );
-        values.put( PROFILE_IMAGE, profile.getImagePath() );
-
-        values.put( PROFILE_BOARD_SKIN, profile.getSkinBoardName());
-        values.put( PROFILE_PIECE_SKIN, profile.getSkinPieceName() );
-
-        values.put( PROFILE_POINTS, profile.getPoints() );
-        values.put( PROFILE_ACHIEVEMENTS, profile.getAchievements().toString() );
-        values.put( PROFILE_FRIENDS, profile.getFriends().toString() );
+        values.put( HISTORY_NAME, history.getName() );
+        values.put( HISTORY_LOG, history.getPlainLog() );
 
         try {
             db.beginTransaction();
 
-            cursor = db.query( PROFILE_TABLE,
+            cursor = db.query( HISTORY_TABLE,
                     null,
-                    PROFILE_NAME + "=?",
-                    new String[]{ profile.getName() },
+                    HISTORY_NAME + "=?",
+                    new String[]{ history.getName() },
                     null, null, null, null );
 
             if ( cursor.getCount() > 0 ) {
-                db.update( PROFILE_TABLE,
-                        values, PROFILE_NAME + "= ?", new String[]{profile.getName() } );
+                db.update( HISTORY_TABLE,
+                        values, HISTORY_NAME + "= ?", new String[]{history.getName() } );
             } else {
-                db.insert( PROFILE_TABLE, null, values );
+                db.insert( HISTORY_TABLE, null, values );
             }
 
             db.setTransactionSuccessful();
@@ -129,39 +173,31 @@ public class DBManager extends SQLiteOpenHelper {
 
         return toret;
     }
-    /**Añade un perfil*/
-    public boolean addProfile(String name, String image, String boardSkin, String pieceSkin, int points, String achievementsList, String friendsList)
-    {
-        Log.e("WARN: ","INSERT PROFILE "+name);
+
+    public boolean addAchievement(Achievement achievement){
+        Log.e("WARN: ","INSERT ACHIVEMENT "+achievement.getName()+" "+achievement.getDescription());
         Cursor cursor = null;
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put( PROFILE_NAME, name );
-        values.put( PROFILE_IMAGE, image );
-
-        values.put( PROFILE_BOARD_SKIN, boardSkin);
-        values.put( PROFILE_PIECE_SKIN, pieceSkin );
-
-        values.put( PROFILE_POINTS, points );
-        values.put( PROFILE_ACHIEVEMENTS, achievementsList );
-        values.put( PROFILE_FRIENDS, friendsList );
+        values.put( ACHIEVEMENT_NAME, achievement.getName() );
+        values.put( ACHIEVEMENTS_CLUE, achievement.getDescription() );
 
         try {
             db.beginTransaction();
 
-            cursor = db.query( PROFILE_TABLE,
+            cursor = db.query( ACHIEVEMENTS_TABLE,
                     null,
-                    PROFILE_NAME + "=?",
-                    new String[]{ name },
+                    ACHIEVEMENT_NAME + "=?",
+                    new String[]{ achievement.getName() },
                     null, null, null, null );
 
             if ( cursor.getCount() > 0 ) {
-                db.update( PROFILE_TABLE,
-                        values, PROFILE_NAME + "= ?", new String[]{ name } );
+                db.update( ACHIEVEMENTS_TABLE,
+                        values, ACHIEVEMENT_NAME + "= ?", new String[]{achievement.getName() } );
             } else {
-                db.insert( PROFILE_TABLE, null, values );
+                db.insert( ACHIEVEMENTS_TABLE, null, values );
             }
 
             db.setTransactionSuccessful();
@@ -170,6 +206,50 @@ public class DBManager extends SQLiteOpenHelper {
         } catch(SQLException exc)
         {
             Log.e( "DBManager.add", exc.getMessage() );
+        }
+        finally {
+            if ( cursor != null ) {
+                cursor.close();
+            }
+
+            db.endTransaction();
+        }
+
+        return toret;
+    }
+
+    public boolean inicializeAchievement(Achievement achievement){
+
+        Cursor cursor = null;
+        boolean toret = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put( ACHIEVEMENT_NAME, achievement.getName() );
+        values.put( ACHIEVEMENTS_CLUE, achievement.getDescription() );
+
+        try {
+            db.beginTransaction();
+
+            cursor = db.query( ACHIEVEMENTS_TABLE,
+                    null,
+                    ACHIEVEMENT_NAME + "=?",
+                    new String[]{ achievement.getName() },
+                    null, null, null, null );
+
+            if ( cursor.getCount() > 0 ) {
+                db.update( ACHIEVEMENTS_TABLE,
+                        values, ACHIEVEMENT_NAME + "= ?", new String[]{achievement.getName() } );
+            } else {
+                db.insert( ACHIEVEMENTS_TABLE, null, values );
+            }
+
+            db.setTransactionSuccessful();
+            toret = true;
+
+        } catch(SQLException exc)
+        {
+            Log.e( "DBManager.inicialize", exc.getMessage() );
         }
         finally {
             if ( cursor != null ) {
@@ -183,14 +263,14 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
     /** Borra un perfil por nombre*/
-    public boolean deleteProfile(String name)
+    public boolean deleteHistory(String name)
     {
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
 
         try {
             db.beginTransaction();
-            db.delete( PROFILE_TABLE, PROFILE_NAME + "=?", new String[]{ name } );
+            db.delete( HISTORY_TABLE, HISTORY_NAME + "=?", new String[]{ name } );
             db.setTransactionSuccessful();
             toret = true;
         } catch(SQLException exc) {
@@ -202,7 +282,20 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
-    public Cursor getProfiles(){
-        return this.getReadableDatabase().query(PROFILE_TABLE,null,null,null,null,null,null);
+    public Cursor getHistories(){
+        return this.getReadableDatabase().query(HISTORY_TABLE,null,null,null,null,null,null);
+    }
+
+    public Cursor getAchievements(){
+        return this.getReadableDatabase().query(ACHIEVEMENTS_TABLE,null,null,null,null,null,null);
+    }
+
+    public String getDescription(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns= new String[]{ACHIEVEMENTS_CLUE};
+        Cursor cursor= db.query(ACHIEVEMENTS_TABLE,columns,ACHIEVEMENT_NAME+"=?",new String[]{name},null,null,null);;
+        if (!cursor.moveToFirst())
+            cursor.moveToFirst();
+        return cursor.getString(0);
     }
 }
