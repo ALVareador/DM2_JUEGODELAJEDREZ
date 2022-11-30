@@ -30,6 +30,8 @@ public class NewGameActivity extends AppCompatActivity {
     private Profile selectedProfile= MainActivity.getSelectedProfile();
     private Profile selectedRival= null;
 
+    private ImageButton backButton;
+
     boolean normalMode; //TRUE NORMAL; FALSE RANDOM
     boolean turn; //FALSE J1 juega con negras; TRUE J2 juega con negras
 
@@ -110,6 +112,16 @@ public class NewGameActivity extends AppCompatActivity {
         };
 
         this.activityResultLauncher = this.registerForActivityResult(contract, callback);
+
+        backButton = this.findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewGameActivity.this.setResult( MainActivity.RESULT_CANCELED );
+                NewGameActivity.this.finish();
+            }
+        });
     }
 
     @Override

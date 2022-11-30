@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    DBManager dbManager= new DBManager();
+    private DBManager dbManager;
     
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
@@ -52,6 +52,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        saveProfiles();
 
         //TODO Aqui hay que recuperar los posibles perfiles desde memoria
         //Profile defaultProfile = new Profile("default");
