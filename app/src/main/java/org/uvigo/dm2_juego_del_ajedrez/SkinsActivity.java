@@ -37,15 +37,7 @@ public class SkinsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skins);
 
-        //skins.clear();
-        //skins.add(new Skin("BOARDSKIN0","imageffffff#000000"));
-        //skins.add(new Skin("BOARDSKIN1","image000000#ffffff"));
-
-        //skins.add(new Skin("PIECESKIN1","1"));
-        //skins.add(new Skin("PIECESKIN2","2"));
-
-        //saveSkins();
-        //imageView.setColorFilter(color); Aplica un color
+        saveSkins();
 
         boolean mode=(boolean)getIntent().getSerializableExtra("mode");
         Log.e("","MODE true->BOARD/false->PIECE"+mode);
@@ -124,6 +116,38 @@ public class SkinsActivity extends AppCompatActivity {
     }
 
     private void saveSkins(){
+
+        //Si no hay skins en el momento de guardar es la primera ejecucion y tenemos que generar todas las skins
+        if(skins.isEmpty()){
+            //BOARD SKINS /TODO CREAR TODAS LAS IMAGENES QUE REPRESENTAN EL TABLERO PARA TODAS LAS SKINS
+            skins.add(new Skin("BOARDSKIN0","imageffffff#000000"));
+            skins.add(new Skin("BOARDSKIN1","image000000#ffffff"));
+
+            skins.add(new Skin("BOARDSKIN2","imageff4f7bf6#000000"));
+            skins.add(new Skin("BOARDSKIN3","imageffc70039#000000"));
+            skins.add(new Skin("BOARDSKIN4","imageff5aedf7#000000"));
+            skins.add(new Skin("BOARDSKIN5","imageff844930#000000"));
+            skins.add(new Skin("BOARDSKIN6","imagefff758f7#000000"));
+            skins.add(new Skin("BOARDSKIN7","imageffdaf7a6#000000"));
+
+            skins.add(new Skin("BOARDSKIN8" ,"imageffffff#ff4f7bf6"));
+            skins.add(new Skin("BOARDSKIN9" ,"imageffffff#ffc70039"));
+            skins.add(new Skin("BOARDSKIN10","imageffffff#ff5aedf7"));
+            skins.add(new Skin("BOARDSKIN11","imageffffff#ff844930"));
+            skins.add(new Skin("BOARDSKIN12","imageffffff#fff758f7"));
+            skins.add(new Skin("BOARDSKIN13","imageffffff#ffdaf7a6"));
+
+            skins.add(new Skin("BOARDSKIN14" ,"imageffc70039#ff4f7bf6"));
+            skins.add(new Skin("BOARDSKIN15","imageff844930#ff5aedf7"));
+            skins.add(new Skin("BOARDSKIN16","imageffdaf7a6#fff758f7"));
+
+            //PIECE SKINS
+            skins.add(new Skin("PIECESKIN1","1"));
+            skins.add(new Skin("PIECESKIN2","2"));
+            skins.add(new Skin("PIECESKIN3","3"));
+            skins.add(new Skin("PIECESKIN4","4"));
+            skins.add(new Skin("PIECESKIN5","5"));
+        }
 
         try (FileOutputStream f = this.openFileOutput( "skins_data.cfg", Context.MODE_PRIVATE ) )
         {
