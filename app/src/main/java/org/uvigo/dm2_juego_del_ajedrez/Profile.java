@@ -1,9 +1,10 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
 import android.graphics.drawable.Icon;
+import android.util.Log;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,25 +36,39 @@ public class Profile implements Serializable {
         achievementsList.add(new Achievement("adios","Quetal"));
     }
 
-    public Profile(String name, String image, String skinBoardName, String skinPieceName, int points, String achievementsList, ArrayList<Profile> friendsList){
+    public Profile(String name, String image, String skinBoardName, String skinPieceName, int points, String achievementsList, String friendsList){
         this.name=name;
         this.image= image;
         this.points=points;
-        this.achievementsList= new ArrayList<>();
 
-        this.skinBoardName="";
-        this.skinPieceName="1";
+        this.skinBoardName= skinBoardName;
+        this.skinPieceName= skinPieceName;
 
         //Rellena perfil desde archivo
+        Log.e("ACHIEVEMENTLIST: ",achievementsList);
         ArrayList<String> achievementsElement= new ArrayList<String>(Arrays.asList(achievementsList.replace("[","").replace("]","").split(", ")));
-        //ArrayList<Profile> friendsElement= new ArrayList<String>(Arrays.asList(friendsList.replace("[","").replace("]","").split(", ")));
+        ArrayList<String> friendsElement= new ArrayList<String>(Arrays.asList(friendsList.replace("[","").replace("]","").split(", ")));
 
-        for(String achievement: achievementsElement){
-            String[] achievementComponent= achievement.split(", ");
-            this.achievementsList.add(new Achievement(achievementComponent[0],achievementComponent[1])); //Linea con el achievement
+        this.achievementsList= new ArrayList<>();
+        this.friendsList= new ArrayList<>();
+
+        Log.e("",Arrays.asList(achievementsList).toString());
+        if(!achievementsList.equals("[]")){
+            for(String achievement: achievementsElement){
+                Log.e("#######################",achievement);
+                String[] achievementComponent= achievement.split(";");
+                this.achievementsList.add(new Achievement(achievementComponent[0],achievementComponent[1])); //Linea con el achievement
+            }
         }
 
-        this.friendsList=friendsList;
+        if(!friendsList.equals("[]")){
+            for(String friend: friendsElement){
+                String[] friendComponent= friend.split(";");
+                Log.e("",friendComponent[0]+friendComponent[1]+friendComponent[2]+friendComponent[3]+Integer.parseInt(friendComponent[4])+friendComponent[5]+friendComponent[6]);
+                this.friendsList.add(new Profile(friendComponent[0],friendComponent[1],friendComponent[2],friendComponent[3],Integer.parseInt(friendComponent[4]),friendComponent[5],friendComponent[6])); //Linea con el friend
+            }
+        }
+
     }
 
     /** Constructor con valores por defecto*/
@@ -125,6 +140,6 @@ public class Profile implements Serializable {
 
     @Override
     public String toString() {
-        return name+","+image+","+skinBoardName+","+skinPieceName+","+achievementsList.toString()+","+friendsList.toString();
+        return name+";"+image+";"+skinBoardName+";"+skinPieceName+";"+achievementsList.toString()+";"+friendsList.toString();
     }
 }

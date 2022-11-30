@@ -15,7 +15,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     public static final String PROFILE_TABLE = "PROFILE";
 
-    public static final String PROFILE_NAME = "_id";
+    public static final String PROFILE_NAME = "name";
     public static final String PROFILE_IMAGE = "image_url";
 
     public static final String PROFILE_BOARD_SKIN = "board_skin";
@@ -79,12 +79,56 @@ public class DBManager extends SQLiteOpenHelper {
         this.onCreate( db );
     }
 
-    public Cursor getProfiles()
-    {
-        return this.getReadableDatabase().query( PROFILE_TABLE,
-                null, null, null, null, null, null );
-    }
+    public boolean addProfile(Profile profile){
+        Log.e("WARN: ","INSERT PROFILE "+profile.getName());
+        Cursor cursor = null;
+        boolean toret = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
 
+        values.put( PROFILE_NAME, profile.getName() );
+        values.put( PROFILE_IMAGE, profile.getImagePath() );
+
+        values.put( PROFILE_BOARD_SKIN, profile.getSkinBoardName());
+        values.put( PROFILE_PIECE_SKIN, profile.getSkinPieceName() );
+
+        values.put( PROFILE_POINTS, profile.getPoints() );
+        values.put( PROFILE_ACHIEVEMENTS, profile.getAchievements().toString() );
+        values.put( PROFILE_FRIENDS, profile.getFriends().toString() );
+
+        try {
+            db.beginTransaction();
+
+            cursor = db.query( PROFILE_TABLE,
+                    null,
+                    PROFILE_NAME + "=?",
+                    new String[]{ profile.getName() },
+                    null, null, null, null );
+
+            if ( cursor.getCount() > 0 ) {
+                db.update( PROFILE_TABLE,
+                        values, PROFILE_NAME + "= ?", new String[]{profile.getName() } );
+            } else {
+                db.insert( PROFILE_TABLE, null, values );
+            }
+
+            db.setTransactionSuccessful();
+            toret = true;
+
+        } catch(SQLException exc)
+        {
+            Log.e( "DBManager.add", exc.getMessage() );
+        }
+        finally {
+            if ( cursor != null ) {
+                cursor.close();
+            }
+
+            db.endTransaction();
+        }
+
+        return toret;
+    }
     /**Añade un perfil*/
     public boolean addProfile(String name, String image, String boardSkin, String pieceSkin, int points, String achievementsList, String friendsList)
     {
@@ -106,10 +150,16 @@ public class DBManager extends SQLiteOpenHelper {
 
         try {
             db.beginTransaction();
-            cursor = db.query( PROFILE_TABLE, null, PROFILE_NAME + "=?", new String[]{ name }, null, null, null, null );
+
+            cursor = db.query( PROFILE_TABLE,
+                    null,
+                    PROFILE_NAME + "=?",
+                    new String[]{ name },
+                    null, null, null, null );
 
             if ( cursor.getCount() > 0 ) {
-                db.update( PROFILE_TABLE, values, PROFILE_NAME + "= ?", new String[]{ name } );
+                db.update( PROFILE_TABLE,
+                        values, PROFILE_NAME + "= ?", new String[]{ name } );
             } else {
                 db.insert( PROFILE_TABLE, null, values );
             }
@@ -150,5 +200,9 @@ public class DBManager extends SQLiteOpenHelper {
         }
 
         return toret;
+    }
+
+    public Cursor getProfiles(){
+        return this.getReadableDatabase().query(PROFILE_TABLE,null,null,null,null,null,null);
     }
 }

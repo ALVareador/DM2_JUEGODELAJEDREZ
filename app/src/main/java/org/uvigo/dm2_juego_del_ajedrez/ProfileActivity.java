@@ -9,8 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -20,11 +22,21 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    DBManager dbManager= new DBManager();
+    
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     private ArrayList<Profile> profiles = new ArrayList<>();
@@ -42,19 +54,33 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         //TODO Aqui hay que recuperar los posibles perfiles desde memoria
-        Profile defaultProfile = new Profile("default");
-        profiles.add(defaultProfile);
+        //Profile defaultProfile = new Profile("default");
+        //profiles.add(defaultProfile);
 
-        defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING"));
-        defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING MUCHO"));
-        defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING POCO"));
+        //saveProfiles();
+        //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING"));
+        //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING MUCHO"));
+        //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING POCO"));
 
-        defaultProfile.addFriend(new Profile("JUGADOR1"));
-        defaultProfile.addFriend(new Profile("JUGADOR2"));
-        defaultProfile.addFriend(new Profile("JUGADOR3"));
+        //defaultProfile.addFriend(new Profile("JUGADOR1"));
+        //defaultProfile.addFriend(new Profile("JUGADOR2"));
+        //defaultProfile.addFriend(new Profile("JUGADOR3"));
+
+        loadProfiles();
+
+        //El perfil seleccionado sera por defecto el default, sino cambiar
+        try{
+            selectedProfile= MainActivity.getSelectedProfile();
+            Toast.makeText(this, "El perfil seleccionado es "+selectedProfile.getName(), Toast.LENGTH_SHORT).show();
+        }catch(NullPointerException e){
+            selectedProfile=getProfileByName("default");
+            Toast.makeText(this, "El perfil seleccionado es default", Toast.LENGTH_SHORT).show();
+        }
+
+
 
         //Perfil por defecto
-        selectedProfile= defaultProfile;
+        //selectedProfile= defaultProfile;
 
         ListView listView = findViewById(R.id.listViewProfile);
         profileArrayAdapter = new ProfileArrayAdapter(this, profiles);
@@ -94,6 +120,23 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        saveProfiles();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveProfiles();
+    }
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         if (v.getId() == R.id.listViewProfile){
             getMenuInflater().inflate(R.menu.profile_menu, menu);
@@ -103,7 +146,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        int position;
+        int position= ( (AdapterView.AdapterContextMenuInfo) item.getMenuInfo() ).position;
+
         switch (item.getItemId()){
             case(R.id.profileMenuInfo):
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
@@ -135,9 +179,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Log.w("","WARN: PROFILEMENUUSE");
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 //CAMBIA EL PERFIL SELECCIONADO
-                Log.e("","Perfil usado: "+selectedProfile.toString());
-                Log.e("","Perfil anterior: "+selectedProfile.toString());
-                Log.e("","Nombre: "+profiles.get(position).getName());
+
                 selectedProfile=getProfileByName(profiles.get(position).getName());
                 Log.e("","Perfil posterior: "+selectedProfile.toString());
 
@@ -161,6 +203,75 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
+    private void saveProfiles(){
+
+        //Si no hay skins en el momento de guardar es la primera ejecucion y tenemos que generar todas las skins
+        if(profiles.isEmpty()){
+            Profile defaultProfile= new Profile("default");
+            profiles.add(defaultProfile);
+            selectedProfile= defaultProfile;
+        }
+
+        try (FileOutputStream f = this.openFileOutput( "profile_data.cfg", Context.MODE_PRIVATE ) )
+        {
+            PrintStream cfg = new PrintStream( f );
+
+            for(Profile profile: this.profiles) {
+                Log.e("SAVEPROFILE",profile.toString());
+                cfg.println( profile.getName() ); //PROFILE NAME
+                cfg.println( profile.getImagePath()); //PROFILE IMAGE
+                cfg.println( profile.getSkinBoardName()); //PROFILE BOARD
+                cfg.println( profile.getSkinPieceName()); //PROFILE PIECE
+                cfg.println( profile.getPoints()); //PROFILE POINTS
+                cfg.println( profile.getAchievements().toString()); //PROFILE ACHIEVEMENTS
+                cfg.println( profile.getFriends().toString()); //PROFILE FRIENDS
+            }
+
+            cfg.close();
+            Log.e( "WARN", "SAVED DATA" );
+        }
+        catch(IOException exc) {
+            Log.e( "WARN", "Error saving state" );
+        }
+    }
+
+    private void loadProfiles(){
+        Log.e("",getFilesDir().toString());
+        profiles.clear();
+        try (FileInputStream f = this.openFileInput("profile_data.cfg")){
+            BufferedReader cfg = new BufferedReader( new InputStreamReader( f ) );
+
+            String profileLine = cfg.readLine(); //Corresponde al nombre del perfil
+
+            String cfg_image, cfg_board, cfg_piece, cfg_point, cfg_achievements, cfg_friends;
+            while( profileLine != null ) {
+
+                //Recuperamos cada perfil
+                cfg_image= cfg.readLine();
+
+                cfg_board= cfg.readLine();
+                cfg_piece= cfg.readLine();
+
+                cfg_point= cfg.readLine();
+
+                cfg_achievements= cfg.readLine();
+                cfg_friends= cfg.readLine();
+
+                Log.e("CHARGED_DATA",profileLine+" "+cfg_image);
+                this.profiles.add(new Profile(profileLine,cfg_image, cfg_board, cfg_piece, Integer.parseInt(cfg_point), cfg_achievements, cfg_friends));
+
+                profileLine = cfg.readLine();
+            }
+
+            cfg.close();
+            Log.e( "WARN", "LOADED DATA: "+profiles.toString() );
+        }
+        catch (IOException exc)
+        {
+            Log.e( "WARN", "Error loading state" );
+        }
+    }
+
     /** Añade un nuevo perfil*/
     private void addProfile() {
         profiles.add(new Profile());
@@ -168,8 +279,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void changeGlobalSelectedProfile(){
-        Log.e("PERFIL ACTUALIZADO: ",selectedProfile.getName());
-        MainActivity.setSelectedProfile(selectedProfile);
+        try{
+            Log.e("PERFIL ACTUALIZADO: ",selectedProfile.getName());
+            MainActivity.setSelectedProfile(selectedProfile);
+        }catch(NullPointerException e){
+            Toast.makeText(this, "No se ha seleccionado ningun perfil, por favor selecciona uno", Toast.LENGTH_LONG).show();
+        }
     }
 
     /** Añade al nuevo profile un nombre, o modifica un nombre*/

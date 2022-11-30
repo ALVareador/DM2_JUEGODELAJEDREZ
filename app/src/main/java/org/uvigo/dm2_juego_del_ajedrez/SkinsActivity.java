@@ -37,7 +37,7 @@ public class SkinsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skins);
 
-        saveSkins();
+        //saveSkins();
 
         boolean mode=(boolean)getIntent().getSerializableExtra("mode");
         Log.e("","MODE true->BOARD/false->PIECE"+mode);

@@ -21,6 +21,6 @@ public class Achievement implements Serializable {
 
     @Override
     public String toString() {
-        return name+","+description;
+        return name+";"+description;
     }
 }
