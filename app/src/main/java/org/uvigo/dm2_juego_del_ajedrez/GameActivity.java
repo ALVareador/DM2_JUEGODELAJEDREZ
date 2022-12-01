@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -193,14 +194,14 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //WHITES
 
-        Piece wp1= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-9);
-        Piece wp2= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-8);
-        Piece wp3= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-7);
-        Piece wp4= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-6);
-        Piece wp5= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-5);
-        Piece wp6= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-4);
-        Piece wp7= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-3);
-        Piece wp8= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-2);
+        Piece wp1= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-9-8);
+        Piece wp2= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-8-8);
+        Piece wp3= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-7-8);
+        Piece wp4= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-6-8);
+        Piece wp5= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-5-8);
+        Piece wp6= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-4-8);
+        Piece wp7= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-3-8);
+        Piece wp8= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-8);
 
         Piece wt1= new Piece("TOWER",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-0);
         Piece wt2= new Piece("TOWER",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-7);
@@ -234,6 +235,20 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         casillas[wK.getPos()].setPiece(wK);
     }
 
+    /*
+    *
+        "Las reglas del juego","Gana una partida") ---
+        "Un dia Oscuro","Come las dos torres"
+        "Francotirador en posicion","Coloca un alfil en una esquina del tablero"
+        "Al final si que era mortal","Come una reina"
+        "Jugando a ser dios","Activa un aspecto de pieza"
+        "Mente fria","Haz que un jugador abandone una partida contra ti"
+        "100 metros, vaya","Consigue transformar un peon en reina en una partida" ---
+        "Zona hostil","Lleva un peón a la ultima fila del tablero"
+        "Insaciable","Intenta comerte tu propia pieza"
+        "Todo es mas bonito con color","Activa un aspecto del tablero" ---
+        "Todo es mas divertido con amigos","Añade un amigo" ---
+        * */
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -247,6 +262,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             //Verificar que no se mueve una casilla vacia
             //Verificar que no se mueve a la misma casilla
 
+
             //Si hay una pieza
             if(!anterior.getDrawablePiece().equals("") && posCasillaSeleccionada != position){
                     //Si hay una pieza, comprueba si es del mismo color
@@ -255,6 +271,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                         if(anterior.getPiece().getColor()==siguiente.getPiece().getColor()){
                             Log.w("","NO SE PUEDE MOVER A UNA CASILLA CON UNA FIGURA DEL MISMO COLOR");
                         }else{
+                            //añadimos puntos por comer pieza
+                            addPointsEaten(anterior.getPiece());
                             //parte grafica------
                             //ponemos pieza de anterior en siguiente
                             siguiente.setPiece(anterior.getPiece());
@@ -263,10 +281,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                             tablero.setAdapter(pieceAdapter);
 
                             //guardar movimiento---
-                            String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
-                            history.addMove(movimiento);
-                            TextView lastMove = (TextView) findViewById(R.id.historyLog);
-                            lastMove.setText(movimiento);
+
 
                             if(siguiente.getPiece().getName().contains("KING")) {
                                 //Si es un rey
@@ -282,12 +297,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                         anterior.setPiece(emptyPiece);
                         tablero.setAdapter(pieceAdapter);
 
-                        //guardar movimiento---
-                        String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
-                        history.addMove(movimiento);
-                        TextView lastMove = (TextView) findViewById(R.id.historyLog);
-                        lastMove.setText(movimiento);
                     }
+
+                //guardar movimiento---
+                String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
+                history.addMove(movimiento);
+                TextView lastMove = (TextView) findViewById(R.id.historyLog);
+                lastMove.setText(movimiento);
             }
 
         }else{
@@ -297,6 +313,32 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             //guardamos posición de la casilla seleccionada
             posCasillaSeleccionada = position;
         }
+    }
+
+    private void addPointsEaten(Piece piece) {
+        Profile eater;
+
+        //comprobamos quien comio y se añaden los puntos al jugador correspondiente
+        if(piece.getColor() == 'W'){
+            selectedProfile.setPoints(100);
+            eater = selectedProfile;
+        }
+        else{
+            selectedRival.setPoints(100);
+            eater = selectedRival;
+        }
+
+        ArrayList<Achievement> achivementsPlayer = eater.getAchievements();
+
+        //añadimos el logro de voraz si no lo tiene
+        for (Achievement a : achivementsPlayer){
+            if(!a.getName().equals("voraz"))
+                eater.getAchievements().set(achivementsPlayer.size(),new Achievement("Voraz","Come una pieza"));
+        }
+
+        TextView lastMove = (TextView) findViewById(R.id.historyLog);
+        lastMove.setText( "" + (Integer.parseInt(eater.getPoints())));
+
     }
 
     public String translateCasilla(int pos){

@@ -89,7 +89,7 @@ public class AchievementActivity extends AppCompatActivity {
         dbManager.addAchievement(new Achievement("Mente fria","Haz que un jugador abandone una partida contra ti"));
         dbManager.addAchievement(new Achievement("100 metros, vaya","Consigue transformar un peon en reina en una partida"));
         dbManager.addAchievement(new Achievement("Zona hostil","Lleva un peón a la ultima fila del tablero"));
-        dbManager.addAchievement(new Achievement("Cuestion de gustos","Intenta mover la pieza de otro jugador"));
+        dbManager.addAchievement(new Achievement("Insaciable","Intenta comerte tu propia pieza"));
         dbManager.addAchievement(new Achievement("Todo es mas bonito con color","Activa un aspecto del tablero"));
         dbManager.addAchievement(new Achievement("Todo es mas divertido con amigos","Añade un amigo"));
 

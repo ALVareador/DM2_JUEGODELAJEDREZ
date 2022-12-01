@@ -53,10 +53,10 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         //TODO Aqui hay que recuperar los posibles perfiles desde memoria
-        //Profile defaultProfile = new Profile("default");
-        //profiles.add(defaultProfile);
+        Profile defaultProfile = new Profile("default");
+        profiles.add(defaultProfile);
 
-        //saveProfiles();
+        saveProfiles();
         //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING"));
         //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING MUCHO"));
         //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING POCO"));

@@ -88,9 +88,7 @@ public class Profile implements Serializable {
     public String getName() {
         return name;
     }
-    public String getPoints(){
-        return String.valueOf(points);
-    }
+    public String getPoints(){ return String.valueOf(points); }
     /** Devuelve la imagen*/
     public Icon getImage(){
         return Icon.createWithFilePath(image);
