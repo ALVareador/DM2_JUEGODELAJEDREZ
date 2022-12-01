@@ -49,7 +49,7 @@ public class PieceAdapter extends BaseAdapter{
 
         if(casillas[i].drawablePieza != "")
             //piece.setImageResource(casillas[i].drawablePieza);
-            piece.setImageBitmap(BitmapUploader.bitmapFromAssets(context,casillas[i].getDrawablePiece()));
+            piece.setImageBitmap(Uploader.bitmapFromAssets(context,casillas[i].getDrawablePiece()));
 
         return view;
 

@@ -19,14 +19,17 @@ public class History {
         return name;
     }
 
+    /**Devuelve la lista de movimientos*/
     public ArrayList<String> getLog(){
         return log;
     }
 
+    /**String con los movimientos en un string*/
     public String getPlainLog(){
         return log.toString();
     }
 
+    /**Añade un movimiento al historial*/
     public void addMove(String move) {
         log.add(move);
     }

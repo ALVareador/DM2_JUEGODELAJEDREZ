@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 
 public class GameActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
@@ -23,7 +24,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     SkinBoard skin;
     boolean casillaSeleccionada;
     int posCasillaSeleccionada;
-    LinkedList<String> history;
+    History history;
 
     boolean turn;
     boolean normalMode;
@@ -46,7 +47,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                       "\nRIVAL RECUPERADO: "+selectedRival.getName()+
                       "\nTURNO RECUPERADO (true->J1 blanca/false->J1 negra): "+turn);
 
-        history = new LinkedList<>();
+        //Creamos nuevo historial
+        history = new History("GAME "+selectedProfile.getName()+" VS "+selectedRival.getName()+" "+Calendar.getInstance().getTime());
 
         //inicializar array casillas
         casillaSeleccionada = false;
@@ -60,15 +62,15 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         if(turn){
             wPlayer.setText(selectedProfile.getName());
-            iv_wPlayer.setImageBitmap(BitmapUploader.bitmapFromAssets(getApplicationContext(),selectedProfile.getImagePath()));
+            iv_wPlayer.setImageBitmap(Uploader.bitmapFromAssets(getApplicationContext(),selectedProfile.getImagePath()));
 
             bPlayer.setText(selectedRival.getName());
-            iv_bPlayer.setImageBitmap(BitmapUploader.bitmapFromAssets(getApplicationContext(),selectedRival.getImagePath()));
+            iv_bPlayer.setImageBitmap(Uploader.bitmapFromAssets(getApplicationContext(),selectedRival.getImagePath()));
         }else{
             wPlayer.setText(selectedRival.getName());
-            iv_wPlayer.setImageBitmap(BitmapUploader.bitmapFromAssets(getApplicationContext(),selectedRival.getImagePath()));
+            iv_wPlayer.setImageBitmap(Uploader.bitmapFromAssets(getApplicationContext(),selectedRival.getImagePath()));
             bPlayer.setText(selectedProfile.getName());
-            iv_bPlayer.setImageBitmap(BitmapUploader.bitmapFromAssets(getApplicationContext(),selectedProfile.getImagePath()));
+            iv_bPlayer.setImageBitmap(Uploader.bitmapFromAssets(getApplicationContext(),selectedProfile.getImagePath()));
         }
 
         //TODO cambiar para que funcion con las skins
@@ -94,6 +96,20 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         tablero.setAdapter(pieceAdapter);
         tablero.setOnItemClickListener(this);
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.w("DB ACTUALIZADA","");
+        Uploader.updateHistory(getApplicationContext(),history);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.w("DB ACTUALIZADA","");
+        Uploader.updateHistory(getApplicationContext(),history);
     }
 
     public void popularCasillas(){
@@ -202,7 +218,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 //guardar movimiento---
                 String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
-                history.add(movimiento);
+                history.addMove(movimiento);
                 TextView lastMove = (TextView) findViewById(R.id.historyLog);
                 lastMove.setText(movimiento);
             }

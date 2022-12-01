@@ -222,7 +222,7 @@ public class SkinsActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Skin Image: ");
         ImageView imageView = new ImageView(this);
-        imageView.setImageBitmap(BitmapUploader.bitmapFromAssets(getApplicationContext(),skins.get(position).getImagePath()));
+        imageView.setImageBitmap(Uploader.bitmapFromAssets(getApplicationContext(),skins.get(position).getImagePath()));
 
         builder.setView(imageView);
         builder.setPositiveButton("CLOSE", null);

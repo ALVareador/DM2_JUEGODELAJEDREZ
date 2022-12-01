@@ -75,7 +75,7 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         Skin skin= getItem(position);
 
 
-        viewHolder.iv_SkinPhoto.setImageBitmap(BitmapUploader.bitmapFromAssets(getContext(),skin.getImagePath()+".png"));
+        viewHolder.iv_SkinPhoto.setImageBitmap(Uploader.bitmapFromAssets(getContext(),skin.getImagePath()+".png"));
 
 
         viewHolder.useSkin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

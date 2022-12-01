@@ -45,13 +45,12 @@ public class ProfileActivity extends AppCompatActivity {
     public Profile selectedProfile;
 
     private ImageButton backButton;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-        saveProfiles();
 
         //TODO Aqui hay que recuperar los posibles perfiles desde memoria
         //Profile defaultProfile = new Profile("default");
@@ -66,6 +65,8 @@ public class ProfileActivity extends AppCompatActivity {
         //defaultProfile.addFriend(new Profile("JUGADOR2"));
         //defaultProfile.addFriend(new Profile("JUGADOR3"));
 
+        listView = findViewById(R.id.listViewProfile);
+        profileArrayAdapter = new ProfileArrayAdapter(this, profiles);
         loadProfiles();
 
         //El perfil seleccionado sera por defecto el default, sino cambiar
@@ -77,13 +78,6 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(this, "El perfil seleccionado es default", Toast.LENGTH_SHORT).show();
         }
 
-
-
-        //Perfil por defecto
-        //selectedProfile= defaultProfile;
-
-        ListView listView = findViewById(R.id.listViewProfile);
-        profileArrayAdapter = new ProfileArrayAdapter(this, profiles);
         listView.setAdapter(profileArrayAdapter);
 
         registerForContextMenu(listView);
@@ -122,17 +116,34 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        loadProfiles();
+
+        listView = findViewById(R.id.listViewProfile);
+        profileArrayAdapter = new ProfileArrayAdapter(this, profiles);
+        listView.setAdapter(profileArrayAdapter);
+
+        registerForContextMenu(listView);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        saveProfiles();
+        loadProfiles();
+
+        profileArrayAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Log.w("STOP","");
+        saveProfiles();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.w("PAUSE","");
         saveProfiles();
     }
 
@@ -265,6 +276,8 @@ public class ProfileActivity extends AppCompatActivity {
 
             cfg.close();
             Log.e( "WARN", "LOADED DATA: "+profiles.toString() );
+
+            profileArrayAdapter.notifyDataSetChanged();
         }
         catch (IOException exc)
         {
