@@ -26,6 +26,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     int posCasillaSeleccionada;
     History history;
 
+    //EMPTY PIECE
+    Piece emptyPiece= new Piece("EMPTY",'E',"",-1);
+
     boolean turn;
     boolean normalMode;
 
@@ -83,10 +86,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                              Color.parseColor("#"+colors[1]));
 
         //rellenamos los fondos
-        popularCasillas();
+        drawBoard();
 
         //Piezas negras
-        colocarPiezas();
+        orderPieces();
 
         //Coger el tablero
         tablero = (GridView) findViewById(R.id.board);
@@ -112,7 +115,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         Uploader.updateHistory(getApplicationContext(),history);
     }
 
-    public void popularCasillas(){
+    public void drawBoard(){
         int numLinea;
         int ptr = 0;
         for(int fila = 0; fila <8 ; fila++){
@@ -139,68 +142,103 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    public void colocarPiezas(){
+    /** Crea las piezas en el tablero*/
+    public void orderPieces(){
+
+        //BLACKS
+        Piece bp1= new Piece("PAWN",'N',"blackpawn"+selectedProfile.getSkinPieceName()+".png",8);
+        Piece bp2= new Piece("PAWN",'N',"blackpawn"+selectedProfile.getSkinPieceName()+".png",9);
+        Piece bp3= new Piece("PAWN",'N',"blackpawn"+selectedProfile.getSkinPieceName()+".png",10);
+        Piece bp4= new Piece("PAWN",'N',"blackpawn"+selectedProfile.getSkinPieceName()+".png",11);
+        Piece bp5= new Piece("PAWN",'N',"blackpawn"+selectedProfile.getSkinPieceName()+".png",12);
+        Piece bp6= new Piece("PAWN",'N',"blackpawn"+selectedProfile.getSkinPieceName()+".png",13);
+        Piece bp7= new Piece("PAWN",'N',"blackpawn"+selectedProfile.getSkinPieceName()+".png",14);
+        Piece bp8= new Piece("PAWN",'N',"blackpawn"+selectedProfile.getSkinPieceName()+".png",15);
+
+        Piece bt1= new Piece("TOWER",'N',"blacktower"+selectedProfile.getSkinPieceName()+".png",0);
+        Piece bt2= new Piece("TOWER",'N',"blacktower"+selectedProfile.getSkinPieceName()+".png",7);
+
+        Piece bk1= new Piece("KNIGHT",'N',"blackknight"+selectedProfile.getSkinPieceName()+".png",1);
+        Piece bk2= new Piece("KNIGHT",'N',"blackknight"+selectedProfile.getSkinPieceName()+".png",6);
+
+        Piece bb1= new Piece("BISHOP",'N',"blackbishop"+selectedProfile.getSkinPieceName()+".png",2);
+        Piece bb2= new Piece("BISHOP",'N',"blackbishop"+selectedProfile.getSkinPieceName()+".png",5);
+
+        Piece bq= new Piece("QUEEN",'N',"blackqueen"+selectedProfile.getSkinPieceName()+".png",3);
+
+        Piece bK= new Piece("KING",'N',"blackking"+selectedProfile.getSkinPieceName()+".png",4);
+
         Log.e("SKINPIECENAME",selectedProfile.getSkinPieceName());
-        for(int i = 0; i <8;i++){
-            //casillas[8+i].setDrawablePieza(R.drawable.peon);
-            casillas[8+i].setDrawablePiece("blackpawn"+selectedProfile.getSkinPieceName()+".png");
-        }
-        //casillas[0].setDrawablePiece(R.drawable.torre);
-        casillas[0].setDrawablePiece("blacktower"+selectedProfile.getSkinPieceName()+".png");
-        //casillas[7].setDrawablePiece(R.drawable.torre);
-        casillas[7].setDrawablePiece("blacktower"+selectedProfile.getSkinPieceName()+".png");
 
-        //casillas[1].setDrawablePiece(R.drawable.caballo);
-        casillas[1].setDrawablePiece("blackknight"+selectedProfile.getSkinPieceName()+".png");
+        casillas[bp1.getPos()].setPiece(bp1);
+        casillas[bp2.getPos()].setPiece(bp2);
+        casillas[bp3.getPos()].setPiece(bp3);
+        casillas[bp4.getPos()].setPiece(bp4);
+        casillas[bp5.getPos()].setPiece(bp5);
+        casillas[bp6.getPos()].setPiece(bp6);
+        casillas[bp7.getPos()].setPiece(bp7);
+        casillas[bp8.getPos()].setPiece(bp8);
 
-        //casillas[6].setDrawablePiece(R.drawable.caballo);
-        casillas[6].setDrawablePiece("blackknight"+selectedProfile.getSkinPieceName()+".png");
+        casillas[bt1.getPos()].setPiece(bt1);
+        casillas[bt2.getPos()].setPiece(bt2);
 
-        //casillas[2].setDrawablePiece(R.drawable.alfil);
-        casillas[2].setDrawablePiece("blackbishop"+selectedProfile.getSkinPieceName()+".png");
+        casillas[bk1.getPos()].setPiece(bk1);
+        casillas[bk2.getPos()].setPiece(bk2);
 
-        //casillas[5].setDrawablePiece(R.drawable.alfil);
-        casillas[5].setDrawablePiece("blackbishop"+selectedProfile.getSkinPieceName()+".png");
+        casillas[bb1.getPos()].setPiece(bb1);
+        casillas[bb2.getPos()].setPiece(bb2);
 
-        //casillas[3].setDrawablePiece(R.drawable.reyna);
-        casillas[3].setDrawablePiece("blackqueen"+selectedProfile.getSkinPieceName()+".png");
+        casillas[bq.getPos()].setPiece(bq);
+        casillas[bK.getPos()].setPiece(bK);
 
-        //casillas[4].setDrawablePiece(R.drawable.rey);
-        casillas[4].setDrawablePiece("blackking"+selectedProfile.getSkinPieceName()+".png");
+        //WHITES
 
-        //Piezas blancas
-        for(int i = 0; i <8;i++){
-            //casillas[casillas.length-9-i].setDrawablePieza(R.drawable.peon);
-            casillas[casillas.length-9-i].setDrawablePiece("whitepawn"+selectedProfile.getSkinPieceName()+".png");
-        }
-        //casillas[casillas.length-1-0].setDrawablePieza(R.drawable.torre);
-        casillas[casillas.length-1-0].setDrawablePiece("whitetower"+selectedProfile.getSkinPieceName()+".png");
+        Piece wp1= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-9);
+        Piece wp2= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-8);
+        Piece wp3= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-7);
+        Piece wp4= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-6);
+        Piece wp5= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-5);
+        Piece wp6= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-4);
+        Piece wp7= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-3);
+        Piece wp8= new Piece("PAWN",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-2);
 
-        //casillas[casillas.length-1-7].setDrawablePieza(R.drawable.torre);
-        casillas[casillas.length-1-7].setDrawablePiece("whitetower"+selectedProfile.getSkinPieceName()+".png");
+        Piece wt1= new Piece("TOWER",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-0);
+        Piece wt2= new Piece("TOWER",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-7);
 
-        //casillas[casillas.length-1-1].setDrawablePieza(R.drawable.caballo);
-        casillas[casillas.length-1-1].setDrawablePiece("whiteknight"+selectedProfile.getSkinPieceName()+".png");
-        //casillas[casillas.length-1-6].setDrawablePieza(R.drawable.caballo);
-        casillas[casillas.length-1-6].setDrawablePiece("whiteknight"+selectedProfile.getSkinPieceName()+".png");
+        Piece wk1= new Piece("KNIGHT",'W',"whiteknight"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-1);
+        Piece wk2= new Piece("KNIGHT",'W',"whiteknight"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-6);
 
-        //casillas[casillas.length-1-2].setDrawablePieza(R.drawable.alfil);
-        casillas[casillas.length-1-2].setDrawablePiece("whitebishop"+selectedProfile.getSkinPieceName()+".png");
+        Piece wb1= new Piece("BISHOP",'W',"whitebishop"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-2);
+        Piece wb2= new Piece("BISHOP",'W',"whitebishop"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-5);
 
-        //casillas[casillas.length-1-5].setDrawablePieza(R.drawable.alfil);
-        casillas[casillas.length-1-5].setDrawablePiece("whitebishop"+selectedProfile.getSkinPieceName()+".png");
+        Piece wq= new Piece("QUEEN",'W',"whitequeen"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-3);
 
-        //casillas[casillas.length-1-3].setDrawablePieza(R.drawable.rey);
-        casillas[casillas.length-1-3].setDrawablePiece("whiteking"+selectedProfile.getSkinPieceName()+".png");
+        Piece wK= new Piece("KING",'W',"whiteking"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-4);
 
-        //casillas[casillas.length-1-4].setDrawablePieza(R.drawable.reyna);
-        casillas[casillas.length-1-4].setDrawablePiece("whitequeen"+selectedProfile.getSkinPieceName()+".png");
+        casillas[wp1.getPos()].setPiece(wp1);
+        casillas[wp2.getPos()].setPiece(wp2);
+        casillas[wp3.getPos()].setPiece(wp3);
+        casillas[wp4.getPos()].setPiece(wp4);
+        casillas[wp5.getPos()].setPiece(wp5);
+        casillas[wp6.getPos()].setPiece(wp6);
+        casillas[wp7.getPos()].setPiece(wp7);
+        casillas[wp8.getPos()].setPiece(wp8);
+
+        casillas[wt1.getPos()].setPiece(wt1);
+        casillas[wt2.getPos()].setPiece(wt2);
+        casillas[wk1.getPos()].setPiece(wk1);
+        casillas[wk2.getPos()].setPiece(wk2);
+        casillas[wb1.getPos()].setPiece(wb1);
+        casillas[wb2.getPos()].setPiece(wb2);
+        casillas[wq.getPos()].setPiece(wq);
+        casillas[wK.getPos()].setPiece(wK);
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(casillaSeleccionada){
+            Log.w("CASILLA SELECCIONADA",Integer.toString(position));
             //Logica de mover la pieza
             casillaSeleccionada = false;
             //recuperamos casillas
@@ -208,19 +246,48 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             BoardBox siguiente = (BoardBox)parent.getItemAtPosition(position);
             //Verificar que no se mueve una casilla vacia
             //Verificar que no se mueve a la misma casilla
-            if(!anterior.getDrawablePiece().equals("") && posCasillaSeleccionada != position){
-                //parte grafica------
-                //ponemos pieza de anterior en siguiente
-                siguiente.setDrawablePiece(anterior.getDrawablePiece());
-                //vaciamos anterior
-                anterior.setDrawablePiece("");
-                tablero.setAdapter(pieceAdapter);
 
-                //guardar movimiento---
-                String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
-                history.addMove(movimiento);
-                TextView lastMove = (TextView) findViewById(R.id.historyLog);
-                lastMove.setText(movimiento);
+            //Si hay una pieza
+            if(!anterior.getDrawablePiece().equals("") && posCasillaSeleccionada != position){
+                    //Si hay una pieza, comprueba si es del mismo color
+                    if(!siguiente.getPiece().getName().equals("EMPTY")){
+                        //Coinciden colores
+                        if(anterior.getPiece().getColor()==siguiente.getPiece().getColor()){
+                            Log.w("","NO SE PUEDE MOVER A UNA CASILLA CON UNA FIGURA DEL MISMO COLOR");
+                        }else{
+                            //parte grafica------
+                            //ponemos pieza de anterior en siguiente
+                            siguiente.setPiece(anterior.getPiece());
+                            //vaciamos anterior
+                            anterior.setPiece(emptyPiece);
+                            tablero.setAdapter(pieceAdapter);
+
+                            //guardar movimiento---
+                            String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
+                            history.addMove(movimiento);
+                            TextView lastMove = (TextView) findViewById(R.id.historyLog);
+                            lastMove.setText(movimiento);
+
+                            if(siguiente.getPiece().getName().contains("KING")) {
+                                //Si es un rey
+                                Log.w("", "EL REY " + siguiente.getPiece().getColor() + " HA MUERTO");
+                                //TODO añade achievement y finaliza actividad
+                            }
+                        }
+                    }else{
+                        //parte grafica------
+                        //ponemos pieza de anterior en siguiente
+                        siguiente.setPiece(anterior.getPiece());
+                        //vaciamos anterior
+                        anterior.setPiece(emptyPiece);
+                        tablero.setAdapter(pieceAdapter);
+
+                        //guardar movimiento---
+                        String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
+                        history.addMove(movimiento);
+                        TextView lastMove = (TextView) findViewById(R.id.historyLog);
+                        lastMove.setText(movimiento);
+                    }
             }
 
         }else{

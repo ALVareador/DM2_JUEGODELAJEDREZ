@@ -27,7 +27,7 @@ public class Profile implements Serializable {
         this.points=0;
 
         this.skinBoardName="image000000#ffffff";
-        this.skinPieceName="1";
+        this.skinPieceName="2";
 
         this.achievementsList= new ArrayList<Achievement>();
         this.friendsList= new ArrayList<Profile>();
