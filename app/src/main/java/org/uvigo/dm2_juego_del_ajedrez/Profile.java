@@ -134,6 +134,8 @@ public class Profile implements Serializable {
     /**Añade un nuevo logro*/
     public void addAchievement(Achievement achievement){
         achievementsList.add(achievement);
+        Log.w("Nombre logro",achievement.getName());
+        Log.w("Descripcion logro",achievement.getDescription());
     }
 
     @Override
