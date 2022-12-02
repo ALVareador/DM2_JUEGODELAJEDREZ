@@ -70,7 +70,7 @@ public class DBManager extends SQLiteOpenHelper {
             db.beginTransaction();
             db.execSQL( "CREATE TABLE IF NOT EXISTS " + HISTORY_TABLE + "( "
                     + HISTORY_NAME + " string(255) PRIMARY KEY NOT NULL, "
-                    + HISTORY_LOG + " string NOT NULL)");
+                    + HISTORY_LOG + " string )");
             db.setTransactionSuccessful();
         }
         catch(SQLException exc)
@@ -285,6 +285,12 @@ public class DBManager extends SQLiteOpenHelper {
     public Cursor getHistories(){
         return this.getReadableDatabase().query(HISTORY_TABLE,null,null,null,null,null,null);
     }
+
+    public Cursor getHistoriesByName(String profileName){
+        Log.e("",profileName+"######################");
+        return this.getReadableDatabase().query(HISTORY_TABLE,null,HISTORY_NAME+" LIKE '%"+profileName+"%'",null,null,null,null);
+    }
+
 
     public Cursor getAchievements(){
         return this.getReadableDatabase().query(ACHIEVEMENTS_TABLE,null,null,null,null,null,null);

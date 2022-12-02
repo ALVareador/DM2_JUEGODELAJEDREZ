@@ -33,6 +33,13 @@
                 android:orientation="vertical"></LinearLayout>
         </LinearLayout>
 
+        <Switch
+            android:id="@+id/switchHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/show_all_histories" />
+
         <ListView
             android:id="@+id/listViewHistory"
             android:layout_width="wrap_content"

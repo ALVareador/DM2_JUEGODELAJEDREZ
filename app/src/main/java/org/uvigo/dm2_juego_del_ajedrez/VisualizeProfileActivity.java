@@ -3,6 +3,7 @@ package org.uvigo.dm2_juego_del_ajedrez;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -11,8 +12,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class VisualizeProfileActivity extends AppCompatActivity {
-    private AchievementArrayAdapter achievementArrayAdapter;
-    private ProfileArrayAdapter friendsArrayAdapter;
+    private ArrayAdapter frArrayAdapter, achArrayAdapter;
     private Profile profile;
     private ImageButton backButton;
 
@@ -29,6 +29,7 @@ public class VisualizeProfileActivity extends AppCompatActivity {
 
         //PHOTO
         ImageView ivProfile= findViewById(R.id.iv_profileimage);
+        ivProfile.setImageBitmap(Uploader.bitmapFromAssets(getApplicationContext(),profile.getImagePath()));
 
         //NAME
         TextView tvName= findViewById(R.id.tv_name);
@@ -40,13 +41,13 @@ public class VisualizeProfileActivity extends AppCompatActivity {
 
         //LISTVIEW LOGROS
         ListView listView_achievements = findViewById(R.id.listview_visualizeProfile_achievements);
-        achievementArrayAdapter = new AchievementArrayAdapter(this, profile.getAchievements(),"INVISIBLE");
-        listView_achievements.setAdapter(achievementArrayAdapter);
+        achArrayAdapter = new ArrayAdapter(this,android.R.layout.simple_selectable_list_item, profile.getAchievements() );
+        listView_achievements.setAdapter(achArrayAdapter);
 
         //LISTVIEW FRIENDS
         ListView listView_friends = findViewById(R.id.listview_visualizeProfile_friends);
-        friendsArrayAdapter = new ProfileArrayAdapter(this, profile.getFriends());
-        listView_friends.setAdapter(friendsArrayAdapter);
+        frArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_selectable_list_item, profile.getFriends());
+        listView_friends.setAdapter(frArrayAdapter);
 
         //BACK BUTTON
         backButton = this.findViewById(R.id.backButton);

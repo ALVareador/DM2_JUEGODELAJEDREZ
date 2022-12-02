@@ -18,6 +18,7 @@ import java.util.Calendar;
 public class GameActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     Profile selectedProfile= MainActivity.getSelectedProfile();
     Profile selectedRival;
+
     GridView tablero;
     PieceAdapter pieceAdapter;
     BoardBox[] casillas;
@@ -52,7 +53,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                       "\nTURNO RECUPERADO (true->J1 blanca/false->J1 negra): "+turn);
 
         //Creamos nuevo historial
-        history = new History("GAME "+selectedProfile.getName()+" VS "+selectedRival.getName()+" "+Calendar.getInstance().getTime());
+        history = new History(selectedProfile.getName()+" VS "+selectedRival.getName()+" "+Calendar.getInstance().getTime());
         //Creamos array de piezas comidas
         piezasComidas = new ArrayList<Piece>();
 
@@ -79,8 +80,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             iv_bPlayer.setImageBitmap(Uploader.bitmapFromAssets(getApplicationContext(),selectedProfile.getImagePath()));
         }
 
-        //TODO cambiar para que funcion con las skins
-        //skin = new SkinBoard(R.drawable.white,R.drawable.blue);
         String[] colors= selectedProfile.getSkinBoardName().replace("image","").split("#");
         Log.e("CADENADECOLOR", selectedProfile.getSkinPieceName());
         Log.e("COLOR1", colors[0]);
@@ -255,7 +254,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             //Si hay una pieza
             if(!anterior.getDrawablePiece().equals("") && posCasillaSeleccionada != position){
                     //Damos logros por posiciones
-                    positionAchivementHandler(getProfileByPiece(anterior.getPiece()),anterior.getPiece(),position);
+                    positionAchievementHandler(getProfileByPiece(anterior.getPiece()),anterior.getPiece(),position);
                     //Si hay una pieza, comprueba si es del mismo color
                     if(!siguiente.getPiece().getName().equals("EMPTY")){
                         //Coinciden colores
@@ -263,7 +262,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                             Log.w("","NO SE PUEDE MOVER A UNA CASILLA CON UNA FIGURA DEL MISMO COLOR");
                             //añadimos el logro de comer tu propia pieza
                             Profile current = getProfileByPiece(anterior.getPiece());
-                            if(!hasAchivement(current,"Insaciable"))
+                            if(!hasAchievement(current,"Insaciable"))
                                 current.addAchievement(new Achievement("Insaciable","Intenta comerte tu propia pieza"));
                         }else{
                             //añadimos puntos por comer pieza
@@ -311,14 +310,14 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private void positionAchivementHandler(Profile profile, Piece piece, int position) {
+    private void positionAchievementHandler(Profile profile, Piece piece, int position) {
         //Si un Alfil esta en la diagonal
         if(piece.getName().equals("BISHOP") && (position == 0 || position ==  7 || position == 63|| position == 56)){
-            if(!hasAchivement(profile,"Francotirador en posicion"))
+            if(!hasAchievement(profile,"Francotirador en posicion"))
                 profile.addAchievement(new Achievement("Francotirador en posicion","Coloca un alfil en una esquina del tablero"));
         }
         if(piece.getName().equals("PAWN") && (position < 7 || position > 56)){
-            if(!hasAchivement(profile,"Zona hostil"))
+            if(!hasAchievement(profile,"Zona hostil"))
                 profile.addAchievement(new Achievement("Zona hostil","Lleva un peón a la ultima fila del tablero"));
         }
 
@@ -350,20 +349,20 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //Logro por comer pieza
         //TODO:Arreglar que se añadan los puntos al perfil
-        ArrayList<Achievement> achivementsPlayer = eater.getAchievements();
+        ArrayList<String> achivementsPlayer = eater.getAchievements();
 
         //añadimos el logro de voraz si no lo tiene
-        if(!hasAchivement(eater,"voraz"))
+        if(!hasAchievement(eater,"voraz"))
                 eater.addAchievement(new Achievement("Voraz","Come una pieza"));
 
 
 
         //Si es reyna añadimos el logro
-        if(!hasAchivement(eater,"Al final si que era mortal") && comida.getName().equals("QUEEN"))
+        if(!hasAchievement(eater,"Al final si que era mortal") && comida.getName().equals("QUEEN"))
             eater.addAchievement(new Achievement("Al final si que era mortal","Come una reina"));
 
         //Si comio dos torres añadimos logro
-        if(!hasAchivement(eater,"Un dia Oscuro")) {
+        if(!hasAchievement(eater,"Un dia Oscuro")) {
             int contadorTorres = 0;
             for (Piece p : piezasComidas) {
                 if( piece.getColor() != p.getColor() && p.getName().equals("TOWER"))
@@ -374,10 +373,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    public boolean hasAchivement(Profile player,String name){
-        ArrayList<Achievement> achivementsPlayer = player.getAchievements();
-        for (Achievement a : achivementsPlayer){
-            if(a.getName().equals(name))
+    public boolean hasAchievement(Profile player,String name){
+        ArrayList<String> achivementsPlayer = player.getAchievements();
+        for (String a : achivementsPlayer){
+            if(a.equals(name))
                 return true;
         }
         return false;

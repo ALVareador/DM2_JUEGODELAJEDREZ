@@ -21,4 +21,5 @@
     <string name="piece_skins">Piece Skins</string>
     <string name="board_skins">Board Skins</string>
     <string name="show">Ver</string>
+    <string name="show_all_histories">Mostrar todos los historiales</string>
 </resources>

@@ -16,9 +16,11 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,6 +35,8 @@ public class HistoryActivity extends AppCompatActivity {
 
     private ArrayList<History> histories = new ArrayList<>();
     private HistoryArrayAdapter historyArrayAdapter;
+
+    boolean all= false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +58,29 @@ public class HistoryActivity extends AppCompatActivity {
 
         ListView listView = this.findViewById( R.id.listViewHistory );
         this.dbAdapter=new SimpleCursorAdapter(this, R.layout.history_listview, null, new String[] { DBManager.HISTORY_NAME, DBManager.HISTORY_LOG }, new int[] { R.id.textViewName}, 0);
+
+        dbAdapter.changeCursor( dbManager.getHistoriesByName(MainActivity.getSelectedProfile().getName()));
+        Switch allHistories= findViewById(R.id.switchHistory);
+
+        //Comprueba si el switch está activo
+        allHistories.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    // ALL HISTORY
+                    Log.e("true","USER");
+                    dbAdapter.changeCursor( dbManager.getHistories());
+                } else {
+                    // HISTORY USUARIOS
+                    Log.e("true","ALL");
+                    dbAdapter.changeCursor( dbManager.getHistoriesByName(MainActivity.getSelectedProfile().getName()));
+                }
+            }
+        });
+
+        dbAdapter.notifyDataSetChanged();
         listView.setAdapter( this.dbAdapter );
-        this.dbAdapter.changeCursor( this.dbManager.getHistories() );
 
-        ArrayList<String> moves= new ArrayList<>();
-        moves.add("DESCRIPTION1LOREMIMSUMDESCRIPTION1LOREMIMSUMDESCRIPTION1LOREMIMSUMDESCRIPTION1LOREMIMSUMDESCRIPTION1LOREMIMSUMDESCRIPTION1LOREMIMSUM");
-        History h= new History("HISTORY1",moves);
-
-        histories.add(h);
         ActivityResultContract<Intent, ActivityResult> contract = new ActivityResultContracts.StartActivityForResult();
         ActivityResultCallback<ActivityResult> callback = new ActivityResultCallback<ActivityResult>() {
             @Override
@@ -78,16 +97,31 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        ArrayList<String> moves = new ArrayList<>();
-        moves.add("DESCRIPTION1LOREMIMSUMDESCRIPTION1LOREMIMSUMDESCRIPTION1LOREMIMSUMDESCRIPTION1LOREMIMSUMDESCRIPTION1LOREMIMSUMDESCRIPTION1LOREMIMSUM");
-        History h = new History("HISTORY1", moves);
-
-        dbManager.addHistory(h);
-
         ListView listView = this.findViewById(R.id.listViewHistory);
         this.dbAdapter = new SimpleCursorAdapter(this, R.layout.history_listview, null, new String[]{DBManager.HISTORY_NAME, DBManager.HISTORY_LOG}, new int[]{R.id.textViewName}, 0);
 
-        this.dbAdapter.changeCursor(this.dbManager.getHistories());
+        dbAdapter.changeCursor( dbManager.getHistoriesByName(MainActivity.getSelectedProfile().getName()));
+        Switch allHistories= findViewById(R.id.switchHistory);
+
+        //Comprueba si el switch está activo
+        allHistories.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    // ALL HISTORY
+                    Log.e("true","USER");
+                    dbAdapter.changeCursor( dbManager.getHistories());
+                } else {
+                    // HISTORY USUARIOS
+                    Log.e("true","ALL");
+                    dbAdapter.changeCursor( dbManager.getHistoriesByName(MainActivity.getSelectedProfile().getName()));
+                }
+            }
+        });
+
+        dbAdapter.notifyDataSetChanged();
+        listView.setAdapter( this.dbAdapter );
+
         registerForContextMenu(listView);
 
     }

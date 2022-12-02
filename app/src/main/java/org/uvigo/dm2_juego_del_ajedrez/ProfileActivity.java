@@ -40,7 +40,6 @@ public class ProfileActivity extends AppCompatActivity {
     private ArrayList<Profile> profiles = new ArrayList<>();
 
     private ProfileArrayAdapter profileArrayAdapter;
-    private AchievementArrayAdapter achievementArrayAdapter;
 
     public Profile selectedProfile;
 
@@ -52,11 +51,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        //TODO Aqui hay que recuperar los posibles perfiles desde memoria
-        Profile defaultProfile = new Profile("default");
-        profiles.add(defaultProfile);
-
-        saveProfiles();
+        //saveProfiles();
+        profiles.add(new Profile("default"));
         //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING"));
         //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING MUCHO"));
         //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING POCO"));
@@ -87,6 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addProfile();
+                saveProfiles();
             }
         });
 
@@ -172,6 +169,7 @@ public class ProfileActivity extends AppCompatActivity {
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 Profile addProfile= getProfileByName(profiles.get(position).getName());
                 selectedProfile.addFriend(addProfile);
+                saveProfiles();
                 Toast.makeText( this, "Has añadido a "+addProfile.getName()+" como amigo", Toast.LENGTH_SHORT ).show();
                 profileArrayAdapter.notifyDataSetChanged();
                 break;
@@ -180,6 +178,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Profile removedProfile= getProfileByName(profiles.get(position).getName());
                 if(profiles.get(position).getFriends().contains(removedProfile)){
                     selectedProfile.removeFriend(removedProfile);
+                    saveProfiles();
                     Toast.makeText( this, removedProfile.getName()+" ya no es tu amigo", Toast.LENGTH_SHORT ).show();
                 }else{
                     Toast.makeText( this, removedProfile.getName()+" no es tu amigo", Toast.LENGTH_SHORT ).show();
@@ -289,6 +288,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void addProfile() {
         profiles.add(new Profile());
         showEditNameDialog(profiles.size()-1);
+        saveProfiles();
     }
 
     private void changeGlobalSelectedProfile(){
