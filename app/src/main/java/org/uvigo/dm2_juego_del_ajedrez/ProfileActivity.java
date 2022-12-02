@@ -70,7 +70,8 @@ public class ProfileActivity extends AppCompatActivity {
             selectedProfile= MainActivity.getSelectedProfile();
             Toast.makeText(this, "El perfil seleccionado es "+selectedProfile.getName(), Toast.LENGTH_SHORT).show();
         }catch(NullPointerException e){
-            selectedProfile=getProfileByName("default");
+            selectedProfile=new Profile("default");
+            profileArrayAdapter.notifyDataSetChanged();
             Toast.makeText(this, "El perfil seleccionado es default", Toast.LENGTH_SHORT).show();
         }
 
@@ -294,7 +295,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void changeGlobalSelectedProfile(){
         try{
             Log.e("PERFIL ACTUALIZADO: ",selectedProfile.getName());
-            MainActivity.setSelectedProfile(selectedProfile);
+            MainActivity.setSelectedProfile(getApplicationContext(),selectedProfile);
         }catch(NullPointerException e){
             Toast.makeText(this, "No se ha seleccionado ningun perfil, por favor selecciona uno", Toast.LENGTH_LONG).show();
         }
@@ -378,6 +379,7 @@ public class ProfileActivity extends AppCompatActivity {
         int i=0;
         int toret=-1;
         Log.e("","SIZE: "+profiles.size());
+
         while(i<=profiles.size()-1){
             pr= profiles.get(i);
             Log.e("","PROFILE ENCONTRADO: "+pr.toString());

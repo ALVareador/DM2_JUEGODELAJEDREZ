@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.view.*;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Uploader.loadGlobalProfile(getApplicationContext());
 
         Button newGame = findViewById(R.id.BotonNuevaPartida);
         Button continueGame = findViewById(R.id.botonContinuarPartida);
@@ -118,9 +122,11 @@ public class MainActivity extends AppCompatActivity{
     }
 
     /** ProfileActivity puede modificar el perfil general de la aplicacion sin intents*/
-    public static void setSelectedProfile(Profile profile){
+    public static void setSelectedProfile(Context context, Profile profile){
         selectedProfile=profile;
+        Uploader.saveGlobalProfile(context);
         Log.e("PERFIL ACTUALIZADO EN MAIN ACTIVITY: ",selectedProfile.getName());
+        Toast.makeText(context, "Perfil seleccionado: "+selectedProfile.getName(), Toast.LENGTH_SHORT).show();
     }
 
     public static Profile getSelectedProfile(){
