@@ -33,11 +33,6 @@ public class HistoryActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private ImageButton backButton;
 
-    private ArrayList<History> histories = new ArrayList<>();
-    private HistoryArrayAdapter historyArrayAdapter;
-
-    boolean all= false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

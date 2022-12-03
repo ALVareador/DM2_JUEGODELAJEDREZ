@@ -50,6 +50,13 @@ public class Uploader extends AppCompatActivity {
         dbManager.addHistory(h);
     }
 
+    public static void updateProfile(Context context, Profile profile){
+        dbManager = new DBManager( context );
+        Log.w("ACTUALIZA PROFILE","");
+        dbManager.deleteProfile(profile.getName());
+        dbManager.addProfile(profile);
+    }
+
     public static void saveGlobalProfile(Context context){
         selectedProfile=MainActivity.getSelectedProfile();
 
