@@ -149,6 +149,16 @@ public class HistoryActivity extends AppCompatActivity {
             }
         }else if(item.getItemId()==R.id.continueGamebyHistory){
             //TODO CONTINUAR PARTIDA SEGUN EL HISTORIAL
+            if(cursor.moveToPosition(position)){
+                Cursor historyCursor= dbManager.getHistory(cursor.getString(0));
+
+                Intent subActividad = new Intent( HistoryActivity.this, NewGameActivity.class );
+                subActividad.putExtra( "type", false);
+                subActividad.putExtra( "history", new History(historyCursor.getString(0),historyCursor.getString(1),historyCursor.getString(2)));
+                activityResultLauncher.launch(subActividad);
+            }else{
+                Toast.makeText(this, "Error al intentar continuar la partida", Toast.LENGTH_SHORT).show();
+            }
 
         }else{
             return super.onContextItemSelected(item);

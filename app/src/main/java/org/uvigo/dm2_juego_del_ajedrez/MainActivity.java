@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent subActividad = new Intent( MainActivity.this, NewGameActivity.class );
+                subActividad.putExtra( "type", true);
                 activityResultLauncher.launch(subActividad);
             }
         });
@@ -46,7 +47,8 @@ public class MainActivity extends AppCompatActivity{
         continueGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent subActividad = new Intent( MainActivity.this, HistoryActivity.class );
+                activityResultLauncher.launch(subActividad);
             }
         });
 

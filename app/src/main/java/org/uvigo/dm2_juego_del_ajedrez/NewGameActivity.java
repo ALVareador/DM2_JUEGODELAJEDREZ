@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,11 +35,16 @@ public class NewGameActivity extends AppCompatActivity {
 
     boolean normalMode; //TRUE NORMAL; FALSE RANDOM
     boolean turn; //FALSE J1 juega con negras; TRUE J2 juega con negras
+    boolean continueGame;
 
+    History history;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
+
+        continueGame=(boolean)getIntent().getSerializableExtra("type");
+        history= (History)getIntent().getSerializableExtra("history");
 
         //TODO Cargar rivals desde base de datos, todos los jugadores menos el selectedProfile loadRivals()
         rivals= loadRivals();
@@ -98,7 +104,14 @@ public class NewGameActivity extends AppCompatActivity {
                 subActividad.putExtra("rival",selectedRival); //Enviamos al rival
                 subActividad.putExtra("turn",turn); //Enviamos el turno al juego
 
-                subActividad.putExtra("type",true);
+                if(continueGame){
+                    Log.e("","NEW");
+                    subActividad.putExtra("type",true);
+                }else{
+                    Log.e("","CONTINUE");
+                    subActividad.putExtra("type",false);
+                    subActividad.putExtra("history",history);
+                }
 
                 activityResultLauncher.launch(subActividad);
             }
