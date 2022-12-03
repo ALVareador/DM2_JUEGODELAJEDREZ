@@ -1,6 +1,7 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +17,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -458,6 +463,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 history.addMove(movimiento);
                 TextView lastMove = (TextView) findViewById(R.id.historyLog);
                 lastMove.setText(movimiento);
+
+                saveProfile(selectedProfile);
+                saveProfile(selectedRival);
             }
 
         }else{
@@ -468,6 +476,35 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             posCasillaSeleccionada = position;
         }
     }
+
+    public void saveProfile(Profile p){
+
+        Log.e( "WARN", "creating user File" );
+        File temp = new File(p.getName()+".cfg");
+        temp.delete();
+        try (FileOutputStream f = this.openFileOutput( p.getName()+".cfg", Context.MODE_PRIVATE ) )
+        {
+            PrintStream cfg = new PrintStream( f );
+
+
+            Log.e("SAVEPROFILE",p.toString());
+            cfg.println( p.getName() ); //PROFILE NAME
+            cfg.println( p.getImagePath()); //PROFILE IMAGE
+            cfg.println( p.getSkinBoardName()); //PROFILE BOARD
+            cfg.println( p.getSkinPieceName()); //PROFILE PIECE
+            cfg.println( p.getPoints()); //PROFILE POINTS
+            cfg.println( p.getAchievements().toString()); //PROFILE ACHIEVEMENTS
+            cfg.println( p.getFriends().toString()); //PROFILE FRIENDS
+
+
+            cfg.close();
+            Log.e( "WARN", "SAVED DATA" );
+        }
+        catch(IOException exc) {
+            Log.e( "WARN", "Error saving state" );
+        }
+    }
+
 
     private void positionAchievementHandler(Profile profile, Piece piece, int position) {
         //Si un Alfil esta en la diagonal

@@ -26,12 +26,15 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -214,29 +217,46 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    private void saveProfiles(){
+    public void saveProfiles(){
 
         //Si no hay skins en el momento de guardar es la primera ejecucion y tenemos que generar todas las skins
         if(profiles.isEmpty()){
             Profile defaultProfile= new Profile("default");
             profiles.add(defaultProfile);
             selectedProfile= defaultProfile;
+            saveProfiles();
+
         }
 
-        try (FileOutputStream f = this.openFileOutput( "profile_data.cfg", Context.MODE_PRIVATE ) )
+
+        for(Profile profile: this.profiles) {
+            Log.e("Guardando perfil", profile.getName());
+            saveProfile(profile);
+        }
+
+        Log.e( "WARN", "SAVED DATA" );
+
+    }
+
+    public void saveProfile(Profile p){
+
+        Log.e( "WARN", "creating user File" );
+        File temp = new File(p.getName()+".cfg");
+        temp.delete();
+        try (FileOutputStream f = this.openFileOutput( p.getName()+".cfg", Context.MODE_PRIVATE ) )
         {
             PrintStream cfg = new PrintStream( f );
 
-            for(Profile profile: this.profiles) {
-                Log.e("SAVEPROFILE",profile.toString());
-                cfg.println( profile.getName() ); //PROFILE NAME
-                cfg.println( profile.getImagePath()); //PROFILE IMAGE
-                cfg.println( profile.getSkinBoardName()); //PROFILE BOARD
-                cfg.println( profile.getSkinPieceName()); //PROFILE PIECE
-                cfg.println( profile.getPoints()); //PROFILE POINTS
-                cfg.println( profile.getAchievements().toString()); //PROFILE ACHIEVEMENTS
-                cfg.println( profile.getFriends().toString()); //PROFILE FRIENDS
-            }
+
+            Log.e("SAVEPROFILE",p.toString());
+            cfg.println( p.getName() ); //PROFILE NAME
+            cfg.println( p.getImagePath()); //PROFILE IMAGE
+            cfg.println( p.getSkinBoardName()); //PROFILE BOARD
+            cfg.println( p.getSkinPieceName()); //PROFILE PIECE
+            cfg.println( p.getPoints()); //PROFILE POINTS
+            cfg.println( p.getAchievements().toString()); //PROFILE ACHIEVEMENTS
+            cfg.println( p.getFriends().toString()); //PROFILE FRIENDS
+
 
             cfg.close();
             Log.e( "WARN", "SAVED DATA" );
@@ -247,42 +267,62 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void loadProfiles(){
-        Log.e("",getFilesDir().toString());
+        //Log.e("",getFilesDir().toString());
         profiles.clear();
-        try (FileInputStream f = this.openFileInput("profile_data.cfg")){
-            BufferedReader cfg = new BufferedReader( new InputStreamReader( f ) );
 
-            String profileLine = cfg.readLine(); //Corresponde al nombre del perfil
+        Log.e( "WARN", "Geting save file names" );
+        //READ SAVED PROFILE NAMES
 
-            String cfg_image, cfg_board, cfg_piece, cfg_point, cfg_achievements, cfg_friends;
-            while( profileLine != null ) {
+        File rootDir = this.getFilesDir();
+        Set<String> names = new HashSet<>();
+        for (final File fileEntry : rootDir.listFiles()) {
+            names.add(fileEntry.getName());
+        }
+        Log.e( "WARN", "Number of save file found: " + names.size() );
 
-                //Recuperamos cada perfil
-                cfg_image= cfg.readLine();
+        //Ahora que tenemos todos los nombres de los perfiles podemos leer cada uno y guardarlos
 
-                cfg_board= cfg.readLine();
-                cfg_piece= cfg.readLine();
+        for(String name: names){
 
-                cfg_point= cfg.readLine();
+            //Log.e( "WARN", "Loading file: " + name );
+            try (FileInputStream f = this.openFileInput(name)){
+                BufferedReader cfg = new BufferedReader( new InputStreamReader( f ) );
 
-                cfg_achievements= cfg.readLine();
-                cfg_friends= cfg.readLine();
+                String profileLine = cfg.readLine(); //Corresponde al nombre del perfil
 
-                Log.e("CHARGED_DATA",profileLine+" "+cfg_image);
-                this.profiles.add(new Profile(profileLine,cfg_image, cfg_board, cfg_piece, Integer.parseInt(cfg_point), cfg_achievements, cfg_friends));
+                String cfg_image, cfg_board, cfg_piece, cfg_point, cfg_achievements, cfg_friends;
+                while( profileLine != null ) {
 
-                profileLine = cfg.readLine();
+                    //Recuperamos cada perfil
+                    cfg_image= cfg.readLine();
+
+                    cfg_board= cfg.readLine();
+                    cfg_piece= cfg.readLine();
+
+                    cfg_point= cfg.readLine();
+
+                    cfg_achievements= cfg.readLine();
+                    cfg_friends= cfg.readLine();
+
+                    //Log.e("CHARGED_DATA",profileLine+" "+cfg_image);
+                    this.profiles.add(new Profile(profileLine,cfg_image, cfg_board, cfg_piece, Integer.parseInt(cfg_point), cfg_achievements, cfg_friends));
+
+                    profileLine = cfg.readLine();
+                }
+
+                cfg.close();
+                //Log.e( "WARN", "LOADED DATA: "+profiles.toString() );
+
+                profileArrayAdapter.notifyDataSetChanged();
+            }
+            catch (IOException exc)
+            {
+                Log.e( "WARN", exc.getMessage() );
+                Log.e( "WARN", "Error loading state" );
             }
 
-            cfg.close();
-            Log.e( "WARN", "LOADED DATA: "+profiles.toString() );
+        }
 
-            profileArrayAdapter.notifyDataSetChanged();
-        }
-        catch (IOException exc)
-        {
-            Log.e( "WARN", "Error loading state" );
-        }
     }
 
     /** Añade un nuevo perfil*/
