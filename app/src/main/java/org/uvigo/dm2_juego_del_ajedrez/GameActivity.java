@@ -1,5 +1,7 @@
 package org.uvigo.dm2_juego_del_ajedrez;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -229,27 +231,27 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
             //WHITES
 
-            Piece wp1= new Piece("PAWN1",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-10-7);
-            Piece wp2= new Piece("PAWN2",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-9-7);
-            Piece wp3= new Piece("PAWN3",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-8-7);
-            Piece wp4= new Piece("PAWN4",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-7-7);
-            Piece wp5= new Piece("PAWN5",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-6-7);
-            Piece wp6= new Piece("PAWN6",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-5-7);
-            Piece wp7= new Piece("PAWN7",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-4-7);
-            Piece wp8= new Piece("PAWN8",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-3-7);
+            Piece wp1= new Piece("PAWN1",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-9-7);
+            Piece wp2= new Piece("PAWN2",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-8-7);
+            Piece wp3= new Piece("PAWN3",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-7-7);
+            Piece wp4= new Piece("PAWN4",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-6-7);
+            Piece wp5= new Piece("PAWN5",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-5-7);
+            Piece wp6= new Piece("PAWN6",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-4-7);
+            Piece wp7= new Piece("PAWN7",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-3-7);
+            Piece wp8= new Piece("PAWN8",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-7);
 
-            Piece wt1= new Piece("TOWER1",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-0);
-            Piece wt2= new Piece("TOWER2",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-7);
+            Piece wt1= new Piece("TOWER1",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-0);
+            Piece wt2= new Piece("TOWER2",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-7);
 
-            Piece wk1= new Piece("KNIGHT1",'W',"whiteknight"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-1);
-            Piece wk2= new Piece("KNIGHT2",'W',"whiteknight"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-6);
+            Piece wk1= new Piece("KNIGHT1",'W',"whiteknight"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-1);
+            Piece wk2= new Piece("KNIGHT2",'W',"whiteknight"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-6);
 
-            Piece wb1= new Piece("BISHOP1",'W',"whitebishop"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-2);
-            Piece wb2= new Piece("BISHOP2",'W',"whitebishop"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-5);
+            Piece wb1= new Piece("BISHOP1",'W',"whitebishop"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-2);
+            Piece wb2= new Piece("BISHOP2",'W',"whitebishop"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-5);
 
-            Piece wq= new Piece("QUEEN",'W',"whitequeen"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-3);
+            Piece wq= new Piece("QUEEN",'W',"whitequeen"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-3);
 
-            Piece wK= new Piece("KING",'W',"whiteking"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-4);
+            Piece wK= new Piece("KING",'W',"whiteking"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-4);
 
             casillas[wp1.getPos()].setPiece(wp1);
             casillas[wp2.getPos()].setPiece(wp2);
@@ -438,13 +440,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                             tablero.setAdapter(pieceAdapter);
 
                             //guardar movimiento---
-
-
-                            if(siguiente.getPiece().getName().contains("KING")) {
-                                //Si es un rey
-                                Log.w("", "EL REY " + siguiente.getPiece().getColor() + " HA MUERTO");
-                                //TODO añade achievement y finaliza actividad
-                            }
                         }
                     }else{
                         //parte grafica------
@@ -509,7 +504,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void eatenAchivementHandler(Profile eater,Piece piece,Piece comida){
+    private void eatenAchivementHandler(Profile eater,Piece piece,Piece eaten){
 
         //Logro por comer pieza
         //TODO:Arreglar que se añadan los puntos al perfil
@@ -522,7 +517,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         //Si es reyna añadimos el logro
-        if(!hasAchievement(eater,"Al final si que era mortal") && comida.getName().equals("QUEEN"))
+        if(!hasAchievement(eater,"Al final si que era mortal") && eaten.getName().equals("QUEEN"))
             eater.addAchievement(new Achievement("Al final si que era mortal","Come una reina"));
 
         //Si comio dos torres añadimos logro
@@ -534,6 +529,36 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             if(contadorTorres >=2)
                 eater.addAchievement(new Achievement("Un dia Oscuro","Come las dos torres"));
+        }
+
+        //Si se han comido un rey
+        if(eaten.getName().contains("KING")) {
+            //Si es un rey
+            char loserColor=eaten.getColor();
+            Log.w("", "EL REY " + loserColor + " HA MUERTO");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            //Si J1 es selectedProfile y se han comido al rey negro GANA PROFILE
+            //Si J1 es selectedProfile y se han comido al rey blanco PIERDE PROFILE
+            //Si J1 es selectedRival y se han comido al rey negro GANA RIVAL
+            //Si J1 es selectedRival y se han comido al rey blanco PIERDE RIVAL
+            if((turn && loserColor=='B') || (!turn && loserColor=='W')){
+                builder.setTitle("El jugador "+selectedProfile.getName()+" ha ganado");
+            }else{
+                builder.setTitle("El jugador "+selectedRival.getName()+" ha ganado");
+            }
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //INFORMA Y DEJA LA PARTIDA
+                    GameActivity.this.setResult( MainActivity.RESULT_CANCELED );
+                    GameActivity.this.finish();
+                }
+            });
+            builder.create().show();
+
         }
     }
 
