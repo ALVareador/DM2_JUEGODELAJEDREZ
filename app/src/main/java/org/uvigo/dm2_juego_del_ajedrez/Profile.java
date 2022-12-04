@@ -135,19 +135,29 @@ public class Profile implements Serializable {
         this.skinPieceName=skinName;
     }
     public void addFriend(Profile friend){
-        friendsList.add(friend.getName());
+        if(!friendsList.contains(friend.getName())){
+            friendsList.add(friend.getName());
+        }else{
+            Log.e(friend.getName()," ya es tu amigo");
+        }
+
     }
     public void removeFriend(Profile friend){
-        friendsList.remove(friend);
+        friendsList.remove(friend.getName());
     }
     /**Añade un nuevo logro*/
     public void addAchievement(Achievement achievement){
-        achievementsList.add(achievement.getName());
-        Log.w("Nombre logro",achievement.getName());
+        if(!achievementsList.contains(achievement.getName())){
+            achievementsList.add(achievement.getName());
+            Log.w("Nombre logro",achievement.getName());
+        }else{
+            Log.w("El logro",achievement.getName()+" ya ha sido conseguido");
+        }
+
     }
 
     @Override
     public String toString() {
-        return name+";"+image+";"+skinBoardName+";"+skinPieceName+";"+achievementsList.toString()+";"+friendsList.toString();
+        return name+";"+image+";"+skinBoardName+";"+skinPieceName+";"+points+";"+achievementsList.toString()+";"+friendsList.toString();
     }
 }

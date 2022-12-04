@@ -28,14 +28,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 public class SkinArrayAdapter extends ArrayAdapter<Skin> {
     boolean mode;
+    ArrayList<Profile> profiles;
+    Profile selectedProfile= MainActivity.getSelectedProfile();
+
     public SkinArrayAdapter(@NonNull Context context, List<Skin> objects, boolean mode) {
         super(context, 0, objects);
         this.mode=mode;
+        profiles=Uploader.loadProfiles(getContext());
+
         Log.w("SKINARRAYADAPTER",objects.toString());
     }
 
@@ -81,7 +87,6 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         viewHolder.useSkin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Profile selectedProfile= MainActivity.getSelectedProfile();
                 String imagePath=getItem(position).getImagePath();
 
                 if(mode){
@@ -97,5 +102,29 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
 
         notifyDataSetChanged();
         return convertView;
+    }
+
+    public void updateProfiles(){
+
+        ArrayList<Profile> tempProfiles= profiles;
+        Profile tempSP=null;
+
+        for(Profile pr: profiles){
+            if(selectedProfile.getName().equals(pr.getName())){
+                //Quitamos el selected profile
+                Log.e("PERFIL",selectedProfile.toString()+" eliminado");
+                tempSP=pr;
+            }
+        }
+
+        if(tempSP!=null){
+            tempProfiles.remove(tempSP);
+        }
+
+        tempProfiles.add(selectedProfile);
+
+        Log.e("PERFIL ACTUALIZADO A",selectedProfile.toString());
+
+        Uploader.saveProfiles(getContext(),tempProfiles);
     }
 }

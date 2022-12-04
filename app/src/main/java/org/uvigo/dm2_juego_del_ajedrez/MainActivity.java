@@ -18,10 +18,13 @@ import android.widget.Button;
 import android.view.*;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity{
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
     public static Profile selectedProfile; //Perfil seleccionado en la aplicacion
+    public ArrayList<Profile> profiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +75,37 @@ public class MainActivity extends AppCompatActivity{
         ActivityResultCallback<ActivityResult> callback = new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                //TODO PREGUNTAR Recupera el perfil GENERAL
             }
         };
 
         this.activityResultLauncher = this.registerForActivityResult(contract, callback);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Guardamos los perfiles actualizados en el uploader
+        profiles=Uploader.loadProfiles(getApplicationContext());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Guardamos los perfiles actualizados en el uploader
+        profiles=Uploader.loadProfiles(getApplicationContext());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Uploader.saveProfiles(getApplicationContext(),profiles);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        super.onPause();
+        Uploader.saveProfiles(getApplicationContext(),profiles);
     }
 
     @Override

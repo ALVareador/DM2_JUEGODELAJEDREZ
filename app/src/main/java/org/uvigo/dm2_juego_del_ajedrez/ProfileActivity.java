@@ -62,8 +62,9 @@ public class ProfileActivity extends AppCompatActivity {
         //defaultProfile.addFriend(new Profile("JUGADOR3"));
 
         listView = findViewById(R.id.listViewProfile);
+        profiles= Uploader.loadProfiles(getApplicationContext());
         profileArrayAdapter = new ProfileArrayAdapter(this, profiles);
-        loadProfiles();
+
 
         //El perfil seleccionado sera por defecto el default, sino cambiar
         try{
@@ -84,7 +85,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addProfile();
-                saveProfiles();
             }
         });
 
@@ -114,7 +114,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        loadProfiles();
+        profiles= Uploader.loadProfiles(getApplicationContext());
 
         listView = findViewById(R.id.listViewProfile);
         profileArrayAdapter = new ProfileArrayAdapter(this, profiles);
@@ -126,7 +126,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadProfiles();
+        profiles= Uploader.loadProfiles(getApplicationContext());
 
         profileArrayAdapter.notifyDataSetChanged();
     }
@@ -135,14 +135,16 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.w("STOP","");
-        saveProfiles();
+        //Guardamos en el uploader
+        updateProfiles();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.w("PAUSE","");
-        saveProfiles();
+        //Guardamos en el uploader
+        updateProfiles();
     }
 
     @Override
@@ -170,21 +172,25 @@ public class ProfileActivity extends AppCompatActivity {
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 Profile addProfile= getProfileByName(profiles.get(position).getName());
                 selectedProfile.addFriend(addProfile);
-                saveProfiles();
                 Toast.makeText( this, "Has añadido a "+addProfile.getName()+" como amigo", Toast.LENGTH_SHORT ).show();
                 profileArrayAdapter.notifyDataSetChanged();
+
+                //Guardamos en el uploader
+                updateProfiles();
                 break;
             case(R.id.profileMenuRemoveFriend):
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 Profile removedProfile= getProfileByName(profiles.get(position).getName());
-                if(profiles.get(position).getFriends().contains(removedProfile)){
+                Log.e("FRINED TO REMOVE",removedProfile.getName());
+                if(selectedProfile.getFriends().contains(removedProfile.getName())){
                     selectedProfile.removeFriend(removedProfile);
-                    saveProfiles();
                     Toast.makeText( this, removedProfile.getName()+" ya no es tu amigo", Toast.LENGTH_SHORT ).show();
                 }else{
                     Toast.makeText( this, removedProfile.getName()+" no es tu amigo", Toast.LENGTH_SHORT ).show();
                 }
                 profileArrayAdapter.notifyDataSetChanged();
+                //Guardamos en el uploader
+                updateProfiles();
                 break;
             case(R.id.profileMenuUse):
                 Log.w("","WARN: PROFILEMENUUSE");
@@ -289,7 +295,8 @@ public class ProfileActivity extends AppCompatActivity {
     private void addProfile() {
         profiles.add(new Profile());
         showEditNameDialog(profiles.size()-1);
-        saveProfiles();
+        //Guardamos en el uploader
+        updateProfiles();
     }
 
     private void changeGlobalSelectedProfile(){
@@ -315,6 +322,8 @@ public class ProfileActivity extends AppCompatActivity {
                 String profileName = editText.getText().toString();
                 profiles.get(position).setName(profileName);
                 profileArrayAdapter.notifyDataSetChanged();
+
+                //updateProfiles();
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -394,4 +403,28 @@ public class ProfileActivity extends AppCompatActivity {
         return profiles.get(toret);
 
     }
+    public void updateProfiles(){
+
+        ArrayList<Profile> tempProfiles= profiles;
+        Profile tempSP=null;
+
+        for(Profile pr: profiles){
+            if(selectedProfile.getName().equals(pr.getName())){
+                //Quitamos el selected profile
+                Log.e("PERFIL",selectedProfile.toString()+" eliminado");
+                tempSP=pr;
+            }
+        }
+
+        if(tempSP!=null){
+            tempProfiles.remove(tempSP);
+        }
+
+        tempProfiles.add(selectedProfile);
+
+        Log.e("PERFIL ACTUALIZADO A",selectedProfile.toString());
+
+        Uploader.saveProfiles(getApplicationContext(),tempProfiles);
+    }
+
 }
