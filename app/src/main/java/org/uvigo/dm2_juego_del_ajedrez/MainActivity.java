@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onStop() {
         super.onStop();
-        super.onPause();
         Uploader.saveProfiles(getApplicationContext(),profiles);
     }
 

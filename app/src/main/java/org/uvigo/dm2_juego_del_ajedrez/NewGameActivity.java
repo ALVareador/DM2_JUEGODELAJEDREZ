@@ -26,7 +26,9 @@ public class NewGameActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private ProfileArrayAdapter profileArrayAdapter;
+
     private ArrayList<Profile> rivals = new ArrayList<>();
+    private ArrayList<Profile> profiles = new ArrayList<>();
 
     private Profile selectedProfile= MainActivity.getSelectedProfile();
     private Profile selectedRival= null;
@@ -46,7 +48,6 @@ public class NewGameActivity extends AppCompatActivity {
         continueGame=(boolean)getIntent().getSerializableExtra("type");
         history= (History)getIntent().getSerializableExtra("history");
 
-        //TODO Cargar rivals desde base de datos, todos los jugadores menos el selectedProfile loadRivals()
         rivals= loadRivals();
 
         ListView listView = findViewById(R.id.newGameOponentList);
@@ -138,6 +139,22 @@ public class NewGameActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //Guardamos los perfiles actualizados en el uploader
+        profiles=Uploader.loadProfiles(getApplicationContext());
+        rivals=loadRivals();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Guardamos los perfiles actualizados en el uploader
+        profiles=Uploader.loadProfiles(getApplicationContext());
+        rivals=loadRivals();
+    }
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         if (v.getId() == R.id.newGameOponentList){
             getMenuInflater().inflate(R.menu.rivals_menu, menu);
@@ -160,8 +177,26 @@ public class NewGameActivity extends AppCompatActivity {
 
     /**Carga los rivales disponibles desde BD */
     public ArrayList<Profile> loadRivals(){
-        ArrayList<Profile> rivals= new ArrayList<>();
-        rivals.add(new Profile("defaulRival1"));
+        Log.e("-------------------------------------------","----------------------------------------------------");
+        profiles=Uploader.loadProfiles(getApplicationContext());
+        rivals=profiles;
+        Profile tempSP=null;
+
+        for(Profile pr: profiles){
+            Log.e(selectedProfile.getName(),pr.getName());
+            if(selectedProfile.getName().equals(pr.getName())){
+                tempSP=pr;
+            }
+        }
+
+        Log.e("tempSP",tempSP.getName());
+        if(tempSP!=null){
+            Log.e(rivals.toString(),tempSP.getName());
+            rivals.remove(tempSP);
+            Log.e(rivals.toString(),tempSP.getName());
+        }
+
+        Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4\n",rivals.toString()+"##########################################3");
         return rivals;
     }
 }

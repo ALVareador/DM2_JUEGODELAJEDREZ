@@ -101,7 +101,6 @@ public class Uploader extends AppCompatActivity {
                 cfg_achievements= cfg.readLine();
                 cfg_friends= cfg.readLine();
 
-                Log.e("CHARGED_DATA",profileLine+" "+cfg_image);
                 selectedProfile= new Profile(profileLine,cfg_image, cfg_board, cfg_piece, Integer.parseInt(cfg_point), cfg_achievements, cfg_friends);
 
                 MainActivity.setSelectedProfile(context, selectedProfile);
