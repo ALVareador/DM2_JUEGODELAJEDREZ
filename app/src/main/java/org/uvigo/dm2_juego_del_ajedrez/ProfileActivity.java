@@ -276,8 +276,10 @@ public class ProfileActivity extends AppCompatActivity {
         File rootDir = this.getFilesDir();
         Set<String> names = new HashSet<>();
         for (final File fileEntry : rootDir.listFiles()) {
-            names.add(fileEntry.getName());
-        }
+            if(!fileEntry.getName().equals("skins_data.cfg")){
+                Log.e("WARN", fileEntry.getName());
+                names.add(fileEntry.getName());
+        }}
         Log.e( "WARN", "Number of save file found: " + names.size() );
 
         //Ahora que tenemos todos los nombres de los perfiles podemos leer cada uno y guardarlos
