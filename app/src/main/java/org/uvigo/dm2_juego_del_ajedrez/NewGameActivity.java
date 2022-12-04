@@ -217,8 +217,8 @@ public class NewGameActivity extends AppCompatActivity {
             }
         }
 
-        Log.e("tempSP",tempSP.getName());
         if(tempSP!=null){
+            Log.e("tempSP",tempSP.getName());
             Log.e(rivals.toString(),tempSP.getName());
             rivals.remove(tempSP);
             Log.e(rivals.toString(),tempSP.getName());
