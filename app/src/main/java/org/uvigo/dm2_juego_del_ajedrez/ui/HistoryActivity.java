@@ -63,16 +63,16 @@ public class HistoryActivity extends AppCompatActivity {
         dbAdapter.changeCursor( dbManager.getHistoriesByName(MainActivity.getSelectedProfile().getName()));
         Switch allHistories= findViewById(R.id.switchHistory);
 
-        //Comprueba si el switch está activo
+        //Comprueba si el switch está activo para saber que historial debe mostrar
         allHistories.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    // ALL HISTORY
+                    // USER HISTORY
                     Log.e("true","USER");
                     dbAdapter.changeCursor( dbManager.getHistories());
                 } else {
-                    // HISTORY USUARIOS
+                    // HISTORY ALL
                     Log.e("true","ALL");
                     dbAdapter.changeCursor( dbManager.getHistoriesByName(MainActivity.getSelectedProfile().getName()));
                 }
@@ -157,7 +157,6 @@ public class HistoryActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error al intentar leer el log", Toast.LENGTH_SHORT).show();
             }
         }else if(item.getItemId()==R.id.continueGamebyHistory){
-            //TODO CONTINUAR PARTIDA SEGUN EL HISTORIAL
             if(cursor.moveToPosition(position)){
                 Cursor historyCursor= dbManager.getHistory(cursor.getString(0));
 

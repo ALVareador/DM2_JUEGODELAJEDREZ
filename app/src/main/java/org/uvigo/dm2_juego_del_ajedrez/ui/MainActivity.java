@@ -173,10 +173,12 @@ public class MainActivity extends AppCompatActivity{
         Toast.makeText(context, "Perfil seleccionado: "+selectedProfile.getName(), Toast.LENGTH_SHORT).show();
     }
 
+    /**Devuelve el perfil global seleccionado*/
     public static Profile getSelectedProfile(){
         return selectedProfile;
     }
 
+    /**Devuelve el reproductor de musica*/
     public static GameMusic getMusic() { return music;}
 
 

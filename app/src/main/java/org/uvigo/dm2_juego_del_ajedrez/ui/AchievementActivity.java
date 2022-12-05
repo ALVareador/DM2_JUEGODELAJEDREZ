@@ -30,7 +30,6 @@ public class AchievementActivity extends AppCompatActivity {
     private SimpleCursorAdapter dbAdapter;
 
     private ArrayList<Achievement> achievements = new ArrayList<>();
-    private AchievementArrayAdapter achievementArrayAdapter;
     private ImageButton backButton;
     private GameMusic music;
 
@@ -81,21 +80,17 @@ public class AchievementActivity extends AppCompatActivity {
     }
 
     @Override
+    /**Inicializa los logros*/
     protected void onStart() {
         super.onStart();
 
         dbManager.addAchievement(new Achievement("Voraz","Come una pieza"));
-        dbManager.addAchievement(new Achievement("Las reglas del juego","Gana una partida"));
         dbManager.addAchievement(new Achievement("Un dia Oscuro","Come las dos torres"));
         dbManager.addAchievement(new Achievement("Francotirador en posicion","Coloca un alfil en una esquina del tablero"));
         dbManager.addAchievement(new Achievement("Al final si que era mortal","Come una reina"));
-        dbManager.addAchievement(new Achievement("Jugando a ser dios","Activa un aspecto de pieza"));
-        dbManager.addAchievement(new Achievement("Mente fria","Haz que un jugador abandone una partida contra ti"));
         dbManager.addAchievement(new Achievement("100 metros, vaya","Consigue transformar un peon en reina en una partida"));
         dbManager.addAchievement(new Achievement("Zona hostil","Lleva un peón a la ultima fila del tablero"));
         dbManager.addAchievement(new Achievement("Insaciable","Intenta comerte tu propia pieza"));
-        dbManager.addAchievement(new Achievement("Todo es mas bonito con color","Activa un aspecto del tablero"));
-        dbManager.addAchievement(new Achievement("Todo es mas divertido con amigos","Añade un amigo"));
 
         ListView listView = this.findViewById( R.id.listViewAchievement );
         this.dbAdapter=new SimpleCursorAdapter(this, R.layout.achievement_listview, null, new String[] { DBManager.ACHIEVEMENT_NAME, DBManager.ACHIEVEMENTS_CLUE }, new int[] { R.id.textViewName, R.id.achievementMenuInfo }, 0);
@@ -134,6 +129,7 @@ public class AchievementActivity extends AppCompatActivity {
         return true;
     }
 
+    /**Muestra la pista del achievement*/
     private void showAchievementClueDialog(String name) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Pista: ");

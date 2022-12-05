@@ -10,31 +10,23 @@ public class BoardBox {
     public String drawablePieza;
     private Piece piece;
 
-    //TODO Hacer qu coja las views quee tocan
-
-    public BoardBox(int drawableBackground, String drawablePieza) {
-        this.drawableBackground = drawableBackground;
-        this.drawablePieza = drawablePieza;
-        this.piece= new Piece("EMPTY",'E',"",64);
-    }
-
     public BoardBox(int drawableBackground) {
         this.drawableBackground = drawableBackground;
         this.drawablePieza = "";
         this.piece= new Piece("EMPTY",'E',"",64);
     }
 
+    /**Devuelve el fondo*/
     public int getDrawableBackground() {
         return drawableBackground;
     }
 
+    /** Devuelve la pieza a dibujar*/
     public String getDrawablePiece() {
         return drawablePieza;
     }
 
-    public void setDrawableBackground(int drawableBackground) {
-        this.drawableBackground = drawableBackground;
-    }
+    /**Devuelve la pieza asociada*/
     public Piece getPiece(){
         return piece;
     }

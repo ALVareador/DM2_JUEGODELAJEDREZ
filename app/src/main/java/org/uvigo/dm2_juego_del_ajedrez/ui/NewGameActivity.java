@@ -210,7 +210,6 @@ public class NewGameActivity extends AppCompatActivity {
 
     /**Carga los rivales disponibles desde BD */
     public ArrayList<Profile> loadRivals(){
-        Log.e("-------------------------------------------","----------------------------------------------------");
         profiles=Uploader.loadProfiles(getApplicationContext());
         rivals=profiles;
         Profile tempSP=null;
@@ -229,7 +228,6 @@ public class NewGameActivity extends AppCompatActivity {
             Log.e(rivals.toString(),tempSP.getName());
         }
 
-        Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4\n",rivals.toString()+"##########################################3");
         return rivals;
     }
 }

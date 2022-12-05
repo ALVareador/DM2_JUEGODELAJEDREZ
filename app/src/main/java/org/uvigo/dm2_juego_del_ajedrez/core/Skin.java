@@ -24,23 +24,20 @@ public class Skin implements Serializable {
         this.image=image;
     }
 
+    /**Devuelve el nombre de la skin*/
     public String getName() {
         return name;
     }
 
     /** Devuelve la imagen*/
-    public Icon getImage(){
-        return Icon.createWithFilePath(image);
-    }
     public String getImagePath(){
         return image;
     }
 
+    /**Cambia el nombre de la imagen*/
     public void setName(String name) {
         this.name = name;
     }
-
-    //TODO metodo para crear colores accesibles desde imageview a partir de los strings de color
 
     @Override
     public String toString() {

@@ -9,10 +9,11 @@ public class SkinBoard{
         this.darkcolor = darkcolor;
     }
 
+    /**Devuelve el color claro del tablero*/
     public int getLightColor(){
         return lightcolor;
     }
-
+    /**Devuelve el color oscuro del tablero*/
     public int getDarkcolor() {
         return darkcolor;
     }

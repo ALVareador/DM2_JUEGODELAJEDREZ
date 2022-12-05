@@ -15,19 +15,20 @@ public class Piece {
         this.position=position;
         Log.w("POS",Integer.toString(position));
     }
+    /**Devuelve el nombre de la pieza*/
     public String getName(){
         return name;
     }
+    /**Devuelve el color d ela pieza*/
     public char getColor(){
         return color;
     }
+    /**Devuelve la ruta de la imagen de la pieza*/
     public String getImage(){
         return image;
     }
+    /**Obtiene la posicion de la pieza*/
     public int getPos(){
         return position;
-    }
-    public void setPos(int position){
-        this.position=position;
     }
 }

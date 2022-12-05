@@ -11,10 +11,12 @@ public class Achievement implements Serializable {
         this.description=description;
     }
 
+    /**Devuelve el nombre*/
     public String getName() {
         return name;
     }
 
+    /**Devuelve la descripcion*/
     public String getDescription() {
         return description;
     }

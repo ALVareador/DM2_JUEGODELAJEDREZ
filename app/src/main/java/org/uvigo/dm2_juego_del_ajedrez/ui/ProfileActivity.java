@@ -58,15 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        //saveProfiles();
         profiles.add(new Profile("default"));
-        //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING"));
-        //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING MUCHO"));
-        //defaultProfile.addAchievement(new Achievement("WHATS","HAPPENING POCO"));
-
-        //defaultProfile.addFriend(new Profile("JUGADOR1"));
-        //defaultProfile.addFriend(new Profile("JUGADOR2"));
-        //defaultProfile.addFriend(new Profile("JUGADOR3"));
 
         listView = findViewById(R.id.listViewProfile);
         profiles= Uploader.loadProfiles(getApplicationContext());
@@ -185,7 +177,7 @@ public class ProfileActivity extends AppCompatActivity {
             case(R.id.profileMenuAddFriend):
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 Profile addProfile= getProfileByName(profiles.get(position).getName());
-                selectedProfile.addFriend(addProfile);
+                selectedProfile.addFriend(getApplicationContext(),addProfile);
                 Toast.makeText( this, "Has añadido a "+addProfile.getName()+" como amigo", Toast.LENGTH_SHORT ).show();
                 profileArrayAdapter.notifyDataSetChanged();
 
@@ -234,27 +226,6 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    public void saveProfiles(){
-
-        //Si no hay skins en el momento de guardar es la primera ejecucion y tenemos que generar todas las skins
-        if(profiles.isEmpty()){
-            Profile defaultProfile= new Profile("default");
-            profiles.add(defaultProfile);
-            selectedProfile= defaultProfile;
-            saveProfiles();
-
-        }
-
-
-        for(Profile profile: this.profiles) {
-            Log.e("Guardando perfil", profile.getName());
-            saveProfile(profile);
-        }
-
-        Log.e( "WARN", "SAVED DATA" );
-
-    }
-
     public void saveProfile(Profile p){
 
         Log.e( "WARN", "creating user File" );
@@ -283,67 +254,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void loadProfiles(){
-        //Log.e("",getFilesDir().toString());
-        profiles.clear();
-
-        Log.e( "WARN", "Geting save file names" );
-        //READ SAVED PROFILE NAMES
-
-        File rootDir = this.getFilesDir();
-        Set<String> names = new HashSet<>();
-        for (final File fileEntry : rootDir.listFiles()) {
-            if(!fileEntry.getName().equals("skins_data.cfg")){
-                Log.e("WARN", fileEntry.getName());
-                names.add(fileEntry.getName());
-        }}
-        Log.e( "WARN", "Number of save file found: " + names.size() );
-
-        //Ahora que tenemos todos los nombres de los perfiles podemos leer cada uno y guardarlos
-
-        for(String name: names){
-
-            //Log.e( "WARN", "Loading file: " + name );
-            try (FileInputStream f = this.openFileInput(name)){
-                BufferedReader cfg = new BufferedReader( new InputStreamReader( f ) );
-
-                String profileLine = cfg.readLine(); //Corresponde al nombre del perfil
-
-                String cfg_image, cfg_board, cfg_piece, cfg_point, cfg_achievements, cfg_friends;
-                while( profileLine != null ) {
-
-                    //Recuperamos cada perfil
-                    cfg_image= cfg.readLine();
-
-                    cfg_board= cfg.readLine();
-                    cfg_piece= cfg.readLine();
-
-                    cfg_point= cfg.readLine();
-
-                    cfg_achievements= cfg.readLine();
-                    cfg_friends= cfg.readLine();
-
-                    //Log.e("CHARGED_DATA",profileLine+" "+cfg_image);
-                    this.profiles.add(new Profile(profileLine,cfg_image, cfg_board, cfg_piece, Integer.parseInt(cfg_point), cfg_achievements, cfg_friends));
-
-                    profileLine = cfg.readLine();
-                }
-
-                cfg.close();
-                //Log.e( "WARN", "LOADED DATA: "+profiles.toString() );
-
-                profileArrayAdapter.notifyDataSetChanged();
-            }
-            catch (IOException exc)
-            {
-                Log.e( "WARN", exc.getMessage() );
-                Log.e( "WARN", "Error loading state" );
-            }
-
-        }
-
-    }
-
     /** Añade un nuevo perfil*/
     private void addProfile() {
         profiles.add(new Profile());
@@ -352,6 +262,7 @@ public class ProfileActivity extends AppCompatActivity {
         updateProfiles();
     }
 
+    /**Cambia el perfil global*/
     private void changeGlobalSelectedProfile(){
         try{
             Log.e("PERFIL ACTUALIZADO: ",selectedProfile.getName());
@@ -456,6 +367,8 @@ public class ProfileActivity extends AppCompatActivity {
         return profiles.get(toret);
 
     }
+
+    /**Actualiza los perfiles generales*/
     public void updateProfiles(){
 
         ArrayList<Profile> tempProfiles= profiles;

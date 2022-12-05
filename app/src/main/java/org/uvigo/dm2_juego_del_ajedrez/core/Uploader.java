@@ -20,6 +20,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class Uploader extends AppCompatActivity {
+    //CLASE DE UTILIDAD QUE PERMITE EL GUARDAR PERFILES, CAMBIAR LAS IMAGENES,
+    //ACTUALIZA LOS HISTORIALES DE PARTIDAS Y GUARDA/CARGA EL PERFIL SELECCIONADO.
     private static DBManager dbManager;
     private static Profile selectedProfile;
     private static ArrayList<Profile> profiles= new ArrayList<Profile>();
@@ -28,25 +30,21 @@ public class Uploader extends AppCompatActivity {
     public static Bitmap bitmapFromAssets(Context context, String imagePath)
     {
         InputStream stream = null;
-        try
-        {
+        try{
             stream = context.getAssets().open(imagePath);
             return BitmapFactory.decodeStream(stream);
-        }
-        catch (Exception ignored) {}
-        finally
-        {
-            try
-            {
-                if(stream != null)
-                {
+        }catch (Exception e) {}
+        finally{
+            try{
+                if(stream != null){
                     stream.close();
                 }
-            } catch (Exception ignored) {}
+            }catch (Exception e) {}
         }
         return null;
     }
 
+    /**Actualiza los historiales*/
     public static void updateHistory(Context context, History h){
         dbManager = new DBManager( context );
         Log.w("ACTUALIZA HISTORY","");
@@ -54,13 +52,7 @@ public class Uploader extends AppCompatActivity {
         dbManager.addHistory(h);
     }
 
-    public static void updateProfile(Context context, Profile profile){
-        dbManager = new DBManager( context );
-        Log.w("ACTUALIZA PROFILE","");
-        dbManager.deleteProfile(profile.getName());
-        dbManager.addProfile(profile);
-    }
-
+    /**Guarda el perfil global entre arranques de la aplicacion*/
     public static void saveGlobalProfile(Context context){
         selectedProfile= MainActivity.getSelectedProfile();
 
@@ -82,6 +74,8 @@ public class Uploader extends AppCompatActivity {
             Log.e( "WARN", "Error saving state" );
         }
     }
+
+    /**Carga el perfil al cargar la aplicacion*/
     public static void loadGlobalProfile(Context context){
 
         try (FileInputStream f = context.openFileInput("global_data.cfg")){
@@ -123,10 +117,6 @@ public class Uploader extends AppCompatActivity {
         {
             Log.e( "WARN", "Error loading state" );
         }
-    }
-
-    public static ArrayList<Profile> getProfiles(){
-        return profiles;
     }
 
     /**Guarda los perfiles dados como profilesToSave*/

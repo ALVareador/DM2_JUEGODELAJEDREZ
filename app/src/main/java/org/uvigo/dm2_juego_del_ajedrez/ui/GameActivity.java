@@ -42,14 +42,14 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     Integer selectedTime;
 
-    GridView tablero;
+    GridView board;
     PieceAdapter pieceAdapter;
-    BoardBox[] casillas;
+    BoardBox[] boardboxes;
     SkinBoard skin;
-    boolean casillaSeleccionada;
-    int posCasillaSeleccionada;
+    boolean selectedBoardBox;
+    int posSelectedBoardBox;
     History history;
-    ArrayList<Piece> piezasComidas;
+    ArrayList<Piece> deadPieces;
 
     //EMPTY PIECE
     Piece emptyPiece= new Piece("EMPTY",'E',"deadPieces.png",64);
@@ -101,11 +101,11 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             history=(History)getIntent().getSerializableExtra("history");
         }
         //Creamos array de piezas comidas
-        piezasComidas = new ArrayList<Piece>();
+        deadPieces = new ArrayList<Piece>();
 
         //inicializar array casillas
-        casillaSeleccionada = false;
-        casillas = new BoardBox[64];
+        selectedBoardBox = false;
+        boardboxes = new BoardBox[64];
 
         TextView wPlayer= findViewById(R.id.whitesPlayer);
         TextView bPlayer= findViewById(R.id.blacksPlayer);
@@ -151,12 +151,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         orderPieces(newGame);
 
         //Coger el tablero
-        tablero = (GridView) findViewById(R.id.board);
-        tablero.setHorizontalSpacing(0);
-        tablero.setVerticalSpacing(0);
-        pieceAdapter = new PieceAdapter(this,casillas);
-        tablero.setAdapter(pieceAdapter);
-        tablero.setOnItemClickListener(this);
+        board = (GridView) findViewById(R.id.board);
+        board.setHorizontalSpacing(0);
+        board.setVerticalSpacing(0);
+        pieceAdapter = new PieceAdapter(this,boardboxes);
+        board.setAdapter(pieceAdapter);
+        board.setOnItemClickListener(this);
 
         ImageButton backButton = this.findViewById(R.id.backButton);
 
@@ -316,6 +316,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         updateProfiles();
     }
 
+    /**Rellena de color el tablero*/
     public void drawBoard(){
         int numLinea;
         int ptr = 0;
@@ -324,18 +325,18 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             if(numLinea%2 == 0){
                 for(int columna = 0; columna <8 ; columna++){
                     if(columna%2 == 0)
-                        casillas[ptr] = new BoardBox(skin.getLightColor());
+                        boardboxes[ptr] = new BoardBox(skin.getLightColor());
                     else
-                        casillas[ptr] = new BoardBox(skin.getDarkcolor());
+                        boardboxes[ptr] = new BoardBox(skin.getDarkcolor());
 
                     ptr++;
                 }
             }else{
                 for(int columna = 0; columna <8 ; columna++){
                     if(columna%2 != 0)
-                        casillas[ptr] = new BoardBox(skin.getLightColor());
+                        boardboxes[ptr] = new BoardBox(skin.getLightColor());
                     else
-                        casillas[ptr] = new BoardBox(skin.getDarkcolor());
+                        boardboxes[ptr] = new BoardBox(skin.getDarkcolor());
 
                     ptr++;
                 }
@@ -376,22 +377,22 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
             Log.e("SKINPIECENAME",selectedProfile.getSkinPieceName());
 
-            casillas[bp1.getPos()].setPiece(bp1);
-            casillas[bp2.getPos()].setPiece(bp2);
-            casillas[bp3.getPos()].setPiece(bp3);
-            casillas[bp4.getPos()].setPiece(bp4);
-            casillas[bp5.getPos()].setPiece(bp5);
-            casillas[bp6.getPos()].setPiece(bp6);
-            casillas[bp7.getPos()].setPiece(bp7);
-            casillas[bp8.getPos()].setPiece(bp8);
-            casillas[bt1.getPos()].setPiece(bt1);
-            casillas[bt2.getPos()].setPiece(bt2);
-            casillas[bk1.getPos()].setPiece(bk1);
-            casillas[bk2.getPos()].setPiece(bk2);
-            casillas[bb1.getPos()].setPiece(bb1);
-            casillas[bb2.getPos()].setPiece(bb2);
-            casillas[bq.getPos()].setPiece(bq);
-            casillas[bK.getPos()].setPiece(bK);
+            boardboxes[bp1.getPos()].setPiece(bp1);
+            boardboxes[bp2.getPos()].setPiece(bp2);
+            boardboxes[bp3.getPos()].setPiece(bp3);
+            boardboxes[bp4.getPos()].setPiece(bp4);
+            boardboxes[bp5.getPos()].setPiece(bp5);
+            boardboxes[bp6.getPos()].setPiece(bp6);
+            boardboxes[bp7.getPos()].setPiece(bp7);
+            boardboxes[bp8.getPos()].setPiece(bp8);
+            boardboxes[bt1.getPos()].setPiece(bt1);
+            boardboxes[bt2.getPos()].setPiece(bt2);
+            boardboxes[bk1.getPos()].setPiece(bk1);
+            boardboxes[bk2.getPos()].setPiece(bk2);
+            boardboxes[bb1.getPos()].setPiece(bb1);
+            boardboxes[bb2.getPos()].setPiece(bb2);
+            boardboxes[bq.getPos()].setPiece(bq);
+            boardboxes[bK.getPos()].setPiece(bK);
 
             history.addPos(bp1.getColor()+bp1.getName(),Integer.toString(bp1.getPos()));
             history.addPos(bp2.getColor()+bp2.getName(),Integer.toString(bp2.getPos()));
@@ -412,45 +413,45 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
             //WHITES
 
-            Piece wp1= new Piece("PAWN1",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-9-7);
-            Piece wp2= new Piece("PAWN2",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-8-7);
-            Piece wp3= new Piece("PAWN3",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-7-7);
-            Piece wp4= new Piece("PAWN4",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-6-7);
-            Piece wp5= new Piece("PAWN5",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-5-7);
-            Piece wp6= new Piece("PAWN6",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-4-7);
-            Piece wp7= new Piece("PAWN7",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-3-7);
-            Piece wp8= new Piece("PAWN8",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",casillas.length-2-7);
+            Piece wp1= new Piece("PAWN1",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-9-7);
+            Piece wp2= new Piece("PAWN2",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-8-7);
+            Piece wp3= new Piece("PAWN3",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-7-7);
+            Piece wp4= new Piece("PAWN4",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-6-7);
+            Piece wp5= new Piece("PAWN5",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-5-7);
+            Piece wp6= new Piece("PAWN6",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-4-7);
+            Piece wp7= new Piece("PAWN7",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-3-7);
+            Piece wp8= new Piece("PAWN8",'W',"whitepawn"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-2-7);
 
-            Piece wt1= new Piece("TOWER1",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-0);
-            Piece wt2= new Piece("TOWER2",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-7);
+            Piece wt1= new Piece("TOWER1",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-1-0);
+            Piece wt2= new Piece("TOWER2",'W',"whitetower"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-1-7);
 
-            Piece wk1= new Piece("KNIGHT1",'W',"whiteknight"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-1);
-            Piece wk2= new Piece("KNIGHT2",'W',"whiteknight"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-6);
+            Piece wk1= new Piece("KNIGHT1",'W',"whiteknight"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-1-1);
+            Piece wk2= new Piece("KNIGHT2",'W',"whiteknight"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-1-6);
 
-            Piece wb1= new Piece("BISHOP1",'W',"whitebishop"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-2);
-            Piece wb2= new Piece("BISHOP2",'W',"whitebishop"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-5);
+            Piece wb1= new Piece("BISHOP1",'W',"whitebishop"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-1-2);
+            Piece wb2= new Piece("BISHOP2",'W',"whitebishop"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-1-5);
 
-            Piece wq= new Piece("QUEEN",'W',"whitequeen"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-3);
+            Piece wq= new Piece("QUEEN",'W',"whitequeen"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-1-3);
 
-            Piece wK= new Piece("KING",'W',"whiteking"+selectedProfile.getSkinPieceName()+".png",casillas.length-1-4);
+            Piece wK= new Piece("KING",'W',"whiteking"+selectedProfile.getSkinPieceName()+".png",boardboxes.length-1-4);
 
-            casillas[wp1.getPos()].setPiece(wp1);
-            casillas[wp2.getPos()].setPiece(wp2);
-            casillas[wp3.getPos()].setPiece(wp3);
-            casillas[wp4.getPos()].setPiece(wp4);
-            casillas[wp5.getPos()].setPiece(wp5);
-            casillas[wp6.getPos()].setPiece(wp6);
-            casillas[wp7.getPos()].setPiece(wp7);
-            casillas[wp8.getPos()].setPiece(wp8);
+            boardboxes[wp1.getPos()].setPiece(wp1);
+            boardboxes[wp2.getPos()].setPiece(wp2);
+            boardboxes[wp3.getPos()].setPiece(wp3);
+            boardboxes[wp4.getPos()].setPiece(wp4);
+            boardboxes[wp5.getPos()].setPiece(wp5);
+            boardboxes[wp6.getPos()].setPiece(wp6);
+            boardboxes[wp7.getPos()].setPiece(wp7);
+            boardboxes[wp8.getPos()].setPiece(wp8);
 
-            casillas[wt1.getPos()].setPiece(wt1);
-            casillas[wt2.getPos()].setPiece(wt2);
-            casillas[wk1.getPos()].setPiece(wk1);
-            casillas[wk2.getPos()].setPiece(wk2);
-            casillas[wb1.getPos()].setPiece(wb1);
-            casillas[wb2.getPos()].setPiece(wb2);
-            casillas[wq.getPos()].setPiece(wq);
-            casillas[wK.getPos()].setPiece(wK);
+            boardboxes[wt1.getPos()].setPiece(wt1);
+            boardboxes[wt2.getPos()].setPiece(wt2);
+            boardboxes[wk1.getPos()].setPiece(wk1);
+            boardboxes[wk2.getPos()].setPiece(wk2);
+            boardboxes[wb1.getPos()].setPiece(wb1);
+            boardboxes[wb2.getPos()].setPiece(wb2);
+            boardboxes[wq.getPos()].setPiece(wq);
+            boardboxes[wK.getPos()].setPiece(wK);
 
             history.addPos(wp1.getColor()+wp1.getName(),Integer.toString(wp1.getPos()));
             history.addPos(wp2.getColor()+wp2.getName(),Integer.toString(wp2.getPos()));
@@ -520,45 +521,45 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
             Piece bt1= new Piece("TOWER1",'B',"blacktower"+selectedProfile.getSkinPieceName()+".png",getPositions("BTOWER1"));
 
-            casillas[bp1.getPos()].setPiece(bp1);
-            casillas[bp2.getPos()].setPiece(bp2);
-            casillas[bp3.getPos()].setPiece(bp3);
-            casillas[bp4.getPos()].setPiece(bp4);
-            casillas[bp5.getPos()].setPiece(bp5);
-            casillas[bp6.getPos()].setPiece(bp6);
-            casillas[bp7.getPos()].setPiece(bp7);
-            casillas[bp8.getPos()].setPiece(bp8);
+            boardboxes[bp1.getPos()].setPiece(bp1);
+            boardboxes[bp2.getPos()].setPiece(bp2);
+            boardboxes[bp3.getPos()].setPiece(bp3);
+            boardboxes[bp4.getPos()].setPiece(bp4);
+            boardboxes[bp5.getPos()].setPiece(bp5);
+            boardboxes[bp6.getPos()].setPiece(bp6);
+            boardboxes[bp7.getPos()].setPiece(bp7);
+            boardboxes[bp8.getPos()].setPiece(bp8);
 
-            casillas[bt2.getPos()].setPiece(bt2);
+            boardboxes[bt2.getPos()].setPiece(bt2);
 
-            casillas[bk1.getPos()].setPiece(bk1);
-            casillas[bk2.getPos()].setPiece(bk2);
+            boardboxes[bk1.getPos()].setPiece(bk1);
+            boardboxes[bk2.getPos()].setPiece(bk2);
 
-            casillas[bb1.getPos()].setPiece(bb1);
-            casillas[bb2.getPos()].setPiece(bb2);
+            boardboxes[bb1.getPos()].setPiece(bb1);
+            boardboxes[bb2.getPos()].setPiece(bb2);
 
-            casillas[bq.getPos()].setPiece(bq);
-            casillas[bK.getPos()].setPiece(bK);
+            boardboxes[bq.getPos()].setPiece(bq);
+            boardboxes[bK.getPos()].setPiece(bK);
 
-            casillas[wp1.getPos()].setPiece(wp1);
-            casillas[wp2.getPos()].setPiece(wp2);
-            casillas[wp3.getPos()].setPiece(wp3);
-            casillas[wp4.getPos()].setPiece(wp4);
-            casillas[wp5.getPos()].setPiece(wp5);
-            casillas[wp6.getPos()].setPiece(wp6);
-            casillas[wp7.getPos()].setPiece(wp7);
-            casillas[wp8.getPos()].setPiece(wp8);
+            boardboxes[wp1.getPos()].setPiece(wp1);
+            boardboxes[wp2.getPos()].setPiece(wp2);
+            boardboxes[wp3.getPos()].setPiece(wp3);
+            boardboxes[wp4.getPos()].setPiece(wp4);
+            boardboxes[wp5.getPos()].setPiece(wp5);
+            boardboxes[wp6.getPos()].setPiece(wp6);
+            boardboxes[wp7.getPos()].setPiece(wp7);
+            boardboxes[wp8.getPos()].setPiece(wp8);
 
-            casillas[wt1.getPos()].setPiece(wt1);
-            casillas[wt2.getPos()].setPiece(wt2);
-            casillas[wk1.getPos()].setPiece(wk1);
-            casillas[wk2.getPos()].setPiece(wk2);
-            casillas[wb1.getPos()].setPiece(wb1);
-            casillas[wb2.getPos()].setPiece(wb2);
-            casillas[wq.getPos()].setPiece(wq);
-            casillas[wK.getPos()].setPiece(wK);
+            boardboxes[wt1.getPos()].setPiece(wt1);
+            boardboxes[wt2.getPos()].setPiece(wt2);
+            boardboxes[wk1.getPos()].setPiece(wk1);
+            boardboxes[wk2.getPos()].setPiece(wk2);
+            boardboxes[wb1.getPos()].setPiece(wb1);
+            boardboxes[wb2.getPos()].setPiece(wb2);
+            boardboxes[wq.getPos()].setPiece(wq);
+            boardboxes[wK.getPos()].setPiece(wK);
 
-            casillas[bt1.getPos()].setPiece(bt1);
+            boardboxes[bt1.getPos()].setPiece(bt1);
         }
 
     }
@@ -580,19 +581,19 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(casillaSeleccionada){
+        if(selectedBoardBox){
             Log.w("CASILLA SELECCIONADA",Integer.toString(position));
             //Logica de mover la pieza
-            casillaSeleccionada = false;
+            selectedBoardBox = false;
             //recuperamos casillas
-            BoardBox anterior = (BoardBox)parent.getItemAtPosition(posCasillaSeleccionada);
+            BoardBox anterior = (BoardBox)parent.getItemAtPosition(posSelectedBoardBox);
             BoardBox siguiente = (BoardBox)parent.getItemAtPosition(position);
             //Verificar que no se mueve una casilla vacia
             //Verificar que no se mueve a la misma casilla
 
 
             //Si hay una pieza
-            if(!anterior.getDrawablePiece().equals("") && posCasillaSeleccionada != position){
+            if(!anterior.getDrawablePiece().equals("") && posSelectedBoardBox != position){
                     //Damos logros por posiciones
                     positionAchievementHandler(getProfileByPiece(anterior.getPiece()),anterior.getPiece(),position);
                     //Si hay una pieza, comprueba si es del mismo color
@@ -618,7 +619,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                             //vaciamos anterior
                             history.addPos(eatenPiece,Integer.toString(-1));
                             anterior.setPiece(emptyPiece);
-                            tablero.setAdapter(pieceAdapter);
+                            board.setAdapter(pieceAdapter);
 
                             //guardar movimiento---
                         }
@@ -630,12 +631,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                         //vaciamos anterior
                         history.addPos(anterior.getPiece().getColor()+anterior.getPiece().getName(),Integer.toString(siguiente.getPiece().getPos()));
                         anterior.setPiece(emptyPiece);
-                        tablero.setAdapter(pieceAdapter);
+                        board.setAdapter(pieceAdapter);
 
                     }
 
                 //guardar movimiento---
-                String movimiento = translateCasilla(posCasillaSeleccionada) + "-->" + translateCasilla(position);
+                String movimiento = translateCasilla(posSelectedBoardBox) + "-->" + translateCasilla(position);
                 history.addMove(movimiento);
                 TextView lastMove = (TextView) findViewById(R.id.historyLog);
                 lastMove.setText(movimiento);
@@ -647,12 +648,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }else{
             //Logica de selección
             //indicamos que hay casilla seleccionada
-            casillaSeleccionada = true;
+            selectedBoardBox = true;
             //guardamos posición de la casilla seleccionada
-            posCasillaSeleccionada = position;
+            posSelectedBoardBox = position;
         }
     }
 
+    /**Guarda los perfiles*/
     public void saveProfile(Profile p){
 
         Log.e( "WARN", "creating user File" );
@@ -682,6 +684,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
+    /**Concede los logros relacionados con posiciones en tablero*/
     private void positionAchievementHandler(Profile profile, Piece piece, int position) {
         //Si un Alfil esta en la diagonal
         if(piece.getName().equals("BISHOP") && (position == 0 || position ==  7 || position == 63|| position == 56)){
@@ -698,9 +701,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    /**Añade puntos */
     private void addPointsEaten(Piece piece, Piece comida) {
         Profile eater;
-        piezasComidas.add(comida);
+        deadPieces.add(comida);
 
         //comprobamos quien comio y se añaden los puntos al jugador correspondiente
         if(piece.getColor() == 'W'){
@@ -727,10 +731,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void eatenAchivementHandler(Profile eater,Piece piece,Piece eaten){
 
-        //Logro por comer pieza
-        //TODO:Arreglar que se añadan los puntos al perfil
-        ArrayList<String> achivementsPlayer = eater.getAchievements();
-
         //añadimos el logro de voraz si no lo tiene
         if(!hasAchievement(eater,"voraz"))
                 eater.addAchievement(new Achievement("Voraz","Come una pieza"));
@@ -744,7 +744,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         //Si comio dos torres añadimos logro
         if(!hasAchievement(eater,"Un dia Oscuro")) {
             int contadorTorres = 0;
-            for (Piece p : piezasComidas) {
+            for (Piece p : deadPieces) {
                 if( piece.getColor() != p.getColor() && p.getName().equals("TOWER"))
                     contadorTorres++;
             }
@@ -792,6 +792,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         return false;
     }
 
+    /**Devuelve quien es el jugador de cada pieza*/
     public Profile getProfileByPiece(Piece piece){
         if(piece.getColor() == 'W')
             return selectedProfile;
@@ -799,6 +800,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             return selectedRival;
     }
 
+    /**Traduce para los movimientos ciertas casillas a letras*/
     public String translateCasilla(int pos){
         String[] letras = {"a","b","c","d","e","f","g","h"};
         int filaArray = pos/8+1;
@@ -807,6 +809,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         return letras[columna]+fila;
     }
 
+    /**Actualiza perfiles*/
     public void updateProfiles(){
 
         ArrayList<Profile> tempProfiles= profiles;
@@ -825,7 +828,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         }
 
-        //PARA EVITAR
         if(tempSP!=null){
             tempProfiles.remove(tempSP);
         }

@@ -128,7 +128,6 @@ public class SkinsActivity extends AppCompatActivity {
 
         //Si no hay skins en el momento de guardar es la primera ejecucion y tenemos que generar todas las skins
         if(skins.isEmpty()){
-            //BOARD SKINS /TODO CREAR TODAS LAS IMAGENES QUE REPRESENTAN EL TABLERO PARA TODAS LAS SKINS
             skins.add(new Skin("BOARDSKIN0","imageffffff#000000"));
             skins.add(new Skin("BOARDSKIN1","image000000#ffffff"));
 

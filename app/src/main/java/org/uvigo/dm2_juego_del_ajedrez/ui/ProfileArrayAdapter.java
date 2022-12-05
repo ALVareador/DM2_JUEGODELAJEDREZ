@@ -55,8 +55,6 @@ public class ProfileArrayAdapter  extends ArrayAdapter<Profile> {
         viewHolder.textViewName.setText(getItem(position).getName());
         viewHolder.textViewPoints.setText(getItem(position).getPoints());
 
-        //Si esta siendo usado se pone en gris
-        //viewHolder.buttonUseProfile.
 
         return convertView;
     }

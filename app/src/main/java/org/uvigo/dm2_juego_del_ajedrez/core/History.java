@@ -16,11 +16,6 @@ public class History implements Serializable {
         this.log= new ArrayList<>();
         this.posPieces=new HashMap<>();
     }
-    public History(String name, ArrayList<String> log, HashMap<String, String> posPieces) {
-        this.name = name;
-        this.log =log;
-        this.posPieces=posPieces;
-    }
 
     public History(String name, String log, String posPieces) {
         Log.e("CREATE HISTORY", name+" "+log+" "+posPieces);
@@ -29,6 +24,7 @@ public class History implements Serializable {
         this.posPieces=getParsedPos(posPieces);
     }
 
+    /**Devuelve el nombre*/
     public String getName(){
         return name;
     }
@@ -66,11 +62,6 @@ public class History implements Serializable {
             Log.e("SE ANADIRA LA POSICION DE LA PIEZA "+name," A "+pos);
             posPieces.put(name,pos);
         }
-    };
-
-    //{key1=value1, key2=value2}
-    public String toString(){
-        return name+";"+log.toString()+";"+posPieces;
     }
 
     /**Devuelve un log como lista*/
@@ -101,4 +92,10 @@ public class History implements Serializable {
         Log.e("MAP POSICIONES",toret.toString());
         return toret;
     }
+
+    //{key1=value1, key2=value2}
+    public String toString(){
+        return name+";"+log.toString()+";"+posPieces;
+    }
+
 }

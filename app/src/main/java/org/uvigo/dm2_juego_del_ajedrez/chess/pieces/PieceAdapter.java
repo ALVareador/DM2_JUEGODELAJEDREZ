@@ -14,21 +14,21 @@ import org.uvigo.dm2_juego_del_ajedrez.chess.board.BoardBox;
 
 public class PieceAdapter extends BaseAdapter{
     Context context;
-    BoardBox[] casillas;
+    BoardBox[] boardBoxes;
 
     public PieceAdapter(Context context, BoardBox[] casillas) {
         this.context = context;
-        this.casillas = casillas;
+        this.boardBoxes = casillas;
     }
 
     @Override
     public int getCount() {
-        return casillas.length;
+        return boardBoxes.length;
     }
 
     @Override
     public Object getItem(int i) {
-        return casillas[i];
+        return boardBoxes[i];
     }
 
     @Override
@@ -40,21 +40,22 @@ public class PieceAdapter extends BaseAdapter{
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
 
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.board_box, viewGroup, false);
         }
 
+        //FONDO
         ImageView background = (ImageView) view.findViewById(R.id.boardbox_background);
+        //PIEZA
         ImageView piece = (ImageView) view.findViewById(R.id.piece);
 
+        //Si no es la ultima casilla, rellena normal
         if(i!=64){
-            background.setBackgroundColor(casillas[i].getDrawableBackground());
-            if(casillas[i].drawablePieza != "")
-                //piece.setImageResource(casillas[i].drawablePieza);
-                piece.setImageBitmap(Uploader.bitmapFromAssets(context,casillas[i].getDrawablePiece()));
+            background.setBackgroundColor(boardBoxes[i].getDrawableBackground());
+            if(boardBoxes[i].drawablePieza != "")
+                piece.setImageBitmap(Uploader.bitmapFromAssets(context,boardBoxes[i].getDrawablePiece()));
         }else{
-            Log.e("###################################","64");
+            //Sino pinta d eun color distinto
             background.setBackgroundColor(Color.parseColor("#444444"));
             piece.setImageBitmap(Uploader.bitmapFromAssets(context,"deadPieces.png"));
         }

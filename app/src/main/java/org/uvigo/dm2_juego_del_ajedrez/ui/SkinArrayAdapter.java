@@ -96,28 +96,4 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         notifyDataSetChanged();
         return convertView;
     }
-
-    public void updateProfiles(){
-
-        ArrayList<Profile> tempProfiles= profiles;
-        Profile tempSP=null;
-
-        for(Profile pr: profiles){
-            if(selectedProfile.getName().equals(pr.getName())){
-                //Quitamos el selected profile
-                Log.e("PERFIL",selectedProfile.toString()+" eliminado");
-                tempSP=pr;
-            }
-        }
-
-        if(tempSP!=null){
-            tempProfiles.remove(tempSP);
-        }
-
-        tempProfiles.add(selectedProfile);
-
-        Log.e("PERFIL ACTUALIZADO A",selectedProfile.toString());
-
-        Uploader.saveProfiles(getContext(),tempProfiles);
-    }
 }
