@@ -89,6 +89,7 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
                     selectedProfile.setSkinPieceName(imagePath);
                     Toast.makeText(SkinArrayAdapter.super.getContext(), "El perfil "+selectedProfile.getName()+" ha cambiado su skin de pieza a "+imagePath, Toast.LENGTH_SHORT).show();
                 }
+                updateProfiles();
                 notifyDataSetChanged();
             }
         });

@@ -15,7 +15,7 @@ import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
 /** Maneja el acceso a la base de datos. */
 public class DBManager extends SQLiteOpenHelper {
     public static final String DB_NAME = "Chess";
-    public static final int DB_VERSION = 4;
+    public static final int DB_VERSION = 5;
 
     public static final String HISTORY_TABLE = "HISTORY";
     public static final String ACHIEVEMENTS_TABLE = "ACHIEVEMENTS";
