@@ -45,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageButton backButton;
     private ListView listView;
+    private GameMusic music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         this.activityResultLauncher = this.registerForActivityResult(contract, callback);
 
+        music = MainActivity.getMusic();
+
         backButton = this.findViewById(R.id.backButton);
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +123,9 @@ public class ProfileActivity extends AppCompatActivity {
         profileArrayAdapter = new ProfileArrayAdapter(this, profiles);
         listView.setAdapter(profileArrayAdapter);
 
+        //Empezamos la musica
+        music.onContinue(getApplicationContext());
+
         registerForContextMenu(listView);
     }
 
@@ -127,6 +133,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         profiles= Uploader.loadProfiles(getApplicationContext());
+        //Empezamos la musica
+        music.onContinue(getApplicationContext());
 
         profileArrayAdapter.notifyDataSetChanged();
     }

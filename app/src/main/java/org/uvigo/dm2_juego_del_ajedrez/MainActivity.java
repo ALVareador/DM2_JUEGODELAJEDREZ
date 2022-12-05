@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent subActividad = new Intent( MainActivity.this, CreditsActivity.class );
-                //subActividad.putExtra( "data", 1 );
                 activityResultLauncher.launch(subActividad);
             }
         });
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity{
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
 

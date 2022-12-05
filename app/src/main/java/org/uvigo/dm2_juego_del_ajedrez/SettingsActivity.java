@@ -13,7 +13,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private ImageButton backButton;
     private SeekBar seekBarMusic;
-    //private MediaPlayer mediaPlayer;
     private GameMusic music;
 
     @Override
@@ -24,10 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
         backButton = this.findViewById(R.id.backButton);
         seekBarMusic = this.findViewById(R.id.seekBarMusic);
         music = MainActivity.getMusic();
-        //music.onContinue(getApplicationContext());
-        //mediaPlayer = (GameMusic) getIntent().getSerializableExtra("music");
         seekBarMusic.setProgress((int) (music.getVolumen() * 100));
-        Boolean b = music.isPlaying();
 
         seekBarMusic.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
