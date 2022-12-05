@@ -1,4 +1,4 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.ui;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -23,7 +23,10 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import org.uvigo.dm2_juego_del_ajedrez.core.DBManager;
+import org.uvigo.dm2_juego_del_ajedrez.core.GameMusic;
+import org.uvigo.dm2_juego_del_ajedrez.R;
+import org.uvigo.dm2_juego_del_ajedrez.core.History;
 
 public class HistoryActivity extends AppCompatActivity {
 

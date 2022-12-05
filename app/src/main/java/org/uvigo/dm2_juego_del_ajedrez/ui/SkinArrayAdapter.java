@@ -1,35 +1,28 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.ui;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Paint;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import org.uvigo.dm2_juego_del_ajedrez.R;
+import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
+import org.uvigo.dm2_juego_del_ajedrez.core.Skin;
+import org.uvigo.dm2_juego_del_ajedrez.core.Uploader;
+
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 public class SkinArrayAdapter extends ArrayAdapter<Skin> {
@@ -40,7 +33,7 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
     public SkinArrayAdapter(@NonNull Context context, List<Skin> objects, boolean mode) {
         super(context, 0, objects);
         this.mode=mode;
-        profiles=Uploader.loadProfiles(getContext());
+        profiles= Uploader.loadProfiles(getContext());
 
         Log.w("SKINARRAYADAPTER",objects.toString());
     }

@@ -1,4 +1,4 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.ui;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +10,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
+import org.uvigo.dm2_juego_del_ajedrez.R;
+import org.uvigo.dm2_juego_del_ajedrez.core.Uploader;
 
 public class VisualizeProfileActivity extends AppCompatActivity {
     private ArrayAdapter frArrayAdapter, achArrayAdapter;

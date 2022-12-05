@@ -1,4 +1,4 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.core;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,6 +7,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.uvigo.dm2_juego_del_ajedrez.ui.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -60,7 +62,7 @@ public class Uploader extends AppCompatActivity {
     }
 
     public static void saveGlobalProfile(Context context){
-        selectedProfile=MainActivity.getSelectedProfile();
+        selectedProfile= MainActivity.getSelectedProfile();
 
         try (FileOutputStream f = context.openFileOutput( "global_data.cfg", Context.MODE_PRIVATE ) )
         {

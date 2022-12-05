@@ -1,4 +1,4 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.chess.pieces;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import org.uvigo.dm2_juego_del_ajedrez.R;
+import org.uvigo.dm2_juego_del_ajedrez.core.Uploader;
+import org.uvigo.dm2_juego_del_ajedrez.chess.board.BoardBox;
 
 public class PieceAdapter extends BaseAdapter{
     Context context;

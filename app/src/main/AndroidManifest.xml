@@ -26,40 +26,40 @@
         android:theme="@style/Theme.DM2_JUEGODELAJEDREZ"
         tools:targetApi="31">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".HistoryActivity"
+            android:name=".ui.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".HistoryDescriptionActivity"
+            android:name=".ui.HistoryDescriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".SkinSelector"
+            android:name=".ui.SkinSelector"
             android:exported="false" />
         <activity
-            android:name=".SkinsActivity"
+            android:name=".ui.SkinsActivity"
             android:exported="false" />
         <activity
-            android:name=".AchievementActivity"
+            android:name=".ui.AchievementActivity"
             android:exported="false" />
         <activity
-            android:name=".VisualizeProfileActivity"
+            android:name=".ui.VisualizeProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".ui.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".CreditsActivity"
+            android:name=".ui.CreditsActivity"
             android:exported="false" />
         <activity
-            android:name=".NewGameActivity"
+            android:name=".ui.NewGameActivity"
             android:exported="false" />
         <activity
-            android:name=".GameActivity"
+            android:name=".ui.GameActivity"
             android:exported="false"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
 
             <intent-filter>

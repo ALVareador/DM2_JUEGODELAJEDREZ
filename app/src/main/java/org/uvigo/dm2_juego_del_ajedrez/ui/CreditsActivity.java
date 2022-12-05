@@ -1,10 +1,12 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+
+import org.uvigo.dm2_juego_del_ajedrez.R;
 
 public class CreditsActivity extends AppCompatActivity {
 

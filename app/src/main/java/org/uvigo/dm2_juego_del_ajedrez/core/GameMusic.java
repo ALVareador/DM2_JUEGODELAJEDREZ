@@ -1,8 +1,10 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.core;
 
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+
+import org.uvigo.dm2_juego_del_ajedrez.R;
 
 import java.io.Serializable;
 

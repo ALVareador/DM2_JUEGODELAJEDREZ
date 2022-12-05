@@ -1,10 +1,9 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.core;
 
 import android.graphics.drawable.Icon;
 import android.util.Log;
 
 import java.io.Serializable;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 

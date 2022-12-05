@@ -1,4 +1,4 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.ui;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -7,17 +7,19 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.view.*;
 import android.widget.Toast;
+
+import org.uvigo.dm2_juego_del_ajedrez.R;
+import org.uvigo.dm2_juego_del_ajedrez.core.GameMusic;
+import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
+import org.uvigo.dm2_juego_del_ajedrez.core.Uploader;
 
 import java.util.ArrayList;
 

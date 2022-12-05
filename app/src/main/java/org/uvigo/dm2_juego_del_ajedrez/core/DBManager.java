@@ -1,4 +1,4 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.core;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.util.ArrayList;
+import org.uvigo.dm2_juego_del_ajedrez.core.Achievement;
+import org.uvigo.dm2_juego_del_ajedrez.core.History;
+import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
 
 /** Maneja el acceso a la base de datos. */
 public class DBManager extends SQLiteOpenHelper {

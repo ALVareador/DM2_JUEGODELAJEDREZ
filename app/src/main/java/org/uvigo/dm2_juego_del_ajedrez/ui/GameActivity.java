@@ -1,4 +1,4 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,6 +16,16 @@ import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.uvigo.dm2_juego_del_ajedrez.chess.pieces.PieceAdapter;
+import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
+import org.uvigo.dm2_juego_del_ajedrez.R;
+import org.uvigo.dm2_juego_del_ajedrez.core.Uploader;
+import org.uvigo.dm2_juego_del_ajedrez.chess.board.BoardBox;
+import org.uvigo.dm2_juego_del_ajedrez.chess.board.SkinBoard;
+import org.uvigo.dm2_juego_del_ajedrez.chess.pieces.Piece;
+import org.uvigo.dm2_juego_del_ajedrez.core.Achievement;
+import org.uvigo.dm2_juego_del_ajedrez.core.History;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -63,7 +72,7 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        profiles=Uploader.loadProfiles(getApplicationContext());
+        profiles= Uploader.loadProfiles(getApplicationContext());
         //Recuperamos parametros de newActivity
         newGame=(boolean)getIntent().getSerializableExtra("type");
 

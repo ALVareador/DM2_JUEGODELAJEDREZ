@@ -1,6 +1,8 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.chess.board;
 
 import android.util.Log;
+
+import org.uvigo.dm2_juego_del_ajedrez.chess.pieces.Piece;
 
 public class BoardBox {
 

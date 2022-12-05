@@ -1,4 +1,4 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.ui;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -20,6 +20,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
+import org.uvigo.dm2_juego_del_ajedrez.R;
+import org.uvigo.dm2_juego_del_ajedrez.core.Uploader;
+import org.uvigo.dm2_juego_del_ajedrez.core.History;
 
 import java.util.ArrayList;
 
@@ -159,7 +164,7 @@ public class NewGameActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //Guardamos los perfiles actualizados en el uploader
-        profiles=Uploader.loadProfiles(getApplicationContext());
+        profiles= Uploader.loadProfiles(getApplicationContext());
         rivals=loadRivals();
     }
 

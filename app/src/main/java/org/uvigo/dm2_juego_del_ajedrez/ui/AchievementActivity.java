@@ -1,12 +1,9 @@
-package org.uvigo.dm2_juego_del_ajedrez;
+package org.uvigo.dm2_juego_del_ajedrez.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,9 +17,12 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.uvigo.dm2_juego_del_ajedrez.core.DBManager;
+import org.uvigo.dm2_juego_del_ajedrez.core.GameMusic;
+import org.uvigo.dm2_juego_del_ajedrez.R;
+import org.uvigo.dm2_juego_del_ajedrez.core.Achievement;
+
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class AchievementActivity extends AppCompatActivity {
 
