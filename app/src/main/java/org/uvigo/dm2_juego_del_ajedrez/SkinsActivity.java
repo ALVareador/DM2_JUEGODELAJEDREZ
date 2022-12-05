@@ -31,11 +31,14 @@ public class SkinsActivity extends AppCompatActivity {
     private ArrayList<Skin> skins = new ArrayList<Skin>();
     private SkinArrayAdapter skinArrayAdapter;
     private ImageButton backButton;
+    private GameMusic music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skins);
+
+        music = MainActivity.getMusic();
 
         saveSkins();
 
@@ -100,6 +103,8 @@ public class SkinsActivity extends AppCompatActivity {
     protected void onResume() {
         Log.e("WARN:","RESUME: "+skins.toString());
         super.onResume();
+        //Empezamos la musica
+        music.onContinue(getApplicationContext());
         if (skins.isEmpty()) {
             loadSkins();
         }
@@ -109,6 +114,8 @@ public class SkinsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.e("WARN:", "START");
+        //Empezamos la musica
+        music.onContinue(getApplicationContext());
         if (skins.isEmpty()) {
             Log.e("","LOAD SKINS");
             loadSkins();

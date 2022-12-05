@@ -32,6 +32,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private ImageButton backButton;
+    private GameMusic music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,8 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
 
         this.dbManager = new DBManager( this.getApplicationContext() );
+
+        music = MainActivity.getMusic();
 
         //BACKBUTTON
         backButton = this.findViewById(R.id.backButton);
@@ -119,6 +122,9 @@ public class HistoryActivity extends AppCompatActivity {
 
         registerForContextMenu(listView);
 
+        //Empezamos la musica
+        music.onContinue(getApplicationContext());
+
     }
 
     @Override
@@ -164,5 +170,12 @@ public class HistoryActivity extends AppCompatActivity {
             return super.onContextItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Empezamos la musica
+        music.onContinue(getApplicationContext());
     }
 }

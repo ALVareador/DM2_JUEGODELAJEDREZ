@@ -32,6 +32,7 @@ public class AchievementActivity extends AppCompatActivity {
     private ArrayList<Achievement> achievements = new ArrayList<>();
     private AchievementArrayAdapter achievementArrayAdapter;
     private ImageButton backButton;
+    private GameMusic music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class AchievementActivity extends AppCompatActivity {
         this.dbAdapter.changeCursor( this.dbManager.getAchievements() );
 
         registerForContextMenu(listView);
+
+        music = MainActivity.getMusic();
 
         backButton = this.findViewById(R.id.backButton);
 
@@ -73,7 +76,8 @@ public class AchievementActivity extends AppCompatActivity {
     protected void onResume() {
         Log.e("WARN:","RESUME");
         super.onResume();
-
+        //Empezamos la musica
+        music.onContinue(getApplicationContext());
     }
 
     @Override
@@ -98,6 +102,9 @@ public class AchievementActivity extends AppCompatActivity {
 
         this.dbAdapter.changeCursor( this.dbManager.getAchievements() );
         registerForContextMenu(listView);
+
+        //Empezamos la musica
+        music.onContinue(getApplicationContext());
 
     }
 

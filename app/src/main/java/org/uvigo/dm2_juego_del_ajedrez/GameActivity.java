@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,10 +24,14 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class GameActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     Profile selectedProfile= MainActivity.getSelectedProfile();
     Profile selectedRival;
+    ArrayList<Profile>profiles;
+
+    Integer selectedTime;
 
     GridView tablero;
     PieceAdapter pieceAdapter;
@@ -45,16 +50,35 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     boolean newGame; //TRUE si newGame/ FALSE si continueGame
 
+    private CountDownTimer wCountDownTimer;
+    private CountDownTimer bCountDownTimer;
+    private boolean wTimerRunning;
+    private boolean bTimerRunning;
+    private boolean whiteTurn = true;
+    private long[] wTimeLeftInMillis = {0};
+    private long[] bTimeLeftInMillis = {0};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        profiles=Uploader.loadProfiles(getApplicationContext());
         //Recuperamos parametros de newActivity
         newGame=(boolean)getIntent().getSerializableExtra("type");
 
         normalMode= (boolean)getIntent().getSerializableExtra("mode");
         selectedRival= (Profile)getIntent().getSerializableExtra("rival");
+        selectedTime= (Integer)getIntent().getSerializableExtra("time");
+        wTimeLeftInMillis[0] = selectedTime*60000;
+        bTimeLeftInMillis[0] = selectedTime*60000;
+
+        profiles.remove(selectedProfile);
+        profiles.remove(selectedRival);
+
+        profiles.add(selectedProfile);
+        profiles.add(selectedRival);
+
         turn= (boolean)getIntent().getSerializableExtra("turn");
 
         Log.e("","MODO RECUPERADO (true->NORMAL/false->RANDOM): "+normalMode+
@@ -79,6 +103,17 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         ImageView iv_wPlayer= findViewById(R.id.whitesPlayerImage);
         ImageView iv_bPlayer= findViewById(R.id.blacksPlayerImage);
+
+        TextView wTime= findViewById(R.id.whiteTimeText);
+        TextView bTime= findViewById(R.id.blackTimeText);
+        ImageButton wTimeButton= findViewById(R.id.whiteTimeButton);
+        ImageButton bTimeButton= findViewById(R.id.blackTimeButton);
+        updateCountDownTextW(wTime);
+        updateCountDownTextB(bTime);
+
+        startTimerW(wTime);
+        wTimerRunning = true;
+
 
         if(turn){
             wPlayer.setText(selectedProfile.getName());
@@ -120,10 +155,136 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 Uploader.updateHistory(getApplicationContext(),history);
+
+                //Guardamos los perfiles actualizados en el uploader
+                updateProfiles();
+
                 GameActivity.this.setResult( MainActivity.RESULT_CANCELED );
                 GameActivity.this.finish();
             }
         });
+
+        wTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(wTimerRunning){
+                    //PAUSAMOS EL TIMER BLANCO
+                    pauseTimer(wCountDownTimer, wTimeLeftInMillis);
+                    wTimerRunning = false;
+                    whiteTurn = false;
+                    //INICIAMOS TIMER NEGRO
+                    //startTimer(bCountDownTimer, bTimeLeftInMillis, bTime);
+                    startTimerB(bTime);
+                    bTimerRunning = true;
+                }
+            }
+        });
+
+        bTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(bTimerRunning){
+                    //PAUSAMOS EL TIMER NEGRO
+                    bCountDownTimer.cancel();
+                    pauseTimer(bCountDownTimer, bTimeLeftInMillis);
+                    bTimerRunning = false;
+                    whiteTurn = true;
+                    //INICIAMOS TIMER BLANCO
+                    startTimerW(wTime);
+                    wTimerRunning = true;
+                }
+            }
+        });
+    }
+
+    private CountDownTimer startTimerW(TextView wTime) {
+        wCountDownTimer = new CountDownTimer(wTimeLeftInMillis[0], 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                wTimeLeftInMillis[0] = millisUntilFinished;
+                updateCountDownTextW(wTime);
+            }
+
+            @Override
+            public void onFinish() {
+                wTimerRunning = false;
+                Uploader.updateHistory(getApplicationContext(),history);
+
+                //Guardamos los perfiles actualizados en el uploader
+                updateProfiles();
+
+                GameActivity.this.setResult( MainActivity.RESULT_CANCELED );
+                GameActivity.this.finish();
+            }
+        }.start();
+
+        wTimerRunning = true;
+
+        return wCountDownTimer;
+    }
+
+    private CountDownTimer startTimerB(TextView bTime) {
+        bCountDownTimer = new CountDownTimer(bTimeLeftInMillis[0], 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                bTimeLeftInMillis[0] = millisUntilFinished;
+                updateCountDownTextB(bTime);
+            }
+
+            @Override
+            public void onFinish() {
+                bTimerRunning = false;
+                Uploader.updateHistory(getApplicationContext(),history);
+
+                //Guardamos los perfiles actualizados en el uploader
+                updateProfiles();
+
+                GameActivity.this.setResult( MainActivity.RESULT_CANCELED );
+                GameActivity.this.finish();
+            }
+        }.start();
+
+        bTimerRunning = true;
+
+        return bCountDownTimer;
+    }
+
+    private void updateCountDownTextW(TextView wTime) {
+        int minutes = (int) (wTimeLeftInMillis[0] / 1000) / 60;
+        int seconds = (int) (wTimeLeftInMillis[0] / 1000) % 60;
+
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+        wTime.setText(timeLeftFormatted);
+    }
+
+    private void updateCountDownTextB(TextView bTime) {
+        int minutes = (int) (bTimeLeftInMillis[0] / 1000) / 60;
+        int seconds = (int) (bTimeLeftInMillis[0] / 1000) % 60;
+
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+        bTime.setText(timeLeftFormatted);
+    }
+
+    private void pauseTimer(CountDownTimer countDownTimer, long[] millisRemaining) {
+        if(countDownTimer != null){
+            countDownTimer.cancel();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        profiles=Uploader.loadProfiles(getApplicationContext());
+        Log.e("","CARGADOS PROFILES");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        profiles=Uploader.loadProfiles(getApplicationContext());
+        Log.e("","CARGADOS PROFILES");
     }
 
     @Override
@@ -131,6 +292,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onPause();
         Log.w("DB ACTUALIZADA","");
         Uploader.updateHistory(getApplicationContext(),history);
+
+        //Guardamos los perfiles actualizados en el uploader
+        updateProfiles();
     }
 
     @Override
@@ -138,6 +302,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onStop();
         Log.w("DB ACTUALIZADA","");
         Uploader.updateHistory(getApplicationContext(),history);
+
+        //Guardamos los perfiles actualizados en el uploader
+        updateProfiles();
     }
 
     public void drawBoard(){
@@ -528,12 +695,20 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //comprobamos quien comio y se añaden los puntos al jugador correspondiente
         if(piece.getColor() == 'W'){
+            Log.e("",selectedProfile.getName()+" ha ganado 100 puntos");
             selectedProfile.setPoints(100);
             eater = selectedProfile;
+            Log.e(selectedProfile.getName(),selectedProfile.getPoints());
+            //Guardamos los perfiles actualizados en el uploader
+            updateProfiles();
         }
         else{
+            Log.e("",selectedRival.getName()+" ha ganado 100 puntos");
             selectedRival.setPoints(100);
             eater = selectedRival;
+            Log.e(selectedRival.getName(),selectedRival.getPoints());
+            //Guardamos los perfiles actualizados en el uploader
+            updateProfiles();
         }
 
         eatenAchivementHandler(eater,piece,comida);
@@ -621,5 +796,41 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         int fila = 9-filaArray;
         int columna = pos - ((filaArray -1) * 8);
         return letras[columna]+fila;
+    }
+
+    public void updateProfiles(){
+
+        ArrayList<Profile> tempProfiles= profiles;
+        Profile tempSP=null;
+        Profile tempSR= null;
+
+        for(Profile pr: profiles){
+            if(selectedProfile.getName().equals(pr.getName())){
+                //Quitamos el selected profile
+                Log.e("PERFIL",selectedProfile.toString()+" eliminado");
+                tempSP=pr;
+            }else if(selectedRival.getName().equals(pr.getName())){
+                //Quitamos el selected rival
+                Log.e("PERFIL",selectedRival.toString()+" eliminado");
+                tempSR=pr;
+            }
+        }
+
+        //PARA EVITAR
+        if(tempSP!=null){
+            tempProfiles.remove(tempSP);
+        }
+
+        if(tempSR!=null){
+            tempProfiles.remove(tempSR);
+        }
+
+        tempProfiles.add(selectedProfile);
+        tempProfiles.add(selectedRival);
+
+        Log.e("PERFIL ACTUALIZADO A",selectedProfile.toString());
+        Log.e("PERFIL ACTUALIZADO A",selectedRival.toString());
+
+        Uploader.saveProfiles(getApplicationContext(),tempProfiles);
     }
 }

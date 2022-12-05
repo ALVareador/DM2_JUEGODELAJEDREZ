@@ -12,16 +12,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.view.*;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity{
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
     public static Profile selectedProfile; //Perfil seleccionado en la aplicacion
+    public ArrayList<Profile> profiles;
+    public static GameMusic music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,10 @@ public class MainActivity extends AppCompatActivity{
         Button continueGame = findViewById(R.id.botonContinuarPartida);
         Button credits = findViewById(R.id.botonCreditos);
         Button exit = findViewById(R.id.botonSalir);
+
+        //MUSICA
+        music = new GameMusic(getApplicationContext());
+        music.start();
 
         newGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +65,6 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent subActividad = new Intent( MainActivity.this, CreditsActivity.class );
-                //subActividad.putExtra( "data", 1 );
                 activityResultLauncher.launch(subActividad);
             }
         });
@@ -64,7 +72,7 @@ public class MainActivity extends AppCompatActivity{
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
 
@@ -72,11 +80,42 @@ public class MainActivity extends AppCompatActivity{
         ActivityResultCallback<ActivityResult> callback = new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                //TODO PREGUNTAR Recupera el perfil GENERAL
             }
         };
 
         this.activityResultLauncher = this.registerForActivityResult(contract, callback);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Guardamos los perfiles actualizados en el uploader
+        profiles=Uploader.loadProfiles(getApplicationContext());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Guardamos los perfiles actualizados en el uploader
+        profiles=Uploader.loadProfiles(getApplicationContext());
+        //Empezamos la musica
+        music.onContinue(getApplicationContext());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Uploader.saveProfiles(getApplicationContext(),profiles);
+        //Pausamos musica
+        music.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Uploader.saveProfiles(getApplicationContext(),profiles);
+        //Pausamos musica
+        music.onStop();
     }
 
     @Override
@@ -111,6 +150,7 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case R.id.MenuConfiguracionAjustes:
                 subActividad = new Intent( MainActivity.this, SettingsActivity.class );
+                //subActividad.putExtra("music", music);
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
@@ -134,6 +174,8 @@ public class MainActivity extends AppCompatActivity{
     public static Profile getSelectedProfile(){
         return selectedProfile;
     }
+
+    public static GameMusic getMusic() { return music;}
 
 
 }

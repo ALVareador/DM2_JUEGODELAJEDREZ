@@ -15,6 +15,7 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -26,10 +27,16 @@ public class NewGameActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private ProfileArrayAdapter profileArrayAdapter;
+
     private ArrayList<Profile> rivals = new ArrayList<>();
+    private ArrayList<Profile> profiles = new ArrayList<>();
 
     private Profile selectedProfile= MainActivity.getSelectedProfile();
     private Profile selectedRival= null;
+
+    private ArrayList<String> times;
+    private ArrayAdapter<String> timesAdapter;
+    private int selectedTime= 0;
 
     private ImageButton backButton;
 
@@ -46,14 +53,24 @@ public class NewGameActivity extends AppCompatActivity {
         continueGame=(boolean)getIntent().getSerializableExtra("type");
         history= (History)getIntent().getSerializableExtra("history");
 
-        //TODO Cargar rivals desde base de datos, todos los jugadores menos el selectedProfile loadRivals()
         rivals= loadRivals();
 
         ListView listView = findViewById(R.id.newGameOponentList);
         profileArrayAdapter = new ProfileArrayAdapter(this, rivals);
         listView.setAdapter(profileArrayAdapter);
 
+        ListView timeListView = findViewById(R.id.newGameTimeList);
+        this.times = new ArrayList<String>();
+        this.timesAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_selectable_list_item,
+                this.times );
+        timesAdapter.addAll("1:00", "5:00", "10:00", "25:00", "60:00", "90:00");
+        timeListView.setAdapter( this.timesAdapter );
+
         registerForContextMenu(listView);
+
+        registerForContextMenu(timeListView);
 
         ImageButton white= (ImageButton)findViewById(R.id.newGameWhiteButton);
         ImageButton black= (ImageButton)findViewById(R.id.newGameBlackButton);
@@ -103,6 +120,7 @@ public class NewGameActivity extends AppCompatActivity {
                 subActividad.putExtra("mode",normalMode); //Enviamos el modo de juego
                 subActividad.putExtra("rival",selectedRival); //Enviamos al rival
                 subActividad.putExtra("turn",turn); //Enviamos el turno al juego
+                subActividad.putExtra("time",selectedTime); //Enviamos el tiempo al juego
 
                 if(continueGame){
                     Log.e("","NEW");
@@ -138,12 +156,33 @@ public class NewGameActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //Guardamos los perfiles actualizados en el uploader
+        profiles=Uploader.loadProfiles(getApplicationContext());
+        rivals=loadRivals();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Guardamos los perfiles actualizados en el uploader
+        profiles=Uploader.loadProfiles(getApplicationContext());
+        rivals=loadRivals();
+    }
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         if (v.getId() == R.id.newGameOponentList){
             getMenuInflater().inflate(R.menu.rivals_menu, menu);
         }
+        if(v.getId() == R.id.newGameTimeList){
+            getMenuInflater().inflate(R.menu.time_menu, menu);
+        }
         super.onCreateContextMenu(menu, v, menuInfo);
     }
+
+
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -153,15 +192,39 @@ public class NewGameActivity extends AppCompatActivity {
             selectedRival=rivals.get(position);
             Toast.makeText(this, "Tu rival es "+rivals.get(position), Toast.LENGTH_SHORT).show();
         }else{
-            return super.onContextItemSelected(item);
+            if(item.getItemId()==R.id.chooseTime){
+                position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
+                selectedTime=Integer.parseInt(times.get(position).split(":")[0]);
+                Toast.makeText(this, "La partida durará "+times.get(position), Toast.LENGTH_SHORT).show();
+            }else{
+                return super.onContextItemSelected(item);
+            }
         }
         return true;
     }
 
     /**Carga los rivales disponibles desde BD */
     public ArrayList<Profile> loadRivals(){
-        ArrayList<Profile> rivals= new ArrayList<>();
-        rivals.add(new Profile("defaulRival1"));
+        Log.e("-------------------------------------------","----------------------------------------------------");
+        profiles=Uploader.loadProfiles(getApplicationContext());
+        rivals=profiles;
+        Profile tempSP=null;
+
+        for(Profile pr: profiles){
+            Log.e(selectedProfile.getName(),pr.getName());
+            if(selectedProfile.getName().equals(pr.getName())){
+                tempSP=pr;
+            }
+        }
+
+        if(tempSP!=null){
+            Log.e("tempSP",tempSP.getName());
+            Log.e(rivals.toString(),tempSP.getName());
+            rivals.remove(tempSP);
+            Log.e(rivals.toString(),tempSP.getName());
+        }
+
+        Log.e("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4\n",rivals.toString()+"##########################################3");
         return rivals;
     }
 }
