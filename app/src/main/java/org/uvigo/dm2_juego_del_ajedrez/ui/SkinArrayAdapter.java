@@ -33,7 +33,7 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
     public SkinArrayAdapter(@NonNull Context context, List<Skin> objects, boolean mode) {
         super(context, 0, objects);
         this.mode=mode;
-        profiles= Uploader.loadProfiles(getContext());
+        profiles=Uploader.loadProfiles(getContext());
 
         Log.w("SKINARRAYADAPTER",objects.toString());
     }
@@ -95,5 +95,29 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
 
         notifyDataSetChanged();
         return convertView;
+    }
+
+    public void updateProfiles(){
+
+        ArrayList<Profile> tempProfiles= profiles;
+        Profile tempSP=null;
+
+        for(Profile pr: profiles){
+            if(selectedProfile.getName().equals(pr.getName())){
+                //Quitamos el selected profile
+                Log.e("PERFIL",selectedProfile.toString()+" eliminado");
+                tempSP=pr;
+            }
+        }
+
+        if(tempSP!=null){
+            tempProfiles.remove(tempSP);
+        }
+
+        tempProfiles.add(selectedProfile);
+
+        Log.e("PERFIL ACTUALIZADO A",selectedProfile.toString());
+
+        Uploader.saveProfiles(getContext(),tempProfiles);
     }
 }
