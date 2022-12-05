@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/alfil" />
+                app:srcCompat="@drawable/board" />
 
             <Button
                 android:id="@+id/boardSkinSelection"
