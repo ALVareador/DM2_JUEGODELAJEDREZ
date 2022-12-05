@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity{
     private ActivityResultLauncher<Intent> activityResultLauncher;
     public static Profile selectedProfile; //Perfil seleccionado en la aplicacion
     public ArrayList<Profile> profiles;
+    public static GameMusic music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,10 @@ public class MainActivity extends AppCompatActivity{
         Button continueGame = findViewById(R.id.botonContinuarPartida);
         Button credits = findViewById(R.id.botonCreditos);
         Button exit = findViewById(R.id.botonSalir);
+
+        //MUSICA
+        music = new GameMusic(getApplicationContext());
+        music.start();
 
         newGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,18 +99,24 @@ public class MainActivity extends AppCompatActivity{
         super.onResume();
         //Guardamos los perfiles actualizados en el uploader
         profiles=Uploader.loadProfiles(getApplicationContext());
+        //Empezamos la musica
+        music.onContinue(getApplicationContext());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Uploader.saveProfiles(getApplicationContext(),profiles);
+        //Pausamos musica
+        music.onPause();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Uploader.saveProfiles(getApplicationContext(),profiles);
+        //Pausamos musica
+        music.onStop();
     }
 
     @Override
@@ -139,6 +151,7 @@ public class MainActivity extends AppCompatActivity{
                 break;
             case R.id.MenuConfiguracionAjustes:
                 subActividad = new Intent( MainActivity.this, SettingsActivity.class );
+                //subActividad.putExtra("music", music);
                 activityResultLauncher.launch(subActividad);
                 toret = true;
                 break;
@@ -162,6 +175,8 @@ public class MainActivity extends AppCompatActivity{
     public static Profile getSelectedProfile(){
         return selectedProfile;
     }
+
+    public static GameMusic getMusic() { return music;}
 
 
 }
