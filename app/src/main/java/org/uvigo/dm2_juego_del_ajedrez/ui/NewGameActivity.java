@@ -81,7 +81,6 @@ public class NewGameActivity extends AppCompatActivity {
         ImageButton black= (ImageButton)findViewById(R.id.newGameBlackButton);
 
         Button normalModeButton= (Button)findViewById(R.id.NormalButton);
-        Button randomModeButton= (Button)findViewById(R.id.RandomButton);
 
         Button startGame= (Button)findViewById(R.id.startButton);
 
@@ -106,14 +105,6 @@ public class NewGameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Modo normal seleccionado",Toast.LENGTH_SHORT).show();
                 normalMode=true;
-            }
-        });
-
-        randomModeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Modo Random seleccionado",Toast.LENGTH_SHORT).show();
-                normalMode=false;
             }
         });
 
