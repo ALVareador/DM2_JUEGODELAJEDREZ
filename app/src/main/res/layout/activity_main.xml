@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="300sp"
                 android:layout_weight="0.3"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                app:srcCompat="@drawable/icono04" />
         </LinearLayout>
 
         <LinearLayout
