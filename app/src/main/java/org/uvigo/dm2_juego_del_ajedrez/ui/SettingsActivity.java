@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -10,6 +9,13 @@ import android.widget.SeekBar;
 import org.uvigo.dm2_juego_del_ajedrez.R;
 import org.uvigo.dm2_juego_del_ajedrez.core.GameMusic;
 
+/**
+ * Actividad para mostrar la configuracion de la aplicacion.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     private ImageButton backButton;
@@ -37,14 +43,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) {}
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();

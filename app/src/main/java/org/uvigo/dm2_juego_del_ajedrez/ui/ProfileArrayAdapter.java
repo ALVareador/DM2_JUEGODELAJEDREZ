@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +16,21 @@ import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
 
 import java.util.List;
 
+/**
+ * Clase adaptador para manejar los eventos sobre el ListView de los perfiles.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class ProfileArrayAdapter  extends ArrayAdapter<Profile> {
 
+    /**
+     * Construye e inicializa un adaptador para los perfiles
+     *
+     * @param context contexto actual
+     * @param objects objetos para representar en el ListView
+     */
     public ProfileArrayAdapter(@NonNull Context context, List<Profile> objects) {
         super(context, 0, objects);
     }
@@ -54,7 +66,6 @@ public class ProfileArrayAdapter  extends ArrayAdapter<Profile> {
         viewHolder = (ViewHolder) convertView.getTag();
         viewHolder.textViewName.setText(getItem(position).getName());
         viewHolder.textViewPoints.setText(getItem(position).getPoints());
-
 
         return convertView;
     }

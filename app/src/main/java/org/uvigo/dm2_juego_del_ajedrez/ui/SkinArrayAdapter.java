@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,11 +24,26 @@ import org.uvigo.dm2_juego_del_ajedrez.core.Uploader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase adaptador para manejar los eventos sobre el ListView de las skins.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class SkinArrayAdapter extends ArrayAdapter<Skin> {
     boolean mode;
     ArrayList<Profile> profiles;
     Profile selectedProfile= MainActivity.getSelectedProfile();
 
+    /**
+     * Construye e inicializa un adaptador para las skins
+     *
+     * @param context   contexto actual
+     * @param objects   objetos para representar en el ListView
+     * @param mode      tipo de skin: "true" para una skin de tablero, "false" para una skin de
+     *                  pieza
+     */
     public SkinArrayAdapter(@NonNull Context context, List<Skin> objects, boolean mode) {
         super(context, 0, objects);
         this.mode=mode;
@@ -73,9 +87,7 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
 
         Skin skin= getItem(position);
 
-
         viewHolder.iv_SkinPhoto.setImageBitmap(Uploader.bitmapFromAssets(getContext(),skin.getImagePath()+".png"));
-
 
         viewHolder.useSkin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -98,6 +110,9 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         return convertView;
     }
 
+    /**
+     * Actualiza la lista de skins
+     */
     public void updateProfiles(){
 
         ArrayList<Profile> tempProfiles= profiles;

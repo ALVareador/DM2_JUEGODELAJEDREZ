@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +27,13 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
+/**
+ * Actividad que muestra una lista de las skins disponibles para los tableros y las piezas.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class SkinsActivity extends AppCompatActivity {
 
     private ArrayList<Skin> skins = new ArrayList<Skin>();
@@ -124,8 +130,10 @@ public class SkinsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Guarda las skins o si no hay ninguna guardada las crea
+     */
     private void saveSkins(){
-
         //Si no hay skins en el momento de guardar es la primera ejecucion y tenemos que generar todas las skins
         if(skins.isEmpty()){
             skins.add(new Skin("BOARDSKIN0","imageffffff#000000"));
@@ -175,6 +183,9 @@ public class SkinsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Carga las skins guardadas
+     */
     private void loadSkins(){
         Log.e("",getFilesDir().toString());
         skins.clear();
@@ -226,6 +237,11 @@ public class SkinsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Muestra una preview de como se veria la skin
+     *
+     * @param position  posicion de la skin en la lista
+     */
     private void showSkinImageDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Skin Image: ");

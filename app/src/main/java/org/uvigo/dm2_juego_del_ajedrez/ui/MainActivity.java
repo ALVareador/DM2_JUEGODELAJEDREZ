@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -23,6 +22,13 @@ import org.uvigo.dm2_juego_del_ajedrez.core.Uploader;
 
 import java.util.ArrayList;
 
+/**
+ * Actividad principal de la aplicacion y menu que permite acceder al resto de actividades.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class MainActivity extends AppCompatActivity{
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -121,15 +127,19 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu( menu );
         this.getMenuInflater().inflate(R.menu.configuration_options, menu );
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem menuItem)
-    {
+    /**
+     * Gestiona la opcion seleccionada en el menu de opciones
+     *
+     * @param menuItem  opcion del menu seleccionada
+     * @return          estado de la accion
+     */
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
         boolean toret = false;
         Intent subActividad;
         switch( menuItem.getItemId() ) {
@@ -165,21 +175,34 @@ public class MainActivity extends AppCompatActivity{
         return toret;
     }
 
-    /** ProfileActivity puede modificar el perfil general de la aplicacion sin intents*/
+    /**
+     * Cambia el perfil global actual al perfil especificado
+     *
+     * @param context contexto actual
+     * @param profile perfil al que cambiamos
+     */
     public static void setSelectedProfile(Context context, Profile profile){
         selectedProfile=profile;
+        // ProfileActivity puede modificar el perfil general de la aplicacion sin intents
         Uploader.saveGlobalProfile(context);
         Log.e("PERFIL ACTUALIZADO EN MAIN ACTIVITY: ",selectedProfile.getName());
         Toast.makeText(context, "Perfil seleccionado: "+selectedProfile.getName(), Toast.LENGTH_SHORT).show();
     }
 
-    /**Devuelve el perfil global seleccionado*/
+    /**
+     * Devuelve el perfil global seleccionado
+     *
+     * @return el perfil global seleccionado
+     */
     public static Profile getSelectedProfile(){
         return selectedProfile;
     }
 
-    /**Devuelve el reproductor de musica*/
+    /**
+     * Devuelve el reproductor de musica
+     *
+     * @return el reproductor de musica
+     */
     public static GameMusic getMusic() { return music;}
-
 
 }

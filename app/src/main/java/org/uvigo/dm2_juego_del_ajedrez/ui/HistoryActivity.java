@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -28,6 +27,13 @@ import org.uvigo.dm2_juego_del_ajedrez.core.GameMusic;
 import org.uvigo.dm2_juego_del_ajedrez.R;
 import org.uvigo.dm2_juego_del_ajedrez.core.History;
 
+/**
+ * Actividad que muestra la lista de los historiales almacenados.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class HistoryActivity extends AppCompatActivity {
 
     private static DBManager dbManager;
@@ -91,7 +97,6 @@ public class HistoryActivity extends AppCompatActivity {
 
         this.activityResultLauncher = this.registerForActivityResult(contract, callback);
         registerForContextMenu(listView);
-
     }
 
     @Override

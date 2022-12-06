@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -39,6 +38,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Actividad que muestra la lista de perfiles y permite añadir, modificar y eliminar perfiles.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -63,7 +69,6 @@ public class ProfileActivity extends AppCompatActivity {
         listView = findViewById(R.id.listViewProfile);
         profiles= Uploader.loadProfiles(getApplicationContext());
         profileArrayAdapter = new ProfileArrayAdapter(this, profiles);
-
 
         //El perfil seleccionado sera por defecto el default, sino cambiar
         try{
@@ -226,6 +231,11 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Guarda el perfil especificado
+     *
+     * @param p el perfil a guardar
+     */
     public void saveProfile(Profile p){
 
         Log.e( "WARN", "creating user File" );
@@ -234,7 +244,6 @@ public class ProfileActivity extends AppCompatActivity {
         try (FileOutputStream f = this.openFileOutput( p.getName()+".cfg", Context.MODE_PRIVATE ) )
         {
             PrintStream cfg = new PrintStream( f );
-
 
             Log.e("SAVEPROFILE",p.toString());
             cfg.println( p.getName() ); //PROFILE NAME
@@ -245,7 +254,6 @@ public class ProfileActivity extends AppCompatActivity {
             cfg.println( p.getAchievements().toString()); //PROFILE ACHIEVEMENTS
             cfg.println( p.getFriends().toString()); //PROFILE FRIENDS
 
-
             cfg.close();
             Log.e( "WARN", "SAVED DATA" );
         }
@@ -254,7 +262,9 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    /** Añade un nuevo perfil*/
+    /**
+     * Añade un nuevo perfil
+     */
     private void addProfile() {
         profiles.add(new Profile());
         showEditNameDialog(profiles.size()-1);
@@ -262,7 +272,9 @@ public class ProfileActivity extends AppCompatActivity {
         updateProfiles();
     }
 
-    /**Cambia el perfil global*/
+    /**
+     * Cambia el perfil global
+     */
     private void changeGlobalSelectedProfile(){
         try{
             Log.e("PERFIL ACTUALIZADO: ",selectedProfile.getName());
@@ -272,7 +284,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    /** Añade al nuevo profile un nombre, o modifica un nombre*/
+    /**
+     * Añade al nuevo perfil un nombre, o modifica un nombre
+     *
+     * @param position posicion del perfil en la lista de perfiles
+     */
     private void showEditNameDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -294,7 +310,11 @@ public class ProfileActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    /** Modifica la photo de perfil*/
+    /**
+     * Modifica la foto de perfil
+     *
+     * @param position posicion del perfil en la lista de perfiles
+     */
     private void showEditPhotoDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -314,7 +334,11 @@ public class ProfileActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    /** Permite editar el nombre y la imagen de un perfil*/
+    /**
+     * Permite editar el nombre y la imagen de un perfil
+     *
+     * @param position  posicion del perfil en la lista de perfiles
+     */
     private void doEdit(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Do you want to modify the profile photo?");
@@ -329,8 +353,6 @@ public class ProfileActivity extends AppCompatActivity {
         builder.setNegativeButton("Cancel", null);
         builder.create().show();
 
-
-
         builder.setTitle("Do you want to modify the profile name?");
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -342,10 +364,14 @@ public class ProfileActivity extends AppCompatActivity {
         });
         builder.setNegativeButton("Cancel", null);
         builder.create().show();
-
     }
 
-    /**Devuelve un perfil sobre el nombre*/
+    /**
+     * Devuelve un perfil con el nombre especificado
+     *
+     * @param name  nombre del perfil a devolver
+     * @return      un perfil con el nombre especificado
+     */
     public Profile getProfileByName(String name){
         Log.e("","GETPROFILEBYNAME");
         Profile pr;
@@ -365,10 +391,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         return profiles.get(toret);
-
     }
 
-    /**Actualiza los perfiles generales*/
+    /**
+     * Actualiza los perfiles generales
+     */
     public void updateProfiles(){
 
         ArrayList<Profile> tempProfiles= profiles;
@@ -392,5 +419,4 @@ public class ProfileActivity extends AppCompatActivity {
 
         Uploader.saveProfiles(getApplicationContext(),tempProfiles);
     }
-
 }

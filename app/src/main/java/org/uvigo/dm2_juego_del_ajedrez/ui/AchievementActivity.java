@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +23,13 @@ import org.uvigo.dm2_juego_del_ajedrez.core.Achievement;
 
 import java.util.ArrayList;
 
+/**
+ * Actividad que muestra los logros.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class AchievementActivity extends AppCompatActivity {
 
     private DBManager dbManager;
@@ -80,7 +86,6 @@ public class AchievementActivity extends AppCompatActivity {
     }
 
     @Override
-    /**Inicializa los logros*/
     protected void onStart() {
         super.onStart();
 
@@ -129,7 +134,11 @@ public class AchievementActivity extends AppCompatActivity {
         return true;
     }
 
-    /**Muestra la pista del achievement*/
+    /**
+     * Muestra la pista del achievement
+     *
+     * @param name nombre del logro del que se va a mostrar la pista
+     */
     private void showAchievementClueDialog(String name) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Pista: ");

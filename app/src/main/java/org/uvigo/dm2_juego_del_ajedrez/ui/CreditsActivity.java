@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -8,6 +7,13 @@ import android.widget.ImageButton;
 
 import org.uvigo.dm2_juego_del_ajedrez.R;
 
+/**
+ * Actividad que muestra los creditos de la aplicacion.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class CreditsActivity extends AppCompatActivity {
 
     private ImageButton backButton;

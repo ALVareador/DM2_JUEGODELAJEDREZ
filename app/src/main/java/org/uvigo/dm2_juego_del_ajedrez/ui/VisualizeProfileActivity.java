@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +14,13 @@ import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
 import org.uvigo.dm2_juego_del_ajedrez.R;
 import org.uvigo.dm2_juego_del_ajedrez.core.Uploader;
 
+/**
+ * Actividad que muestra la informacion de un perfil.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class VisualizeProfileActivity extends AppCompatActivity {
     private ArrayAdapter frArrayAdapter, achArrayAdapter;
     private Profile profile;

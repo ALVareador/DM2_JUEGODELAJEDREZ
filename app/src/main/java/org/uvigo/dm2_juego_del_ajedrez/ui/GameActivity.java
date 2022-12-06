@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.dm2_juego_del_ajedrez.chess.pieces.PieceAdapter;
@@ -35,6 +35,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * Actividad en la que se juega al juego del ajedrez.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class GameActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     Profile selectedProfile= MainActivity.getSelectedProfile();
     Profile selectedRival;
@@ -123,7 +130,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         startTimerW(wTime);
         wTimerRunning = true;
 
-
         if(turn){
             wPlayer.setText(selectedProfile.getName());
             iv_wPlayer.setImageBitmap(Uploader.bitmapFromAssets(getApplicationContext(),selectedProfile.getImagePath()));
@@ -206,6 +212,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
+    /**
+     * Inicia y maneja el temporizador del jugador de piezas blancas. Devuelve el temporizador usado
+     *
+     * @param wTime TexView en el que se va a mostrar el temporizador
+     * @return      el temporizador usado
+     */
     private CountDownTimer startTimerW(TextView wTime) {
         wCountDownTimer = new CountDownTimer(wTimeLeftInMillis[0], 1000) {
             @Override
@@ -232,6 +244,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         return wCountDownTimer;
     }
 
+    /**
+     * Inicia y maneja el temporizador del jugador de piezas negras. Devuelve el temporizador usado
+     *
+     * @param bTime TexView en el que se va a mostrar el temporizador
+     * @return     el temporizador usado
+     */
     private CountDownTimer startTimerB(TextView bTime) {
         bCountDownTimer = new CountDownTimer(bTimeLeftInMillis[0], 1000) {
             @Override
@@ -258,6 +276,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         return bCountDownTimer;
     }
 
+    /**
+     * Actualiza y da formato al tiempo del jugador de piezas blancas del temporizador y lo muestra
+     * por el TextView especificado
+     *
+     * @param wTime TexView en el que se va a mostrar el temporizador
+     */
     private void updateCountDownTextW(TextView wTime) {
         int minutes = (int) (wTimeLeftInMillis[0] / 1000) / 60;
         int seconds = (int) (wTimeLeftInMillis[0] / 1000) % 60;
@@ -267,6 +291,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         wTime.setText(timeLeftFormatted);
     }
 
+    /**
+     * Actualiza y da formato al tiempo del jugador de piezas negras del temporizador y lo muestra
+     * por el TextView especificado
+     *
+     * @param bTime TexView en el que se va a mostrar el temporizador
+     */
     private void updateCountDownTextB(TextView bTime) {
         int minutes = (int) (bTimeLeftInMillis[0] / 1000) / 60;
         int seconds = (int) (bTimeLeftInMillis[0] / 1000) % 60;
@@ -276,6 +306,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         bTime.setText(timeLeftFormatted);
     }
 
+    /**
+     * Pausa el temporizador especificado
+     *
+     * @param countDownTimer    temporizador a parar
+     * @param millisRemaining   tiempo restante
+     */
     private void pauseTimer(CountDownTimer countDownTimer, long[] millisRemaining) {
         if(countDownTimer != null){
             countDownTimer.cancel();
@@ -316,7 +352,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         updateProfiles();
     }
 
-    /**Rellena de color el tablero*/
+    /**
+     * Rellena de color el tablero
+     */
     public void drawBoard(){
         int numLinea;
         int ptr = 0;
@@ -344,7 +382,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    /** Crea las piezas en el tablero*/
+    /**
+     * Crea las piezas en el tablero
+     *
+     * @param type  tipo de juego: "true" cuando es una nueva partida, "false" cuando es una partida
+     *              que se va a continuar
+     */
     public void orderPieces(boolean type){
         Log.e("","ORDER PIECES");
         //NEW GAME
@@ -564,7 +607,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    /**Obtiene la posicion registrada en el historial*/
+    /**
+     * Obtiene la posicion registrada en el historial
+     *
+     * @param name  nombre de la pieza a colocar
+     * @return      posicion en la que se coloca la pieza
+     */
     public int getPositions(String name){
         Log.e("GET POSITIONS",name);
         String pos= history.getPosPieces().get(name);
@@ -577,7 +625,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         return value;
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -654,7 +701,11 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    /**Guarda los perfiles*/
+    /**
+     * Guarda los perfiles
+     *
+     * @param p perfil a guardar
+     */
     public void saveProfile(Profile p){
 
         Log.e( "WARN", "creating user File" );
@@ -663,7 +714,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         try (FileOutputStream f = this.openFileOutput( p.getName()+".cfg", Context.MODE_PRIVATE ) )
         {
             PrintStream cfg = new PrintStream( f );
-
 
             Log.e("SAVEPROFILE",p.toString());
             cfg.println( p.getName() ); //PROFILE NAME
@@ -674,7 +724,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             cfg.println( p.getAchievements().toString()); //PROFILE ACHIEVEMENTS
             cfg.println( p.getFriends().toString()); //PROFILE FRIENDS
 
-
             cfg.close();
             Log.e( "WARN", "SAVED DATA" );
         }
@@ -683,25 +732,33 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-
-    /**Concede los logros relacionados con posiciones en tablero*/
+    /**
+     * Concede los logros relacionados con posiciones en tablero
+     *
+     * @param profile   perfil del jugador que mueve la pieza
+     * @param piece     pieza que se mueve
+     * @param position  posicion a la que se mueve la pieza
+     */
     private void positionAchievementHandler(Profile profile, Piece piece, int position) {
         //Si un Alfil esta en la diagonal
         if(piece.getName().equals("BISHOP") && (position == 0 || position ==  7 || position == 63|| position == 56)){
             if(!hasAchievement(profile,"Francotirador en posicion"))
                 profile.addAchievement(new Achievement("Francotirador en posicion","Coloca un alfil en una esquina del tablero"));
         }
+
+        //Si un peon esta en la ultima linea
         if(piece.getName().equals("PAWN") && (position < 7 || position > 56)){
             if(!hasAchievement(profile,"Zona hostil"))
                 profile.addAchievement(new Achievement("Zona hostil","Lleva un peón a la ultima fila del tablero"));
         }
-
-
-        //Si un peon esta en la ultima linea
-
     }
 
-    /**Añade puntos */
+    /**
+     * Añade puntos al comer una pieza
+     *
+     * @param piece     pieza que come
+     * @param comida    pieza comida
+     */
     private void addPointsEaten(Piece piece, Piece comida) {
         Profile eater;
         deadPieces.add(comida);
@@ -725,17 +782,20 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         eatenAchivementHandler(eater,piece,comida);
-
-
     }
 
+    /**
+     * Comprueba si el jugador consigue algun logro al comer una pieza
+     *
+     * @param eater perfil del jugador cuya pieza come a la del rival
+     * @param piece pieza del jugador cuya pieza come a la del rival
+     * @param eaten pieza comida del rival
+     */
     private void eatenAchivementHandler(Profile eater,Piece piece,Piece eaten){
 
         //añadimos el logro de voraz si no lo tiene
         if(!hasAchievement(eater,"voraz"))
                 eater.addAchievement(new Achievement("Voraz","Come una pieza"));
-
-
 
         //Si es reyna añadimos el logro
         if(!hasAchievement(eater,"Al final si que era mortal") && eaten.getName().equals("QUEEN"))
@@ -779,10 +839,15 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
             });
             builder.create().show();
-
         }
     }
 
+    /**
+     * Comprueba si el jugador especificado posee el logro especificado
+     * @param player    jugador del que se quiere saber si posee el logro especificado
+     * @param name      nombre del logro que se comrobar si el jugador especificado posee
+     * @return          si el jugador especificado posee el logro especificado
+     */
     public boolean hasAchievement(Profile player,String name){
         ArrayList<String> achivementsPlayer = player.getAchievements();
         for (String a : achivementsPlayer){
@@ -792,7 +857,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         return false;
     }
 
-    /**Devuelve quien es el jugador de cada pieza*/
+    /**
+     * Devuelve quien es el jugador de la pieza especificada
+     *
+     * @param piece piexa de la que se quiere conocer el jugador
+     * @return      perfil del jugador dueño de la pieza especificada
+     */
     public Profile getProfileByPiece(Piece piece){
         if(piece.getColor() == 'W')
             return selectedProfile;
@@ -800,7 +870,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             return selectedRival;
     }
 
-    /**Traduce para los movimientos ciertas casillas a letras*/
+    /**
+     * Traduce para los movimientos de ciertas casillas a letras
+     *
+     * @param pos   posicion casilla del tablero
+     * @return      posicion en el tablero de ajedrez
+     */
     public String translateCasilla(int pos){
         String[] letras = {"a","b","c","d","e","f","g","h"};
         int filaArray = pos/8+1;
@@ -809,7 +884,9 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         return letras[columna]+fila;
     }
 
-    /**Actualiza perfiles*/
+    /**
+     * Actualiza los perfiles
+     */
     public void updateProfiles(){
 
         ArrayList<Profile> tempProfiles= profiles;

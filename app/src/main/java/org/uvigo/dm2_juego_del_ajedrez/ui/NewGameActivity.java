@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -28,6 +27,13 @@ import org.uvigo.dm2_juego_del_ajedrez.core.History;
 
 import java.util.ArrayList;
 
+/**
+ * Actividad para escoger las opciones para un nuevo juego de ajedrez.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class NewGameActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -50,6 +56,7 @@ public class NewGameActivity extends AppCompatActivity {
     boolean continueGame;
 
     History history;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,8 +185,6 @@ public class NewGameActivity extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 
-
-
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int position;
@@ -199,7 +204,11 @@ public class NewGameActivity extends AppCompatActivity {
         return true;
     }
 
-    /**Carga los rivales disponibles desde BD */
+    /**
+     * Carga los rivales disponibles desde la Base de Datos
+     *
+     * @return lista con los rivales disponibles
+     */
     public ArrayList<Profile> loadRivals(){
         profiles=Uploader.loadProfiles(getApplicationContext());
         rivals=profiles;

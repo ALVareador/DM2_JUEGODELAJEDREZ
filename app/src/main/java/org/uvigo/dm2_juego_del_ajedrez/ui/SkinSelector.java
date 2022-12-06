@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,8 +14,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.dm2_juego_del_ajedrez.R;
 
+/**
+ * Actividad que muestra las dos opciones para acceder a las listas de skins: skins de tablero y
+ * skins de piezas.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class SkinSelector extends AppCompatActivity {
+
     private ActivityResultLauncher<Intent> activityResultLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,5 +70,4 @@ public class SkinSelector extends AppCompatActivity {
 
         this.activityResultLauncher = this.registerForActivityResult(contract, callback);
     }
-
 }
