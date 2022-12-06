@@ -12,30 +12,68 @@ import org.uvigo.dm2_juego_del_ajedrez.R;
 import org.uvigo.dm2_juego_del_ajedrez.core.Uploader;
 import org.uvigo.dm2_juego_del_ajedrez.chess.board.BoardBox;
 
+/**
+ * Adaptador para panejar los eventos del tablero
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class PieceAdapter extends BaseAdapter{
     Context context;
     BoardBox[] boardBoxes;
 
+    /**
+     * Construye e inicializa el adaptador
+     *
+     * @param context   contexto actual
+     * @param casillas  array con las casillas del tablero
+     */
     public PieceAdapter(Context context, BoardBox[] casillas) {
         this.context = context;
         this.boardBoxes = casillas;
     }
 
+    /**
+     * Devuelve el numero de casillas del tablero
+     *
+     * @return  el numero de casillas del tablero
+     */
     @Override
     public int getCount() {
         return boardBoxes.length;
     }
 
+    /**
+     * Devuelve la pieza de la casilla especificada en el array
+     *
+     * @param i posicion de la pieza a devolver
+     * @return  pieza en la casilla especificada en el array
+     */
     @Override
     public Object getItem(int i) {
         return boardBoxes[i];
     }
 
+    /**
+     * Devuelve 0
+     *
+     * @param i nota a este pedazo de metodo :)
+     * @return  devulve 0
+     */
     @Override
     public long getItemId(int i) {
         return 0;
     }
 
+    /**
+     * Dibuja la casilla especificada en el tablero y devuleve la vista dibujada
+     *
+     * @param i         casilla a dibujar
+     * @param view      vista en la que estamos dibujando
+     * @param viewGroup vista padre de la vista en la que estamos dibujando
+     * @return          la vista dibujada
+     */
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
@@ -61,6 +99,5 @@ public class PieceAdapter extends BaseAdapter{
         }
 
         return view;
-
     }
 }
