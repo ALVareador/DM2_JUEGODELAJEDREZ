@@ -2,7 +2,7 @@ package org.uvigo.dm2_juego_del_ajedrez.chess.pieces;
 import android.util.Log;
 
 /**
- * Clase que representa y guarda la informacion de una pieza de ajedrez
+ * Clase que representa y guarda la informacion de una pieza de ajedrez.
  *
  * @author Ruben Gomez Martinez
  * @author Alvaro Novoa Fernandez

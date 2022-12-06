@@ -4,7 +4,7 @@ import android.util.Log;
 import org.uvigo.dm2_juego_del_ajedrez.chess.pieces.Piece;
 
 /**
- * Clase que guarda la informacion de una casilla de un tablero
+ * Clase que guarda la informacion de una casilla de un tablero.
  *
  * @author Ruben Gomez Martinez
  * @author Alvaro Novoa Fernandez

@@ -1,7 +1,7 @@
 package org.uvigo.dm2_juego_del_ajedrez.chess.board;
 
 /**
- * Clase en la que se almacena la skin que usa el tablero
+ * Clase en la que se almacena la skin que usa el tablero.
  *
  * @author Ruben Gomez Martinez
  * @author Alvaro Novoa Fernandez

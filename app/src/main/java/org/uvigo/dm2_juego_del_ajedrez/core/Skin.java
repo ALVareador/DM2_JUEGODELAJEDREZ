@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.core;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Icon;
@@ -14,27 +13,52 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Clase que guarda la informacion sobre una skin
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class Skin implements Serializable {
 
     private String name;
     private String image;
 
+    /**
+     * Construye e inicializa una skin
+     *
+     * @param name  nombre de la skin
+     * @param image rita de la imagen de la skin
+     */
     public Skin(String name, String image){
         this.name=name;
         this.image=image;
     }
 
-    /**Devuelve el nombre de la skin*/
+    /**
+     * Devuelve el nombre de la skin
+     *
+     * @return el nombre de la skin
+     */
     public String getName() {
         return name;
     }
 
-    /** Devuelve la imagen*/
+    /**
+     * Devuelve la ruta de la imagen
+     *
+     * @return la ruta de la imagen
+     */
     public String getImagePath(){
         return image;
     }
 
-    /**Cambia el nombre de la imagen*/
+    /**
+     * Cambia el nombre de la skin
+     *
+     * @param name nuevo nombre para la skin
+     */
     public void setName(String name) {
         this.name = name;
     }

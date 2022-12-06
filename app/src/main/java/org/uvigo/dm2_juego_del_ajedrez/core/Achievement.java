@@ -2,7 +2,7 @@ package org.uvigo.dm2_juego_del_ajedrez.core;
 import java.io.Serializable;
 
 /**
- * Clase que representa y guarda informacion perteneciente a un logro
+ * Clase que representa y guarda informacion perteneciente a un logro.
  *
  * @author Ruben Gomez Martinez
  * @author Alvaro Novoa Fernandez
@@ -37,11 +37,6 @@ public class Achievement implements Serializable {
         return description;
     }
 
-    /**
-     * Devuelve el conjunto del nombre y la descripcion separados por un ';'
-     *
-     * @return  nombre del Achievement un ';' y la descripcion del logro
-     */
     @Override
     public String toString() {
         return name+";"+description;

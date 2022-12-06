@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.core;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,14 +18,27 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
+/**
+ * Clase de utilidad que permite el guardar perfiles, cambiar las imagenes, actualiza los
+ * historiales de partidas y guarda/carga el perfil seleccionado.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class Uploader extends AppCompatActivity {
-    //CLASE DE UTILIDAD QUE PERMITE EL GUARDAR PERFILES, CAMBIAR LAS IMAGENES,
-    //ACTUALIZA LOS HISTORIALES DE PARTIDAS Y GUARDA/CARGA EL PERFIL SELECCIONADO.
+
     private static DBManager dbManager;
     private static Profile selectedProfile;
     private static ArrayList<Profile> profiles= new ArrayList<Profile>();
 
-    /**Convierte una skin en los assets EXAMPLE: context, imageffffff#000000.png*/
+    /**
+     * Convierte una skin en los assets
+     *
+     * @param context   contexto actual
+     * @param imagePath ruta de la imagen
+     * @return          la imagen transformada en un asset
+     */
     public static Bitmap bitmapFromAssets(Context context, String imagePath)
     {
         InputStream stream = null;
@@ -44,7 +56,12 @@ public class Uploader extends AppCompatActivity {
         return null;
     }
 
-    /**Actualiza los historiales*/
+    /**
+     * Actualiza los historiales
+     *
+     * @param context   contexto actual
+     * @param h         historial a actualizar
+     */
     public static void updateHistory(Context context, History h){
         dbManager = new DBManager( context );
         Log.w("ACTUALIZA HISTORY","");
@@ -52,7 +69,11 @@ public class Uploader extends AppCompatActivity {
         dbManager.addHistory(h);
     }
 
-    /**Guarda el perfil global entre arranques de la aplicacion*/
+    /**
+     * Guarda el perfil global entre arranques de la aplicacion
+     *
+     * @param context contexto actual
+     */
     public static void saveGlobalProfile(Context context){
         selectedProfile= MainActivity.getSelectedProfile();
 
@@ -75,7 +96,11 @@ public class Uploader extends AppCompatActivity {
         }
     }
 
-    /**Carga el perfil al cargar la aplicacion*/
+    /**
+     * Carga el perfil al cargar la aplicacion
+     *
+     * @param context contexto actual
+     */
     public static void loadGlobalProfile(Context context){
 
         try (FileInputStream f = context.openFileInput("global_data.cfg")){
@@ -119,7 +144,12 @@ public class Uploader extends AppCompatActivity {
         }
     }
 
-    /**Guarda los perfiles dados como profilesToSave*/
+    /**
+     * Guarda los perfiles dados como una lista
+     *
+     * @param context           contexto actual
+     * @param profilesToSave    lista de perfiles a guardar
+     */
     public static void saveProfiles(Context context, ArrayList<Profile> profilesToSave){
 
         //Si no hay skins en el momento de guardar es la primera ejecucion y tenemos que generar todas las skins
@@ -152,7 +182,12 @@ public class Uploader extends AppCompatActivity {
         }
     }
 
-    /** Devuelve una arraylist con los perfiles permanentes*/
+    /**
+     * Devuelve una arraylist con los perfiles permanentes
+     *
+     * @param context   contexto actual
+     * @return          una arraylist con los perfiles permanentes
+     */
     public static ArrayList<Profile> loadProfiles(Context context){
         Log.e("",context.getFilesDir().toString());
         profiles.clear();
@@ -183,7 +218,6 @@ public class Uploader extends AppCompatActivity {
 
             cfg.close();
             Log.e( "WARN", "LOADED DATA: "+profiles.toString() );
-
         }
         catch (IOException exc)
         {

@@ -1,5 +1,4 @@
 package org.uvigo.dm2_juego_del_ajedrez.core;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,7 +11,13 @@ import org.uvigo.dm2_juego_del_ajedrez.core.Achievement;
 import org.uvigo.dm2_juego_del_ajedrez.core.History;
 import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
 
-/** Maneja el acceso a la base de datos. */
+/**
+ * Clase para manejar el acceso a la base de datos.
+ *
+ * @author Ruben Gomez Martinez
+ * @author Alvaro Novoa Fernandez
+ * @author Andres Garcia Figueroa
+ */
 public class DBManager extends SQLiteOpenHelper {
     public static final String DB_NAME = "Chess";
     public static final int DB_VERSION = 5;
@@ -28,6 +33,12 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String ACHIEVEMENT_NAME = "_id";
     public static final String ACHIEVEMENTS_CLUE = "clue";
 
+    /**
+     * Construye e inicializa un gestor de base de datos para ayudar en la creacion, apertura y
+     * gestion de una base de datos
+     *
+     * @param context   contexto usado para localizar las rutas de la base de datos
+     */
     public DBManager(Context context)
     {
         super( context, DB_NAME, null, DB_VERSION);
@@ -44,7 +55,11 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
-    /**Crea la tabla de achievements*/
+    /**
+     * Crea la tabla de achievements
+     *
+     * @param db SQLiteDatabase usada para el manejo de comandos SQL
+     */
     public void onCreateAchievements(SQLiteDatabase db)
     {
         Log.e(  "DBManager",
@@ -56,8 +71,6 @@ public class DBManager extends SQLiteOpenHelper {
                     + ACHIEVEMENT_NAME + " string(255) PRIMARY KEY NOT NULL, "
                     + ACHIEVEMENTS_CLUE + " string NOT NULL)");
             db.setTransactionSuccessful();
-
-
         }
         catch(SQLException exc)
         {
@@ -68,7 +81,11 @@ public class DBManager extends SQLiteOpenHelper {
         }
     }
 
-    /**Crea la tabla de historiales de partidas*/
+    /**
+     * Crea la tabla de historiales de partidas
+     *
+     * @param db SQLiteDatabase usada para el manejo de comandos SQL
+     */
     public void onCreateHistory(SQLiteDatabase db)
     {
         Log.e(  "DBManager",
@@ -100,7 +117,13 @@ public class DBManager extends SQLiteOpenHelper {
         this.onCreate( db );
     }
 
-    /**Actualiza la tabla achievements*/
+    /**
+     * Actualiza la tabla de logros
+     *
+     * @param db            SQLiteDatabase usada para el manejo de comandos SQL
+     * @param oldVersion    version de la base de datos a actualizar
+     * @param newVersion    version de la nueva base de datos
+     */
     public void onUpgradeAchievements(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         Log.i(  "DBManager",
@@ -121,7 +144,13 @@ public class DBManager extends SQLiteOpenHelper {
         this.onCreate( db );
     }
 
-    /**Actualiza historiales*/
+    /**
+     * Actualiza los historiales
+     *
+     * @param db            SQLiteDatabase usada para el manejo de comandos SQL
+     * @param oldVersion    version de la base de datos a actualizar
+     * @param newVersion    version de la nueva base de datos
+     */
     public void onUpgradeHistory(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         Log.i(  "DBManager",
@@ -142,7 +171,12 @@ public class DBManager extends SQLiteOpenHelper {
         this.onCreate( db );
     }
 
-    /**Añade un historial*/
+    /**
+     * Añade un historial y devuelve si la operacion a tenido exito
+     *
+     * @param history   historial que vamos a añadir
+     * @return          "true" si la operacion a tenido exito, "false" si no ha fracasado
+     */
     public boolean addHistory(History history){
         Log.e("WARN: ","INSERT HISTORY "+history.getName());
         Cursor cursor = null;
@@ -188,7 +222,12 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
-    /**Inserta un achievement en la base de datos*/
+    /**
+     * Inserta un logro en la base de datos y devuelve si la operacion a tenido exito
+     *
+     * @param achievement   logro a insertar en la base de datos
+     * @return              "true" si la operacion a tenido exito, "false" si no ha fracasado
+     */
     public boolean addAchievement(Achievement achievement){
         Log.e("WARN: ","INSERT ACHIVEMENT "+achievement.getName()+" "+achievement.getDescription());
         Cursor cursor = null;
@@ -232,8 +271,12 @@ public class DBManager extends SQLiteOpenHelper {
 
         return toret;
     }
-
-    /** Borra un historial por nombre*/
+    /**
+     * Borra un historial por nombre y devuelve si la operacion a tenido exito
+     *
+     * @param name  nombre del historial a eliminar de la base de datos
+     * @return      "true" si la operacion a tenido exito, "false" si no ha fracasado
+     */
     public boolean deleteHistory(String name)
     {
         boolean toret = false;
@@ -253,23 +296,41 @@ public class DBManager extends SQLiteOpenHelper {
         return toret;
     }
 
-    /**Devuelve los historiales*/
+    /**
+     * Devuelve los historiales
+     *
+     * @return los historiales
+     */
     public Cursor getHistories(){
         return this.getReadableDatabase().query(HISTORY_TABLE,null,null,null,null,null,null);
     }
 
-    /**Devuelve los historiales de las partidas en las que ha jugado el selectedProfile*/
+    /**
+     * Devuelve los historiales de las partidas en las que ha jugado el perfil especificado
+     *
+     * @param profileName   nombre del perfil del que se busca los historiales
+     * @return              historiales del perfil especificado
+     */
     public Cursor getHistoriesByName(String profileName){
         Log.e("",profileName+" ######################");
         return this.getReadableDatabase().query(HISTORY_TABLE,null,HISTORY_NAME+" LIKE '%"+profileName+"%'",null,null,null,null);
     }
 
-    /**Devuelve los logros*/
+    /**
+     * Devuelve los logros
+     *
+     * @return los logros
+     */
     public Cursor getAchievements(){
         return this.getReadableDatabase().query(ACHIEVEMENTS_TABLE,null,null,null,null,null,null);
     }
 
-    /**Obtiene la descripcion de un logro para mostrarlo como pista*/
+    /**
+     * Obtiene la descripcion de un logro para mostrarlo como pista
+     *
+     * @param name  nombre del logro a devolver
+     * @return      pista para obtener el logro
+     */
     public String getDescription(String name){
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns= new String[]{ACHIEVEMENTS_CLUE};
@@ -279,7 +340,12 @@ public class DBManager extends SQLiteOpenHelper {
         return cursor.getString(0);
     }
 
-    /**Obtiene un history por nombre*/
+    /**
+     * Obtiene un historial por nombre
+     *
+     * @param name  nombre del historial a devolver
+     * @return      historial especificado
+     */
     public Cursor getHistory(String name){
 
         SQLiteDatabase db = this.getReadableDatabase();
