@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "org.uvigo.dm2_juego_del_ajedrez"
-        minSdk 32
+        minSdk 30
         targetSdk 32
         versionCode 1
         versionName "1.0"
