@@ -1,6 +1,5 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -33,9 +32,6 @@ public class VisualizeProfileActivity extends AppCompatActivity {
 
         //Recuperamos el perfil actual
         profile= (Profile)getIntent().getSerializableExtra("visualizeprofile");
-        Log.println(Log.WARN,"WARN",profile.toString());
-
-        Log.println(Log.WARN,"","He recuperado "+profile.toString());
 
         //PHOTO
         ImageView ivProfile= findViewById(R.id.iv_profileimage);

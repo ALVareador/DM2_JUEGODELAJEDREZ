@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,11 +74,9 @@ public class HistoryActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
                     // USER HISTORY
-                    Log.e("true","USER");
                     dbAdapter.changeCursor( dbManager.getHistories());
                 } else {
                     // HISTORY ALL
-                    Log.e("true","ALL");
                     dbAdapter.changeCursor( dbManager.getHistoriesByName(MainActivity.getSelectedProfile().getName()));
                 }
             }
@@ -115,11 +112,9 @@ public class HistoryActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
                     // ALL HISTORY
-                    Log.e("true","USER");
                     dbAdapter.changeCursor( dbManager.getHistories());
                 } else {
                     // HISTORY USUARIOS
-                    Log.e("true","ALL");
                     dbAdapter.changeCursor( dbManager.getHistoriesByName(MainActivity.getSelectedProfile().getName()));
                 }
             }

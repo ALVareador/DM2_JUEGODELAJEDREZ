@@ -70,6 +70,18 @@ public class Uploader extends AppCompatActivity {
     }
 
     /**
+     * Cambia el perfil global
+     * @param profile perfil que guardar
+     */
+    public static void changeGlobalSelectedProfile(Context context,Profile profile){
+        try{
+            MainActivity.setSelectedProfile(context,profile);
+        }catch(NullPointerException e){
+            Toast.makeText(context, "No se ha seleccionado ningun perfil, por favor selecciona uno", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
      * Guarda el perfil global entre arranques de la aplicacion
      *
      * @param context contexto actual
@@ -89,10 +101,8 @@ public class Uploader extends AppCompatActivity {
             cfg.println( selectedProfile.getFriends().toString()); //PROFILE FRIENDS
 
             cfg.close();
-            Log.e( "WARN", "SAVED DATA" );
         }
         catch(IOException exc) {
-            Log.e( "WARN", "Error saving state" );
         }
     }
 
@@ -136,11 +146,9 @@ public class Uploader extends AppCompatActivity {
                 Toast.makeText(context, "Seleccionado perfil default", Toast.LENGTH_SHORT).show();
             }
 
-            Log.e( "WARN", "LOADED DATA: "+selectedProfile.toString() );
         }
         catch (IOException exc)
         {
-            Log.e( "WARN", "Error loading state" );
         }
     }
 
@@ -164,7 +172,6 @@ public class Uploader extends AppCompatActivity {
             PrintStream cfg = new PrintStream( f );
 
             for(Profile profile: profilesToSave) {
-                Log.e("SAVEPROFILE",profile.toString());
                 cfg.println( profile.getName() ); //PROFILE NAME
                 cfg.println( profile.getImagePath()); //PROFILE IMAGE
                 cfg.println( profile.getSkinBoardName()); //PROFILE BOARD
@@ -175,10 +182,8 @@ public class Uploader extends AppCompatActivity {
             }
 
             cfg.close();
-            Log.e( "WARN", "SAVED DATA" );
         }
         catch(IOException exc) {
-            Log.e( "WARN", "Error saving state" );
         }
     }
 
@@ -189,7 +194,6 @@ public class Uploader extends AppCompatActivity {
      * @return          una arraylist con los perfiles permanentes
      */
     public static ArrayList<Profile> loadProfiles(Context context){
-        Log.e("",context.getFilesDir().toString());
         profiles.clear();
         try (FileInputStream f = context.openFileInput("profile_data.cfg")){
             BufferedReader cfg = new BufferedReader( new InputStreamReader( f ) );
@@ -210,18 +214,15 @@ public class Uploader extends AppCompatActivity {
                 cfg_achievements= cfg.readLine();
                 cfg_friends= cfg.readLine();
 
-                Log.e("CHARGED_DATA",profileLine+" "+cfg_image);
                 profiles.add(new Profile(profileLine,cfg_image, cfg_board, cfg_piece, Integer.parseInt(cfg_point), cfg_achievements, cfg_friends));
 
                 profileLine = cfg.readLine();
             }
 
             cfg.close();
-            Log.e( "WARN", "LOADED DATA: "+profiles.toString() );
         }
         catch (IOException exc)
         {
-            Log.e( "WARN", "Error loading state" );
         }
 
         return profiles;

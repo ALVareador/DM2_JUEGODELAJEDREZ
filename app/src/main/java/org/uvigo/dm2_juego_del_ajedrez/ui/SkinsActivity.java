@@ -51,13 +51,10 @@ public class SkinsActivity extends AppCompatActivity {
         saveSkins();
 
         boolean mode=(boolean)getIntent().getSerializableExtra("mode");
-        Log.e("","MODE true->BOARD/false->PIECE"+mode);
 
         ListView listView = findViewById(R.id.listViewSkin);
 
         backButton = this.findViewById(R.id.backButton);
-
-        Log.e("SKINS: ",skins.toString());//ALL SKINS
 
 
         loadSkins();
@@ -100,7 +97,6 @@ public class SkinsActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        Log.e("WARN:","PAUSE: "+skins.toString());
         super.onPause();
         if(!skins.isEmpty()){
             saveSkins();
@@ -109,7 +105,6 @@ public class SkinsActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Log.e("WARN:","RESUME: "+skins.toString());
         super.onResume();
         //Empezamos la musica
         music.onContinue(getApplicationContext());
@@ -121,11 +116,9 @@ public class SkinsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e("WARN:", "START");
         //Empezamos la musica
         music.onContinue(getApplicationContext());
         if (skins.isEmpty()) {
-            Log.e("","LOAD SKINS");
             loadSkins();
         }
     }
@@ -170,16 +163,13 @@ public class SkinsActivity extends AppCompatActivity {
             PrintStream cfg = new PrintStream( f );
 
             for(Skin skin: this.skins) {
-                Log.e("SAVESKIN",skin.toString());
                 cfg.println( skin.getName() ); //SKIN NAME
                 cfg.println( skin.getImagePath()); //SKIN IMAGE
             }
 
             cfg.close();
-            Log.e( "WARN", "SAVED DATA" );
         }
         catch(IOException exc) {
-            Log.e( "WARN", "Error saving state" );
         }
     }
 
@@ -187,7 +177,6 @@ public class SkinsActivity extends AppCompatActivity {
      * Carga las skins guardadas
      */
     private void loadSkins(){
-        Log.e("",getFilesDir().toString());
         skins.clear();
         try (FileInputStream f = this.openFileInput("skins_data.cfg")){
             BufferedReader cfg = new BufferedReader( new InputStreamReader( f ) );
@@ -200,24 +189,20 @@ public class SkinsActivity extends AppCompatActivity {
                 //Recuperamos cada skin
                 cfg_image= cfg.readLine();
 
-                Log.e("CHARGED_DATA",skinLine+" "+cfg_image);
                 this.skins.add(new Skin(skinLine,cfg_image));
 
                 skinLine = cfg.readLine();
             }
 
             cfg.close();
-            Log.e( "WARN", "LOADED DATA: "+skins.toString() );
         }
         catch (IOException exc)
         {
-            Log.e( "WARN", "Error loading state" );
         }
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        Log.e("","CONTEXTMENUCREADO");
         if (v.getId() == R.id.listViewSkin){
             getMenuInflater().inflate(R.menu.skin_menu, menu);
         }
@@ -226,7 +211,6 @@ public class SkinsActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        Log.e("","CONTEXTITEM");
         int position;
         if (item.getItemId()==R.id.skinInfo) {
             position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;

@@ -1,6 +1,5 @@
 package org.uvigo.dm2_juego_del_ajedrez.ui;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +48,6 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         this.mode=mode;
         profiles=Uploader.loadProfiles(getContext());
 
-        Log.w("SKINARRAYADAPTER",objects.toString());
     }
 
     class ViewHolder {
@@ -121,19 +119,17 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
         for(Profile pr: profiles){
             if(selectedProfile.getName().equals(pr.getName())){
                 //Quitamos el selected profile
-                Log.e("PERFIL",selectedProfile.toString()+" eliminado");
                 tempSP=pr;
             }
         }
 
         if(tempSP!=null){
             tempProfiles.remove(tempSP);
+            tempProfiles.add(selectedProfile);
         }
 
-        tempProfiles.add(selectedProfile);
-
-        Log.e("PERFIL ACTUALIZADO A",selectedProfile.toString());
-
         Uploader.saveProfiles(getContext(),tempProfiles);
+        Uploader.changeGlobalSelectedProfile(SkinArrayAdapter.super.getContext(),selectedProfile);
+
     }
 }

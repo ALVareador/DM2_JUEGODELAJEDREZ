@@ -1,17 +1,5 @@
 package org.uvigo.dm2_juego_del_ajedrez.core;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Icon;
-import android.util.Base64;
-import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Clase que guarda la informacion sobre una skin

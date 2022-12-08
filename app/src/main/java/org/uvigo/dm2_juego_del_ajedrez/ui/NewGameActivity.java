@@ -126,10 +126,8 @@ public class NewGameActivity extends AppCompatActivity {
                 subActividad.putExtra("time",selectedTime); //Enviamos el tiempo al juego
 
                 if(continueGame){
-                    Log.e("","NEW");
                     subActividad.putExtra("type",true);
                 }else{
-                    Log.e("","CONTINUE");
                     subActividad.putExtra("type",false);
                     subActividad.putExtra("history",history);
                 }
@@ -215,17 +213,13 @@ public class NewGameActivity extends AppCompatActivity {
         Profile tempSP=null;
 
         for(Profile pr: profiles){
-            Log.e(selectedProfile.getName(),pr.getName());
             if(selectedProfile.getName().equals(pr.getName())){
                 tempSP=pr;
             }
         }
 
         if(tempSP!=null){
-            Log.e("tempSP",tempSP.getName());
-            Log.e(rivals.toString(),tempSP.getName());
             rivals.remove(tempSP);
-            Log.e(rivals.toString(),tempSP.getName());
         }
 
         return rivals;

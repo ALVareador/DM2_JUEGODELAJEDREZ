@@ -1,7 +1,5 @@
 package org.uvigo.dm2_juego_del_ajedrez.core;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +16,6 @@ public class History implements Serializable {
     }
 
     public History(String name, String log, String posPieces) {
-        Log.e("CREATE HISTORY", name+" "+log+" "+posPieces);
         this.name = name;
         this.log = getParsedLog(log);
         this.posPieces=getParsedPos(posPieces);
@@ -56,10 +53,8 @@ public class History implements Serializable {
     /** Añade una pieza y su posicion para poder recuperarla en el continuarPartida*/
     public void addPos(String name, String pos){
         if(posPieces.get(name)!=null){
-            Log.e("SE MODIFICARA LA POSICION DE LA PIEZA "+name," A "+pos);
             posPieces.replace(name,pos);
         }else{
-            Log.e("SE ANADIRA LA POSICION DE LA PIEZA "+name," A "+pos);
             posPieces.put(name,pos);
         }
     }
@@ -67,7 +62,6 @@ public class History implements Serializable {
     /**Devuelve un log como lista*/
     public ArrayList<String> getParsedLog(String log){
         String[] parsedString= log.replace("[","").replace("]","").split(", ");
-        Log.e("PARSEDSTRING: ",parsedString.toString());
         ArrayList<String> toret= new ArrayList<>();
 
         for(String move: parsedString){
@@ -80,7 +74,6 @@ public class History implements Serializable {
     /**Devuelve el mapa de posiciones desde string*/
     public HashMap<String, String> getParsedPos(String pos){
         String[] parsedString= pos.replace("{","").replace("}","").split(", ");
-        Log.e("PARSEDSTRING: ",parsedString.toString());
 
         HashMap<String,String> toret= new HashMap<>();
 
@@ -89,7 +82,6 @@ public class History implements Serializable {
             toret.put(parsedLine[0],parsedLine[1]);
         }
 
-        Log.e("MAP POSICIONES",toret.toString());
         return toret;
     }
 

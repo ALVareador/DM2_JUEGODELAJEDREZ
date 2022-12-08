@@ -5,7 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.uvigo.dm2_juego_del_ajedrez.chess.pieces.PieceAdapter;
@@ -97,9 +97,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         turn= (boolean)getIntent().getSerializableExtra("turn");
 
-        Log.e("","MODO RECUPERADO (true->NORMAL/false->RANDOM): "+normalMode+
-                      "\nRIVAL RECUPERADO: "+selectedRival.getName()+
-                      "\nTURNO RECUPERADO (true->J1 blanca/false->J1 negra): "+turn);
 
         if(newGame){
             //Creamos nuevo historial
@@ -144,9 +141,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         String[] colors= selectedProfile.getSkinBoardName().replace("image","").split("#");
-        Log.e("CADENADECOLOR", selectedProfile.getSkinPieceName());
-        Log.e("COLOR1", colors[0]);
-        Log.e("COLOR2", colors[1]);
         skin = new SkinBoard(Color.parseColor("#"+colors[0]),
                              Color.parseColor("#"+colors[1]));
 
@@ -322,20 +316,17 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onStart() {
         super.onStart();
         profiles=Uploader.loadProfiles(getApplicationContext());
-        Log.e("","CARGADOS PROFILES");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         profiles=Uploader.loadProfiles(getApplicationContext());
-        Log.e("","CARGADOS PROFILES");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.w("DB ACTUALIZADA","");
         Uploader.updateHistory(getApplicationContext(),history);
 
         //Guardamos los perfiles actualizados en el uploader
@@ -345,7 +336,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onStop() {
         super.onStop();
-        Log.w("DB ACTUALIZADA","");
         Uploader.updateHistory(getApplicationContext(),history);
 
         //Guardamos los perfiles actualizados en el uploader
@@ -389,10 +379,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
      *              que se va a continuar
      */
     public void orderPieces(boolean type){
-        Log.e("","ORDER PIECES");
         //NEW GAME
         if(type){
-            Log.e("","NEW GAME");
             //BLACKS
             Piece bp1= new Piece("PAWN1",'B',"blackpawn"+selectedProfile.getSkinPieceName()+".png",8);
             Piece bp2= new Piece("PAWN2",'B',"blackpawn"+selectedProfile.getSkinPieceName()+".png",9);
@@ -418,7 +406,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             //Para que sobreescriba las que ya hay muertas ahi
             Piece bt1= new Piece("TOWER1",'B',"blacktower"+selectedProfile.getSkinPieceName()+".png",0);
 
-            Log.e("SKINPIECENAME",selectedProfile.getSkinPieceName());
 
             boardboxes[bp1.getPos()].setPiece(bp1);
             boardboxes[bp2.getPos()].setPiece(bp2);
@@ -515,7 +502,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         }else{
             //CONTINUEGAME
-            Log.e("","CONTINUE GAME");
             //BLACKS
             Piece bp1= new Piece("PAWN1",'B',"blackpawn"+selectedProfile.getSkinPieceName()+".png",getPositions("BPAWN1"));
             Piece bp2= new Piece("PAWN2",'B',"blackpawn"+selectedProfile.getSkinPieceName()+".png",getPositions("BPAWN2"));
@@ -614,12 +600,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
      * @return      posicion en la que se coloca la pieza
      */
     public int getPositions(String name){
-        Log.e("GET POSITIONS",name);
         String pos= history.getPosPieces().get(name);
         int value= Integer.parseInt(pos);
 
         if(value==-1){
-            Log.e("LA PIEZA "+name, "NO DEBE APARECER EN TABLERO");
             return 0;
         }
 
@@ -629,7 +613,6 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(selectedBoardBox){
-            Log.w("CASILLA SELECCIONADA",Integer.toString(position));
             //Logica de mover la pieza
             selectedBoardBox = false;
             //recuperamos casillas
@@ -647,11 +630,10 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                     if(!siguiente.getPiece().getName().equals("EMPTY")){
                         //Coinciden colores
                         if(anterior.getPiece().getColor()==siguiente.getPiece().getColor()){
-                            Log.w("","NO SE PUEDE MOVER A UNA CASILLA CON UNA FIGURA DEL MISMO COLOR");
                             //añadimos el logro de comer tu propia pieza
                             Profile current = getProfileByPiece(anterior.getPiece());
                             if(!hasAchievement(current,"Insaciable"))
-                                current.addAchievement(new Achievement("Insaciable","Intenta comerte tu propia pieza"));
+                                current.addAchievement(getApplicationContext(),new Achievement("Insaciable","Intenta comerte tu propia pieza"));
                         }else{
                             //añadimos puntos por comer pieza
                             addPointsEaten(anterior.getPiece(),siguiente.getPiece());
@@ -708,14 +690,12 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
      */
     public void saveProfile(Profile p){
 
-        Log.e( "WARN", "creating user File" );
         File temp = new File(p.getName()+".cfg");
         temp.delete();
         try (FileOutputStream f = this.openFileOutput( p.getName()+".cfg", Context.MODE_PRIVATE ) )
         {
             PrintStream cfg = new PrintStream( f );
 
-            Log.e("SAVEPROFILE",p.toString());
             cfg.println( p.getName() ); //PROFILE NAME
             cfg.println( p.getImagePath()); //PROFILE IMAGE
             cfg.println( p.getSkinBoardName()); //PROFILE BOARD
@@ -725,10 +705,8 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
             cfg.println( p.getFriends().toString()); //PROFILE FRIENDS
 
             cfg.close();
-            Log.e( "WARN", "SAVED DATA" );
         }
         catch(IOException exc) {
-            Log.e( "WARN", "Error saving state" );
         }
     }
 
@@ -743,13 +721,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         //Si un Alfil esta en la diagonal
         if(piece.getName().equals("BISHOP") && (position == 0 || position ==  7 || position == 63|| position == 56)){
             if(!hasAchievement(profile,"Francotirador en posicion"))
-                profile.addAchievement(new Achievement("Francotirador en posicion","Coloca un alfil en una esquina del tablero"));
+                profile.addAchievement(getApplicationContext(),new Achievement("Francotirador en posicion","Coloca un alfil en una esquina del tablero"));
         }
 
         //Si un peon esta en la ultima linea
         if(piece.getName().equals("PAWN") && (position < 7 || position > 56)){
             if(!hasAchievement(profile,"Zona hostil"))
-                profile.addAchievement(new Achievement("Zona hostil","Lleva un peón a la ultima fila del tablero"));
+                profile.addAchievement(getApplicationContext(),new Achievement("Zona hostil","Lleva un peón a la ultima fila del tablero"));
         }
     }
 
@@ -765,18 +743,14 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //comprobamos quien comio y se añaden los puntos al jugador correspondiente
         if(piece.getColor() == 'W'){
-            Log.e("",selectedProfile.getName()+" ha ganado 100 puntos");
             selectedProfile.setPoints(100);
             eater = selectedProfile;
-            Log.e(selectedProfile.getName(),selectedProfile.getPoints());
             //Guardamos los perfiles actualizados en el uploader
             updateProfiles();
         }
         else{
-            Log.e("",selectedRival.getName()+" ha ganado 100 puntos");
             selectedRival.setPoints(100);
             eater = selectedRival;
-            Log.e(selectedRival.getName(),selectedRival.getPoints());
             //Guardamos los perfiles actualizados en el uploader
             updateProfiles();
         }
@@ -795,11 +769,11 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //añadimos el logro de voraz si no lo tiene
         if(!hasAchievement(eater,"voraz"))
-                eater.addAchievement(new Achievement("Voraz","Come una pieza"));
+                eater.addAchievement(getApplicationContext(),new Achievement("Voraz","Come una pieza"));
 
         //Si es reyna añadimos el logro
         if(!hasAchievement(eater,"Al final si que era mortal") && eaten.getName().equals("QUEEN"))
-            eater.addAchievement(new Achievement("Al final si que era mortal","Come una reina"));
+            eater.addAchievement(getApplicationContext(),new Achievement("Al final si que era mortal","Come una reina"));
 
         //Si comio dos torres añadimos logro
         if(!hasAchievement(eater,"Un dia Oscuro")) {
@@ -809,14 +783,13 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
                     contadorTorres++;
             }
             if(contadorTorres >=2)
-                eater.addAchievement(new Achievement("Un dia Oscuro","Come las dos torres"));
+                eater.addAchievement(getApplicationContext(),new Achievement("Un dia Oscuro","Come las dos torres"));
         }
 
         //Si se han comido un rey
         if(eaten.getName().contains("KING")) {
             //Si es un rey
             char loserColor=eaten.getColor();
-            Log.w("", "EL REY " + loserColor + " HA MUERTO");
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -896,28 +869,22 @@ public class GameActivity extends AppCompatActivity implements AdapterView.OnIte
         for(Profile pr: profiles){
             if(selectedProfile.getName().equals(pr.getName())){
                 //Quitamos el selected profile
-                Log.e("PERFIL",selectedProfile.toString()+" eliminado");
                 tempSP=pr;
             }else if(selectedRival.getName().equals(pr.getName())){
                 //Quitamos el selected rival
-                Log.e("PERFIL",selectedRival.toString()+" eliminado");
                 tempSR=pr;
             }
         }
 
         if(tempSP!=null){
             tempProfiles.remove(tempSP);
+            tempProfiles.add(selectedProfile);
         }
 
         if(tempSR!=null){
             tempProfiles.remove(tempSR);
+            tempProfiles.add(selectedRival);
         }
-
-        tempProfiles.add(selectedProfile);
-        tempProfiles.add(selectedRival);
-
-        Log.e("PERFIL ACTUALIZADO A",selectedProfile.toString());
-        Log.e("PERFIL ACTUALIZADO A",selectedRival.toString());
 
         Uploader.saveProfiles(getApplicationContext(),tempProfiles);
     }

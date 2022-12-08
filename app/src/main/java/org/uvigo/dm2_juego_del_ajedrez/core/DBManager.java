@@ -5,11 +5,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import org.uvigo.dm2_juego_del_ajedrez.core.Achievement;
-import org.uvigo.dm2_juego_del_ajedrez.core.History;
-import org.uvigo.dm2_juego_del_ajedrez.core.Profile;
 
 /**
  * Clase para manejar el acceso a la base de datos.
@@ -24,7 +19,6 @@ public class DBManager extends SQLiteOpenHelper {
 
     public static final String HISTORY_TABLE = "HISTORY";
     public static final String ACHIEVEMENTS_TABLE = "ACHIEVEMENTS";
-    public static final String PROFILE_TABLE = "PROFILES";
 
     public static final String HISTORY_NAME = "_id";
     public static final String HISTORY_LOG = "log";
@@ -47,9 +41,6 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        Log.e(  "DBManager",
-                "CREATING DB " + DB_NAME + " v:" + DB_VERSION);
-
         onCreateAchievements(db);
         onCreateHistory(db);
 
@@ -62,8 +53,6 @@ public class DBManager extends SQLiteOpenHelper {
      */
     public void onCreateAchievements(SQLiteDatabase db)
     {
-        Log.e(  "DBManager",
-                "CREATING DB " + DB_NAME + " v:" + DB_VERSION);
 
         try {
             db.beginTransaction();
@@ -74,7 +63,6 @@ public class DBManager extends SQLiteOpenHelper {
         }
         catch(SQLException exc)
         {
-            Log.e( "DBManager.onCreate", exc.getMessage() );
         }
         finally {
             db.endTransaction();
@@ -88,8 +76,6 @@ public class DBManager extends SQLiteOpenHelper {
      */
     public void onCreateHistory(SQLiteDatabase db)
     {
-        Log.e(  "DBManager",
-                "CREATING DB " + DB_NAME + " v:" + DB_VERSION);
 
         try {
             db.beginTransaction();
@@ -101,7 +87,6 @@ public class DBManager extends SQLiteOpenHelper {
         }
         catch(SQLException exc)
         {
-            Log.e( "DBManager.onCreate", exc.getMessage() );
         }
         finally {
             db.endTransaction();
@@ -126,8 +111,6 @@ public class DBManager extends SQLiteOpenHelper {
      */
     public void onUpgradeAchievements(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        Log.i(  "DBManager",
-                "DB: " + DB_NAME + ": v" + oldVersion + " -> v" + newVersion );
 
         try {
             db.beginTransaction();
@@ -135,7 +118,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
 
         }  catch(SQLException exc) {
-            Log.e( "DBManager.onUpgrade", exc.getMessage() );
         }
         finally {
             db.endTransaction();
@@ -153,8 +135,6 @@ public class DBManager extends SQLiteOpenHelper {
      */
     public void onUpgradeHistory(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        Log.i(  "DBManager",
-                "DB: " + DB_NAME + ": v" + oldVersion + " -> v" + newVersion );
 
         try {
             db.beginTransaction();
@@ -162,7 +142,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
 
         }  catch(SQLException exc) {
-            Log.e( "DBManager.onUpgrade", exc.getMessage() );
         }
         finally {
             db.endTransaction();
@@ -178,7 +157,6 @@ public class DBManager extends SQLiteOpenHelper {
      * @return          "true" si la operacion a tenido exito, "false" si no ha fracasado
      */
     public boolean addHistory(History history){
-        Log.e("WARN: ","INSERT HISTORY "+history.getName());
         Cursor cursor = null;
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -209,7 +187,6 @@ public class DBManager extends SQLiteOpenHelper {
 
         } catch(SQLException exc)
         {
-            Log.e( "DBManager.add", exc.getMessage() );
         }
         finally {
             if ( cursor != null ) {
@@ -229,7 +206,6 @@ public class DBManager extends SQLiteOpenHelper {
      * @return              "true" si la operacion a tenido exito, "false" si no ha fracasado
      */
     public boolean addAchievement(Achievement achievement){
-        Log.e("WARN: ","INSERT ACHIVEMENT "+achievement.getName()+" "+achievement.getDescription());
         Cursor cursor = null;
         boolean toret = false;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -259,7 +235,6 @@ public class DBManager extends SQLiteOpenHelper {
 
         } catch(SQLException exc)
         {
-            Log.e( "DBManager.add", exc.getMessage() );
         }
         finally {
             if ( cursor != null ) {
@@ -288,7 +263,6 @@ public class DBManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             toret = true;
         } catch(SQLException exc) {
-            Log.e( "DBManager.delete", exc.getMessage() );
         } finally {
             db.endTransaction();
         }
@@ -312,7 +286,6 @@ public class DBManager extends SQLiteOpenHelper {
      * @return              historiales del perfil especificado
      */
     public Cursor getHistoriesByName(String profileName){
-        Log.e("",profileName+" ######################");
         return this.getReadableDatabase().query(HISTORY_TABLE,null,HISTORY_NAME+" LIKE '%"+profileName+"%'",null,null,null,null);
     }
 

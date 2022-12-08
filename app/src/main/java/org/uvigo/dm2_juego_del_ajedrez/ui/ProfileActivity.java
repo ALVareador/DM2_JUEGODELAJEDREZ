@@ -110,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeGlobalSelectedProfile();
+                Uploader.changeGlobalSelectedProfile(getApplicationContext(),selectedProfile);
                 ProfileActivity.this.setResult( MainActivity.RESULT_CANCELED );
                 ProfileActivity.this.finish();
             }
@@ -145,7 +145,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.w("STOP","");
         //Guardamos en el uploader
         updateProfiles();
     }
@@ -153,7 +152,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.w("PAUSE","");
         //Guardamos en el uploader
         updateProfiles();
     }
@@ -192,7 +190,6 @@ public class ProfileActivity extends AppCompatActivity {
             case(R.id.profileMenuRemoveFriend):
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 Profile removedProfile= getProfileByName(profiles.get(position).getName());
-                Log.e("FRINED TO REMOVE",removedProfile.getName());
                 if(selectedProfile.getFriends().contains(removedProfile.getName())){
                     selectedProfile.removeFriend(removedProfile);
                     Toast.makeText( this, removedProfile.getName()+" ya no es tu amigo", Toast.LENGTH_SHORT ).show();
@@ -204,15 +201,13 @@ public class ProfileActivity extends AppCompatActivity {
                 updateProfiles();
                 break;
             case(R.id.profileMenuUse):
-                Log.w("","WARN: PROFILEMENUUSE");
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
                 //CAMBIA EL PERFIL SELECCIONADO
 
                 selectedProfile=getProfileByName(profiles.get(position).getName());
-                Log.e("","Perfil posterior: "+selectedProfile.toString());
 
                 Toast.makeText( this, "Perfil seleccionado: "+selectedProfile.getName(), Toast.LENGTH_SHORT ).show();
-                changeGlobalSelectedProfile();
+                Uploader.changeGlobalSelectedProfile(getApplicationContext(),selectedProfile);
                 break;
             case(R.id.profileMenuEdit):
                 position = ((AdapterView.AdapterContextMenuInfo)item.getMenuInfo()).position;
@@ -232,37 +227,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     /**
-     * Guarda el perfil especificado
-     *
-     * @param p el perfil a guardar
-     */
-    public void saveProfile(Profile p){
-
-        Log.e( "WARN", "creating user File" );
-        File temp = new File(p.getName()+".cfg");
-        temp.delete();
-        try (FileOutputStream f = this.openFileOutput( p.getName()+".cfg", Context.MODE_PRIVATE ) )
-        {
-            PrintStream cfg = new PrintStream( f );
-
-            Log.e("SAVEPROFILE",p.toString());
-            cfg.println( p.getName() ); //PROFILE NAME
-            cfg.println( p.getImagePath()); //PROFILE IMAGE
-            cfg.println( p.getSkinBoardName()); //PROFILE BOARD
-            cfg.println( p.getSkinPieceName()); //PROFILE PIECE
-            cfg.println( p.getPoints()); //PROFILE POINTS
-            cfg.println( p.getAchievements().toString()); //PROFILE ACHIEVEMENTS
-            cfg.println( p.getFriends().toString()); //PROFILE FRIENDS
-
-            cfg.close();
-            Log.e( "WARN", "SAVED DATA" );
-        }
-        catch(IOException exc) {
-            Log.e( "WARN", "Error saving state" );
-        }
-    }
-
-    /**
      * Añade un nuevo perfil
      */
     private void addProfile() {
@@ -270,18 +234,6 @@ public class ProfileActivity extends AppCompatActivity {
         showEditNameDialog(profiles.size()-1);
         //Guardamos en el uploader
         updateProfiles();
-    }
-
-    /**
-     * Cambia el perfil global
-     */
-    private void changeGlobalSelectedProfile(){
-        try{
-            Log.e("PERFIL ACTUALIZADO: ",selectedProfile.getName());
-            MainActivity.setSelectedProfile(getApplicationContext(),selectedProfile);
-        }catch(NullPointerException e){
-            Toast.makeText(this, "No se ha seleccionado ningun perfil, por favor selecciona uno", Toast.LENGTH_LONG).show();
-        }
     }
 
     /**
@@ -303,7 +255,6 @@ public class ProfileActivity extends AppCompatActivity {
                 profiles.get(position).setName(profileName);
                 profileArrayAdapter.notifyDataSetChanged();
 
-                //updateProfiles();
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -373,17 +324,13 @@ public class ProfileActivity extends AppCompatActivity {
      * @return      un perfil con el nombre especificado
      */
     public Profile getProfileByName(String name){
-        Log.e("","GETPROFILEBYNAME");
         Profile pr;
         int i=0;
         int toret=-1;
-        Log.e("","SIZE: "+profiles.size());
 
         while(i<=profiles.size()-1){
             pr= profiles.get(i);
-            Log.e("","PROFILE ENCONTRADO: "+pr.toString());
             //Encuentra el perfil
-            Log.e("","NAME ENCONTRADO: "+pr.getName());
             if(name.equals(pr.getName())){
                 toret=i;
             }
@@ -404,18 +351,14 @@ public class ProfileActivity extends AppCompatActivity {
         for(Profile pr: profiles){
             if(selectedProfile.getName().equals(pr.getName())){
                 //Quitamos el selected profile
-                Log.e("PERFIL",selectedProfile.toString()+" eliminado");
                 tempSP=pr;
             }
         }
 
         if(tempSP!=null){
             tempProfiles.remove(tempSP);
+            tempProfiles.add(selectedProfile);
         }
-
-        tempProfiles.add(selectedProfile);
-
-        Log.e("PERFIL ACTUALIZADO A",selectedProfile.toString());
 
         Uploader.saveProfiles(getApplicationContext(),tempProfiles);
     }

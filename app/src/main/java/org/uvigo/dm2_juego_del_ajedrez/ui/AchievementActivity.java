@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +40,6 @@ public class AchievementActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("WARN:","CREATE");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievement);
 
@@ -69,7 +67,6 @@ public class AchievementActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        Log.e("WARN:","PAUSE");
         super.onPause();
         super.onPause();
         this.dbManager.close();
@@ -79,7 +76,6 @@ public class AchievementActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Log.e("WARN:","RESUME");
         super.onResume();
         //Empezamos la musica
         music.onContinue(getApplicationContext());

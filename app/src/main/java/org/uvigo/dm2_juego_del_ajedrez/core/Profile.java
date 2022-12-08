@@ -1,7 +1,5 @@
 package org.uvigo.dm2_juego_del_ajedrez.core;
 import android.content.Context;
-import android.graphics.drawable.Icon;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -232,12 +230,12 @@ public class Profile implements Serializable {
      *
      * @param achievement nombre del logro a añadir
      */
-    public void addAchievement(Achievement achievement){
+    public void addAchievement(Context context, Achievement achievement){
         if(!achievementsList.contains(achievement.getName())){
             achievementsList.add(achievement.getName());
-            Log.w("Nombre logro",achievement.getName());
+            Toast.makeText(context, "El logro "+achievement.getName()+" ha sido conseguido", Toast.LENGTH_SHORT).show();
         }else{
-            Log.w("El logro",achievement.getName()+" ya ha sido conseguido");
+            Toast.makeText(context, "El logro "+achievement.getName()+" ya ha sido conseguido", Toast.LENGTH_SHORT).show();
         }
 
     }
