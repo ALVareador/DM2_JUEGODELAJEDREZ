@@ -189,7 +189,7 @@ public class NewGameActivity extends AppCompatActivity {
         if (item.getItemId()==R.id.chooseRival) {
             position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
             selectedRival=rivals.get(position);
-            Toast.makeText(this, "Tu rival es "+rivals.get(position), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Tu rival es "+rivals.get(position).getName(), Toast.LENGTH_SHORT).show();
         }else{
             if(item.getItemId()==R.id.chooseTime){
                 position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;

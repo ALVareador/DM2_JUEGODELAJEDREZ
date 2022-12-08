@@ -130,6 +130,5 @@ public class SkinArrayAdapter extends ArrayAdapter<Skin> {
 
         Uploader.saveProfiles(getContext(),tempProfiles);
         Uploader.changeGlobalSelectedProfile(SkinArrayAdapter.super.getContext(),selectedProfile);
-
     }
 }
